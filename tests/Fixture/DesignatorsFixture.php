@@ -59,8 +59,8 @@ class DesignatorsFixture extends TestFixture
             'end_depth' => 1.5,
             'latitude' => 1,
             'longitude' => 1,
-            'created' => '2016-03-30 19:47:48',
-            'modified' => '2016-03-30 19:47:48'
+            'created' => '2016-03-30 20:32:23',
+            'modified' => '2016-03-30 20:32:23'
         ],
     ];
 }
