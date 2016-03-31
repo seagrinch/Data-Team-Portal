@@ -1,6 +1,4 @@
 <?php
-$this->extend('../Layout/TwitterBootstrap/dashboard');
-
 $this->start('tb_actions');
 ?>
     <li><?=

@@ -1,7 +1,4 @@
 <?php
-$this->extend('../Layout/TwitterBootstrap/dashboard');
-
-
 $this->start('tb_actions');
 ?>
 <li><?= $this->Html->link(__('Edit Designator'), ['action' => 'edit', $designator->id]) ?> </li>
