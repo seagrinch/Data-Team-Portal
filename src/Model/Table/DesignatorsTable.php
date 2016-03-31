@@ -10,6 +10,8 @@ use Cake\Validation\Validator;
 /**
  * Designators Model
  *
+ * @property \Cake\ORM\Association\BelongsTo $Parent
+ * @property \Cake\ORM\Association\HasMany $Child
  */
 class DesignatorsTable extends Table
 {
@@ -29,6 +31,17 @@ class DesignatorsTable extends Table
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->belongsTo('Parent', [
+            'className' => 'Designators',
+            'foreignKey' => 'parent_designator',
+            'bindingKey' => 'reference_designator'
+        ]);
+        $this->hasMany('Child', [
+            'className' => 'Designators',
+            'foreignKey' => 'parent_designator',
+            'bindingKey' => 'reference_designator'
+        ]);
     }
 
     /**
@@ -77,6 +90,9 @@ class DesignatorsTable extends Table
         $validator
             ->numeric('longitude')
             ->allowEmpty('longitude');
+
+        $validator
+            ->allowEmpty('parent_designator');
 
         return $validator;
     }

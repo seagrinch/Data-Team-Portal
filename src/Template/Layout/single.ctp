@@ -43,7 +43,7 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li class="active"><a href="/">Home</a></li>
+						<li class="active"><a href="/designators">Arrays</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>

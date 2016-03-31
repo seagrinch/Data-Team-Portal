@@ -28,6 +28,7 @@ class DesignatorsFixture extends TestFixture
         'end_depth' => ['type' => 'decimal', 'length' => 6, 'precision' => 2, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => ''],
         'latitude' => ['type' => 'float', 'length' => null, 'precision' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => ''],
         'longitude' => ['type' => 'float', 'length' => null, 'precision' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => ''],
+        'parent_designator' => ['type' => 'string', 'length' => 27, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
@@ -59,8 +60,9 @@ class DesignatorsFixture extends TestFixture
             'end_depth' => 1.5,
             'latitude' => 1,
             'longitude' => 1,
-            'created' => '2016-03-30 20:32:23',
-            'modified' => '2016-03-30 20:32:23'
+            'parent_designator' => 'Lorem ipsum dolor sit ame',
+            'created' => '2016-03-31 17:47:39',
+            'modified' => '2016-03-31 17:47:39'
         ],
     ];
 }

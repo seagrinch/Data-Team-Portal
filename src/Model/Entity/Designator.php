@@ -17,6 +17,7 @@ use Cake\ORM\Entity;
  * @property float $end_depth
  * @property float $latitude
  * @property float $longitude
+ * @property string $parent_designator
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
  */
