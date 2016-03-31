@@ -45,19 +45,22 @@ class DesignatorsController extends AppController {
         ->where(['Designators.reference_designator'=>$designator->parent->parent_designator])
         ->contain(['Parent']);
       $platform = $query->first();
-      $this->set('platform',$platform);
 
       $this->loadModel('InstrumentClasses');
       $query = $this->InstrumentClasses->find()
         ->where(['class'=> substr($designator->reference_designator,18,5)]);
       $instrument_class = $query->first();
-      $this->set('instrument_class',$instrument_class);      
 
       $this->loadModel('InstrumentModels');
       $query = $this->InstrumentModels->find()
         ->where(['class'=> substr($designator->reference_designator,18,5), 'series'=>substr($designator->reference_designator,23,1)]);
       $instrument_model = $query->first();
-      $this->set('instrument_model',$instrument_model);      
+
+      $this->loadModel('Deployments');
+      $deployments = $this->Deployments->find('all')
+        ->where(['reference_designator'=> $designator->reference_designator]);
+
+      $this->set(compact(['platform','instrument_class','instrument_model','deployments']));
       
     }
 

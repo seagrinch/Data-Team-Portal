@@ -21,17 +21,57 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation"><a href="#streams" aria-controls="home" role="tab" data-toggle="tab">Streams</a></li>
-    <li role="presentation"><a href="#deployments" aria-controls="profile" role="tab" data-toggle="tab">Deployments</a></li>
-    <li role="presentation"><a href="#calibrations" aria-controls="profile" role="tab" data-toggle="tab">Deployments</a></li>
-    <li role="presentation" class="active"><a href="#instrument" aria-controls="messages" role="tab" data-toggle="tab">Instrument Info</a></li>
+    <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams</a></li>
+    <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
+    <li role="presentation"><a href="#calibrations" aria-controls="calibrations" role="tab" data-toggle="tab">Calibrations</a></li>
+    <li role="presentation" class="active"><a href="#instrument" aria-controls="instrument" role="tab" data-toggle="tab">Instrument Info</a></li>
+    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane" id="streams">...</div>
-    <div role="tabpanel" class="tab-pane" id="deployments">...</div>
-    <div role="tabpanel" class="tab-pane" id="calibrations">...</div>
+    <div role="tabpanel" class="tab-pane" id="streams">
+      <p>Coming soon</p>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="deployments">
+      <?php if ($deployments->count()>0): ?>
+        <table class="table table-striped">
+          <tr>
+            <th>Deployment Number</th>
+            <th>Mooring Barcode</th>
+            <th>Mooring Serial Number</th>
+            <th>Anchor Launch Date</th>
+            <th>Anchor Launch Time</th>
+            <th>Recover Date</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Water Depth</th>
+            <th>Cruise Number</th>
+            <th>Notes</th>
+          </tr>
+          <?php foreach ($deployments as $d): ?>
+          <tr>
+            <td><?= h($d->deployment_number) ?></td>
+            <td><?= h($d->mooring_barcode) ?></td>
+            <td><?= h($d->mooring_serial_number) ?></td>
+            <td><?= $this->Time->format($d->anchor_launch_date, 'MM/dd/yyyy') ?></td>
+            <td><?= $this->Time->format($d->anchor_launch_time, 'HH:mm') ?></td>
+            <td><?= $d->recover_date ?></td>
+            <td><?= h($d->latitude) ?></td>
+            <td><?= h($d->longitude) ?></td>
+            <td><?= h($d->water_depth) ?></td>
+            <td><?= h($d->cruise_number) ?></td>
+            <td><?= h($d->notes) ?></td>
+          </tr>
+          <?php endforeach; ?>
+        </table>
+      <?php else: ?>
+        <p>No deployments found</p>
+      <?php endif; ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="calibrations">
+      <p>Coming soon</p>
+    </div>
     <div role="tabpanel" class="tab-pane active" id="instrument">
       <dl class="dl-horizontal">
         <dt><?= __('Class') ?></dt>
@@ -51,6 +91,9 @@
         <dd><?= h($instrument_model->model) ?></dd>
       </dl>      
     </div>
+    <div role="tabpanel" class="tab-pane" id="notes">
+      <p>Coming soon</p>
+    </div>
   </div>
 
 </div>
@@ -59,6 +102,6 @@
 <?php 
 /*
   use Cake\Error\Debugger;
-  Debugger::dump($platform);
+  Debugger::dump($designator);
 */
 ?>
