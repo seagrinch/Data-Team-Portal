@@ -42,6 +42,11 @@ class DesignatorsTable extends Table
             'foreignKey' => 'parent_designator',
             'bindingKey' => 'reference_designator'
         ]);
+        $this->belongsToMany('Streams', [
+            'foreignKey' => 'designator_id',
+            'targetForeignKey' => 'stream_id',
+            'joinTable' => 'designators_streams',
+        ]);
     }
 
     /**

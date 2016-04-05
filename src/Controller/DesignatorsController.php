@@ -32,7 +32,7 @@ class DesignatorsController extends AppController {
   public function view($id = null) {
     $query = $this->Designators->find()
       ->where(['Designators.reference_designator'=>$id])
-      ->contain(['Parent','Child']);
+      ->contain(['Parent', 'Child', 'Streams'=>['Parameters']]);
     $designator = $query->first();
     
     if ($designator['designator_type']=='node') {
@@ -40,6 +40,7 @@ class DesignatorsController extends AppController {
         ->where(['Designators.reference_designator'=>$designator->parent->parent_designator]);
       $site = $query->first();
       $this->set('site',$site);
+      
     } else if ($designator['designator_type']=='instrument') {
       $query = $this->Designators->find()
         ->where(['Designators.reference_designator'=>$designator->parent->parent_designator])

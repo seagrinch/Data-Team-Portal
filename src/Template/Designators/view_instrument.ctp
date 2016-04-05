@@ -21,19 +21,38 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams</a></li>
+    <li role="presentation" class="active"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams</a></li>
     <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
     <li role="presentation"><a href="#calibrations" aria-controls="calibrations" role="tab" data-toggle="tab">Calibrations</a></li>
-    <li role="presentation" class="active"><a href="#instrument" aria-controls="instrument" role="tab" data-toggle="tab">Instrument Info</a></li>
+    <li role="presentation"><a href="#instrument" aria-controls="instrument" role="tab" data-toggle="tab">Instrument Info</a></li>
     <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane" id="streams">
-      <p>Coming soon</p>
+    <div role="tabpanel" class="tab-pane active" id="streams">
+      <?php if ( count($designator->streams)>0 ): ?>
+        <div class="row">
+        <?php foreach ($designator->streams as $s): ?>
+          <div class="col-md-3">
+          <h4><?= $this->html->link($s->name,['controller'=>'streams','action'=>'view',$s->id]) ?></h4>
+            <?php if ( count($s->parameters)>0 ): ?>
+            <ul>
+              <?php foreach ($s->parameters as $p): ?>
+              <li><?= $this->html->link($p->name,['controller'=>'parameters','action'=>'view',$p->id]) ?></li>
+              <?php endforeach; ?>
+            </ul>
+            <?php endif; ?>
+          </div>
+        <?php endforeach; ?>
+        </div>
+      <?php else: ?>
+        <p>No deployments found</p>
+      <?php endif; ?>
+
     </div>
     <div role="tabpanel" class="tab-pane" id="deployments">
+
       <?php if ($deployments->count()>0): ?>
         <table class="table table-striped">
           <tr>
@@ -68,11 +87,15 @@
       <?php else: ?>
         <p>No deployments found</p>
       <?php endif; ?>
+
     </div>
     <div role="tabpanel" class="tab-pane" id="calibrations">
+
       <p>Coming soon</p>
+
     </div>
-    <div role="tabpanel" class="tab-pane active" id="instrument">
+    <div role="tabpanel" class="tab-pane" id="instrument">
+
       <dl class="dl-horizontal">
         <dt><?= __('Class') ?></dt>
         <dd><?= h($instrument_class->class) ?></dd>
@@ -90,9 +113,12 @@
         <dt><?= __('Model') ?></dt>
         <dd><?= h($instrument_model->model) ?></dd>
       </dl>      
+
     </div>
     <div role="tabpanel" class="tab-pane" id="notes">
+
       <p>Coming soon</p>
+
     </div>
   </div>
 
