@@ -21,7 +21,7 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams</a></li>
+    <li role="presentation" class="active"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams/Parameters</a></li>
     <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
     <li role="presentation"><a href="#calibrations" aria-controls="calibrations" role="tab" data-toggle="tab">Calibrations</a></li>
     <li role="presentation"><a href="#instrument" aria-controls="instrument" role="tab" data-toggle="tab">Instrument Info</a></li>
@@ -47,7 +47,7 @@
         <?php endforeach; ?>
         </div>
       <?php else: ?>
-        <p>No deployments found</p>
+        <p>No Streams found</p>
       <?php endif; ?>
 
     </div>
@@ -85,7 +85,7 @@
           <?php endforeach; ?>
         </table>
       <?php else: ?>
-        <p>No deployments found</p>
+        <p>No Deployments found</p>
       <?php endif; ?>
 
     </div>

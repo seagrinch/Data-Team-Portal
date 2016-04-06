@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Designators Controller
@@ -34,6 +35,10 @@ class DesignatorsController extends AppController {
       ->where(['Designators.reference_designator'=>$id])
       ->contain(['Parent', 'Child', 'Streams'=>['Parameters']]);
     $designator = $query->first();
+
+    if (empty($designator)) {
+        throw new NotFoundException(__('Designator not found'));
+    }
     
     if ($designator['designator_type']=='node') {
       $query = $this->Designators->find()
