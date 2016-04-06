@@ -40,7 +40,14 @@ class DesignatorsController extends AppController {
         throw new NotFoundException(__('Designator not found'));
     }
     
-    if ($designator['designator_type']=='node') {
+    if ($designator['designator_type']=='platform') {
+      $query = $this->Designators->find()
+        ->where(['Designators.parent_designator'=>$designator->reference_designator])
+        ->contain(['Parent', 'Child', 'Streams'=>['Parameters']]);
+      $nodes = $query->all();
+      $this->set('nodes',$nodes);
+      
+    } else if ($designator['designator_type']=='node') {
       $query = $this->Designators->find()
         ->where(['Designators.reference_designator'=>$designator->parent->parent_designator]);
       $site = $query->first();

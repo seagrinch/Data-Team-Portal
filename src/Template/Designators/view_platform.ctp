@@ -16,8 +16,14 @@
 
 <h3>Nodes</h3>
 <ul>
-  <?php foreach ($designator->child as $child): ?>
-  <li><?= $this->html->link($child->name,['action'=>'view',$child->reference_designator]) ?> (<?= h($child->reference_designator) ?>)</li>
+  <?php foreach ($nodes as $node): ?>
+  <li><?= $this->html->link($node->name,['action'=>'view',$node->reference_designator]) ?> <small>(<?= h($node->reference_designator) ?>)</small>
+    <ul>
+      <?php foreach ($node->child as $child): ?>
+      <li><?= $this->html->link($child->name,['action'=>'view',$child->reference_designator]) ?> <small>(<?= h($child->reference_designator) ?>)</small></li>
+      <?php endforeach; ?>
+    </ul>
+  </li>
   <?php endforeach; ?>
 </ul>
 
