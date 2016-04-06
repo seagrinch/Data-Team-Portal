@@ -63,8 +63,8 @@
         <tbody>
         <?php foreach ($stream->designators as $designators): ?>
             <tr>
-                <td><?= h($designators->reference_designator) ?></td>
-                <td><?= $this->Html->link($designators->name,['controller'=>'designators','action'=>'view',$designators->name]) ?></td>
+                <td><?= $this->Html->link($designators->reference_designator,['controller'=>'designators','action'=>'view',$designators->reference_designator]) ?></td>
+                <td><?= h($designators->name) ?></td>
                 <td><?= h($designators->location) ?></td>
                 <td><?= h($designators->start_depth) ?></td>
                 <td><?= h($designators->end_depth) ?></td>
