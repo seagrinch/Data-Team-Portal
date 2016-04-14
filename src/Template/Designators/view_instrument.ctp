@@ -85,13 +85,38 @@
           <?php endforeach; ?>
         </table>
       <?php else: ?>
-        <p>No Deployments found</p>
+        <p>No deployments found</p>
       <?php endif; ?>
 
     </div>
     <div role="tabpanel" class="tab-pane" id="calibrations">
 
-      <p>Coming soon</p>
+      <?php if ($calibrations->count()>0): ?>
+        <table class="table table-striped">
+          <tr>
+            <th>Deployment Number</th>
+            <th>Mooring Barcode</th>
+            <th>Mooring Serial Number</th>
+            <th>Sensor Barcode</th>
+            <th>Sensor Serial Number</th>
+            <th>CC Name</th>
+            <th>CC Value</th>
+          </tr>
+          <?php foreach ($calibrations as $c): ?>
+          <tr>
+            <td><?= h($c->deployment_number) ?></td>
+            <td><?= h($c->mooring_barcode) ?></td>
+            <td><?= h($c->mooring_serial_number) ?></td>
+            <td><?= h($c->sensor_barcode) ?></td>
+            <td><?= h($c->sensor_serial_number) ?></td>
+            <td><?= h($c->cc_name) ?></td>
+            <td><?= h($c->cc_value) ?></td>
+          </tr>
+          <?php endforeach; ?>
+        </table>
+      <?php else: ?>
+        <p>No calibrations found</p>
+      <?php endif; ?>
 
     </div>
     <div role="tabpanel" class="tab-pane" id="instrument">

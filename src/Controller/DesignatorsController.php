@@ -73,7 +73,11 @@ class DesignatorsController extends AppController {
       $deployments = $this->Deployments->find('all')
         ->where(['reference_designator'=> $designator->reference_designator]);
 
-      $this->set(compact(['platform','instrument_class','instrument_model','deployments']));
+      $this->loadModel('Calibrations');
+      $calibrations = $this->Calibrations->find('all')
+        ->where(['reference_designator'=> $designator->reference_designator]);
+
+      $this->set(compact(['platform','instrument_class','instrument_model','deployments','calibrations']));
       
     }
 
