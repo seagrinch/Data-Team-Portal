@@ -32,7 +32,7 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
-<!-- 					<a class="navbar-brand" href="http://oceanobservatories.org"><img alt="Brand" src="logo.png"></a> -->
+          <a class="navbar-brand" href="/"><?php echo $this->Html->image('logo.png')?></a>
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 						<span class="sr-only">Toggle navigation</span>
 						<span class="icon-bar"></span>
