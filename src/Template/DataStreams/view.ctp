@@ -1,3 +1,8 @@
+<ol class="breadcrumb">
+  <li><?= $this->Html->link(__('Data Streams'), ['action' => 'index']) ?></li>
+  <li class="active"><?= h($dataStream->id) ?></li>
+</ol>
+
 <h3><?= h($dataStream->id) ?></h3>
 <dl class="dl-horizontal">
   <dt><?= __('Reference Designator') ?></dt>

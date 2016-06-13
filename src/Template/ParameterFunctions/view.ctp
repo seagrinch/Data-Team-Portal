@@ -1,3 +1,8 @@
+<ol class="breadcrumb">
+  <li><?= $this->Html->link(__('Parameter Functions'), ['action' => 'index']) ?></li>
+  <li class="active"><?= h($parameterFunction->name) ?></li>
+</ol>
+
 <h3><?= h($parameterFunction->name) ?></h3>
 
 <dl class="dl-horizontal">

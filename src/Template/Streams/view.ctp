@@ -1,3 +1,8 @@
+<ol class="breadcrumb">
+  <li><?= $this->Html->link(__('Streams'), ['action' => 'index']) ?></li>
+  <li class="active"><?= h($stream->name) ?></li>
+</ol>
+
 <h2>Stream: <?= h($stream->name) ?></h2>
 
 

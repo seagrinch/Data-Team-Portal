@@ -1,9 +1,11 @@
-<?= $this->Html->link(__('Asset List'), ['action' => 'index'], ['class'=>'btn btn-info pull-right']) ?>
-<h3><?= h($asset->id) ?></h3>
+<ol class="breadcrumb">
+  <li><?= $this->Html->link(__('Assets'), ['action' => 'index']) ?></li>
+  <li class="active"><?= h($asset->ooi_barcode) ?></li>
+</ol>
+
+<h3>OOI Barcode: <?= h($asset->ooi_barcode) ?></h3>
 
 <dl class="dl-horizontal">
-  <dt><?= __('Ooi Barcode') ?></dt>
-  <dd><?= h($asset->ooi_barcode) ?></dd>
   <dt><?= __('Manufacturer') ?></dt>
   <dd><?= h($asset->manufacturer) ?></dd>
   <dt><?= __('Model') ?></dt>

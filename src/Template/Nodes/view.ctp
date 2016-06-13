@@ -1,6 +1,11 @@
-<h3><?= $this->html->link($node->site->region->name,['controller'=>'regions','action'=>'view',$node->site->region->reference_designator]) ?> / 
-<?= $this->html->link($node->site->name,['controller'=>'sites','action'=>'view',$node->site->reference_designator]) ?> / 
-<?= h($node->name) ?></h3>
+<ol class="breadcrumb">
+  <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'index']) ?></li>
+  <li><?= $this->html->link($node->site->region->name,['controller'=>'regions','action'=>'view',$node->site->region->reference_designator]) ?></li>
+  <li><?= $this->html->link($node->site->name,['controller'=>'sites','action'=>'view',$node->site->reference_designator]) ?></li>
+  <li class="active"><?= h($node->name) ?></li>
+</ol>
+
+<h3><?= h($node->name) ?></h3>
 
 <dl class="dl-horizontal">
   <dt><?= __('Reference Designator') ?></dt>

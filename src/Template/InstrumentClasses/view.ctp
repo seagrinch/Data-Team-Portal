@@ -1,3 +1,8 @@
+<ol class="breadcrumb">
+  <li><?= $this->Html->link(__('Instrument Classes'), ['action' => 'index']) ?></li>
+  <li class="active"><?= h($instrumentClass->class) ?></li>
+</ol>
+
 <h3>Instrument Class: <?= h($instrumentClass->class) ?></h3>
 
 <dl class="dl-horizontal">

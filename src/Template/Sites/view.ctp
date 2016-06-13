@@ -1,5 +1,10 @@
-<h3><?= $this->html->link($site->region->name,['controller'=>'regions','action'=>'view',$site->region->reference_designator]) ?> / 
-<?= h($site->name) ?></h3>
+<ol class="breadcrumb">
+  <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'index']) ?></li>
+  <li><?= $this->html->link($site->region->name,['controller'=>'regions','action'=>'view',$site->region->reference_designator]) ?></li>
+  <li class="active"><?= h($site->name) ?></li>
+</ol>
+
+<h3> <?= h($site->name) ?></h3>
 
 <dl class="dl-horizontal">
   <dt><?= __('Reference Designator') ?></dt>
@@ -18,7 +23,7 @@
   <dd><?= $this->Number->format($site->bottom_depth) ?></dd>
 </dl>
 
-<h3>Nodes</h3>
+<h3>Nodes & Instruments</h3>
 <ul>
   <?php foreach ($site->nodes as $node): ?>
   <li><?= $this->html->link($node->name,['controller'=>'nodes','action'=>'view',$node->reference_designator]) ?> <small>(<?= h($node->reference_designator) ?>)</small>
