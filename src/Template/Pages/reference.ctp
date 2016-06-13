@@ -18,7 +18,7 @@
 
 <h3>Deployment Sheets</h3>
 <ul>
-  <li><?php echo $this->Html->link('Deployments',['controller'=>'Deployments'])?></li>
-  <li><?php echo $this->Html->link('Calibrations',['controller'=>'Calibrations'])?></li>
+  <li>Deployments - See Instrument pages</li>
+  <li>Calibrations - See Instrument pages</li>
   <li><?php echo $this->Html->link('Assets',['controller'=>'Assets'])?></li>
 </ul>  
