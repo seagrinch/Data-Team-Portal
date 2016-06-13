@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Assets Controller
@@ -31,14 +32,23 @@ class AssetsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
+/*
         $asset = $this->Assets->get($id, [
             'contain' => []
         ]);
+*/
+      $query = $this->Assets->find()
+        ->where(['ooi_barcode'=>$id])
+        ->contain([]);
+      $asset = $query->first();
+      
+      if (empty($asset)) {
+          throw new NotFoundException(__('Asset not found'));
+      }
 
-        $this->set('asset', $asset);
-        $this->set('_serialize', ['asset']);
+      $this->set('asset', $asset);
+      $this->set('_serialize', ['asset']);
     }
 
     /**

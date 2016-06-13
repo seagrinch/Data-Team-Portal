@@ -11,6 +11,7 @@
             <th><?= $this->Paginator->sort('fill_value'); ?></th>
             <th><?= $this->Paginator->sort('precision'); ?></th>
             <th><?= $this->Paginator->sort('data_product_identifier'); ?></th>
+            <th><?= $this->Paginator->sort('parameter_function_map'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,7 @@
             <td><?= h($parameter->fill_value) ?></td>
             <td><?= h($parameter->precision) ?></td>
             <td><?= h($parameter->data_product_identifier) ?></td>
+            <td><?= h($parameter->parameter_function_map) ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

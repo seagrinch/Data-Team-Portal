@@ -11,8 +11,6 @@
   <dd><?= h($site->reference_designator) ?></dd>
   <dt><?= __('Description') ?></dt>
   <dd><?= $site->description ?></dd>
-  <dt><?= __('Region') ?></dt>
-  <dd><?= $site->region_rd ?></dd>
   <dt><?= __('Array Name') ?></dt>
   <dd><?= $site->array_name ?></dd>
   <dt><?= __('Latitude') ?></dt>

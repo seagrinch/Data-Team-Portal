@@ -56,7 +56,7 @@
           <?php foreach ($instrument->deployments as $d): ?>
           <tr>
             <td><?= h($d->deployment_number) ?></td>
-            <td><?= h($d->mooring_barcode) ?></td>
+            <td><?= $this->Html->link($d->mooring_barcode, ['controller'=>'assets', 'action' => 'view', $d->mooring_barcode]) ?></td>
             <td><?= h($d->mooring_serial_number) ?></td>
             <td><?= $this->Time->format($d->anchor_launch_date, 'MM/dd/yyyy') ?></td>
             <td><?= $this->Time->format($d->anchor_launch_time, 'HH:mm') ?></td>
@@ -90,9 +90,9 @@
           <?php foreach ($instrument->calibrations as $c): ?>
           <tr>
             <td><?= h($c->deployment_number) ?></td>
-            <td><?= h($c->mooring_barcode) ?></td>
+            <td><?= $this->Html->link($c->mooring_barcode, ['controller'=>'assets', 'action' => 'view', $c->mooring_barcode]) ?></td>
             <td><?= h($c->mooring_serial_number) ?></td>
-            <td><?= h($c->sensor_barcode) ?></td>
+            <td><?= $this->Html->link($c->sensor_barcode, ['controller'=>'assets', 'action' => 'view', $c->sensor_barcode]) ?></td>
             <td><?= h($c->sensor_serial_number) ?></td>
             <td><?= h($c->cc_name) ?></td>
             <td><?= h($c->cc_value) ?></td>

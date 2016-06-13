@@ -17,7 +17,7 @@
   <tbody>
     <?php foreach ($assets as $asset): ?>
     <tr>
-      <td><?= $this->Html->link($asset->ooi_barcode, ['action' => 'view', $asset->id]) ?></td>
+      <td><?= $this->Html->link($asset->ooi_barcode, ['action' => 'view', $asset->ooi_barcode]) ?></td>
       <td><?= $this->Number->format($asset->quant) ?></td>
       <td><?= h($asset->manufacturer) ?></td>
       <td><?= h($asset->model) ?></td>

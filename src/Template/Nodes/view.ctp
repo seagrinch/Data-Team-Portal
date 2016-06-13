@@ -10,10 +10,6 @@
 <dl class="dl-horizontal">
   <dt><?= __('Reference Designator') ?></dt>
   <dd><?= h($node->reference_designator) ?></dd>
-  <dt><?= __('Region') ?></dt>
-  <dd><?= h($node->region_rd) ?></dd>
-  <dt><?= __('Site') ?></dt>
-  <dd><?= h($node->site_rd) ?></dd>
   <dt><?= __('Description') ?></dt>
   <dd><?= $node->description ?></dd>
   <dt><?= __('Latitude') ?></dt>
