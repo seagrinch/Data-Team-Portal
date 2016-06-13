@@ -33,7 +33,7 @@ class NodesController extends AppController
      */
     public function view($id = null) {
       $query = $this->Nodes->find()
-        ->where(['nodes.reference_designator'=>$id])
+        ->where(['Nodes.reference_designator'=>$id])
         ->contain(['Sites.Regions','Instruments']);
       $node = $query->first();
       
