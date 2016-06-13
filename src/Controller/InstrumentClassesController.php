@@ -33,7 +33,8 @@ class InstrumentClassesController extends AppController
      */
     public function view($id = null) {
       $query = $this->InstrumentClasses->find()
-        ->where(['class'=>$id]);
+        ->where(['class'=>$id])
+        ->contain(['InstrumentModels']);
       $instrumentClass = $query->first();
       
       if (empty($instrumentClass)) {

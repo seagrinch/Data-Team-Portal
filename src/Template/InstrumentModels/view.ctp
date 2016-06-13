@@ -1,6 +1,7 @@
 <ol class="breadcrumb">
-  <li><?= $this->Html->link(__('Instrument Models'), ['action' => 'index']) ?></li>
-  <li class="active"><?= h($instrumentModel->class) ?></li>
+  <li><?= $this->Html->link(__('Instrument Classes'), ['controller'=>'instrument_classes','action' => 'index']) ?></li>
+  <li><?= $this->Html->link($instrumentModel->class, ['controller'=>'instrument_classes','action' => 'view', $instrumentModel->class]) ?></li>
+  <li class="active"><?= h($instrumentModel->class) ?>-<?= h($instrumentModel->series) ?></li>
 </ol>
 
 <h3>Instrument Model: <?= h($instrumentModel->class) ?>-<?= h($instrumentModel->series) ?></h3>

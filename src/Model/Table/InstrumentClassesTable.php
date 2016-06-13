@@ -29,6 +29,11 @@ class InstrumentClassesTable extends Table
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->hasMany('InstrumentModels', [
+            'foreignKey' => 'class',
+            'bindingKey' => 'class'
+        ]);
     }
 
     /**
