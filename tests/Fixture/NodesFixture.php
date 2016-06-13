@@ -4,10 +4,10 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * InstrumentClassesFixture
+ * NodesFixture
  *
  */
-class InstrumentClassesFixture extends TestFixture
+class NodesFixture extends TestFixture
 {
 
     /**
@@ -18,15 +18,15 @@ class InstrumentClassesFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'class' => ['type' => 'string', 'length' => 5, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'reference_designator' => ['type' => 'string', 'length' => 14, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'region' => ['type' => 'string', 'length' => 2, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
+        'site' => ['type' => 'string', 'length' => 8, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         'name' => ['type' => 'string', 'length' => 75, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'description' => ['type' => 'text', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
-        'primary_science_dicipline' => ['type' => 'string', 'length' => 50, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-            'class' => ['type' => 'unique', 'columns' => ['class'], 'length' => []],
+            'reference_designator' => ['type' => 'unique', 'columns' => ['reference_designator'], 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
@@ -43,12 +43,12 @@ class InstrumentClassesFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'class' => 'Lor',
+            'reference_designator' => 'Lorem ipsum ',
+            'region' => '',
+            'site' => 'Lorem ',
             'name' => 'Lorem ipsum dolor sit amet',
-            'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-            'primary_science_dicipline' => 'Lorem ipsum dolor sit amet',
-            'created' => '2016-06-10 16:23:14',
-            'modified' => '2016-06-10 16:23:14'
+            'created' => '2016-06-10 16:22:48',
+            'modified' => '2016-06-10 16:22:48'
         ],
     ];
 }

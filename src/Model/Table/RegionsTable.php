@@ -1,19 +1,17 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Stream;
+use App\Model\Entity\Region;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Streams Model
+ * Regions Model
  *
- * @property \Cake\ORM\Association\BelongsToMany $Designators
- * @property \Cake\ORM\Association\BelongsToMany $Parameters
  */
-class StreamsTable extends Table
+class RegionsTable extends Table
 {
 
     /**
@@ -26,21 +24,16 @@ class StreamsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('streams');
+        $this->table('regions');
         $this->displayField('name');
         $this->primaryKey('id');
 
-/*
-        $this->belongsToMany('Designators', [
-            'foreignKey' => 'stream_id',
-            'targetForeignKey' => 'designator_id',
-            'joinTable' => 'designators_streams',
-        ]);
-*/
-        $this->belongsToMany('Parameters', [
-            'foreignKey' => 'stream_id',
-            'targetForeignKey' => 'parameter_id',
-            'joinTable' => 'parameters_streams'
+        $this->addBehavior('Timestamp');
+        
+        $this->hasMany('Sites', [
+            //'className' => 'Sites',
+            'foreignKey' => 'region_rd',
+            'bindingKey' => 'reference_designator'
         ]);
     }
 
@@ -57,20 +50,24 @@ class StreamsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('name')
-            ->add('name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->requirePresence('reference_designator', 'create')
+            ->notEmpty('reference_designator')
+            ->add('reference_designator', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->integer('time_parameter')
-            ->allowEmpty('time_parameter');
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
 
         $validator
-            ->boolean('uses_ctd')
-            ->allowEmpty('uses_ctd');
+            ->allowEmpty('description');
 
         $validator
-            ->integer('binsize_minutes')
-            ->allowEmpty('binsize_minutes');
+            ->numeric('latitude')
+            ->allowEmpty('latitude');
+
+        $validator
+            ->numeric('longitude')
+            ->allowEmpty('longitude');
 
         return $validator;
     }
@@ -84,7 +81,7 @@ class StreamsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['name']));
+        $rules->add($rules->isUnique(['reference_designator']));
         return $rules;
     }
 }

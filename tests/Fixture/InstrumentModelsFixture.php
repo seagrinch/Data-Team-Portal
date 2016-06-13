@@ -20,7 +20,8 @@ class InstrumentModelsFixture extends TestFixture
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'class' => ['type' => 'string', 'length' => 5, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null, 'fixed' => null],
         'series' => ['type' => 'string', 'length' => 2, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'manufacturer' => ['type' => 'string', 'length' => 50, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'name' => ['type' => 'string', 'length' => 75, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
+        'make' => ['type' => 'string', 'length' => 50, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null, 'fixed' => null],
         'model' => ['type' => 'string', 'length' => 75, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
@@ -45,10 +46,11 @@ class InstrumentModelsFixture extends TestFixture
             'id' => 1,
             'class' => 'Lor',
             'series' => '',
-            'manufacturer' => 'Lorem ipsum dolor sit amet',
+            'name' => 'Lorem ipsum dolor sit amet',
+            'make' => 'Lorem ipsum dolor sit amet',
             'model' => 'Lorem ipsum dolor sit amet',
-            'created' => '2016-03-31 20:03:47',
-            'modified' => '2016-03-31 20:03:47'
+            'created' => '2016-06-10 16:23:22',
+            'modified' => '2016-06-10 16:23:22'
         ],
     ];
 }

@@ -52,8 +52,12 @@ class InstrumentModelsTable extends Table
             ->notEmpty('series');
 
         $validator
-            ->requirePresence('manufacturer', 'create')
-            ->notEmpty('manufacturer');
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
+
+        $validator
+            ->requirePresence('make', 'create')
+            ->notEmpty('make');
 
         $validator
             ->requirePresence('model', 'create')

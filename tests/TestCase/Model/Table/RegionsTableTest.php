@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\ParameterFunctionsTable;
+use App\Model\Table\RegionsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\ParameterFunctionsTable Test Case
+ * App\Model\Table\RegionsTable Test Case
  */
-class ParameterFunctionsTableTest extends TestCase
+class RegionsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\ParameterFunctionsTable
+     * @var \App\Model\Table\RegionsTable
      */
-    public $ParameterFunctions;
+    public $Regions;
 
     /**
      * Fixtures
@@ -24,10 +24,7 @@ class ParameterFunctionsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.parameter_functions',
-        'app.parameters',
-        'app.streams',
-        'app.parameters_streams'
+        'app.regions'
     ];
 
     /**
@@ -38,8 +35,8 @@ class ParameterFunctionsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('ParameterFunctions') ? [] : ['className' => 'App\Model\Table\ParameterFunctionsTable'];
-        $this->ParameterFunctions = TableRegistry::get('ParameterFunctions', $config);
+        $config = TableRegistry::exists('Regions') ? [] : ['className' => 'App\Model\Table\RegionsTable'];
+        $this->Regions = TableRegistry::get('Regions', $config);
     }
 
     /**
@@ -49,7 +46,7 @@ class ParameterFunctionsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->ParameterFunctions);
+        unset($this->Regions);
 
         parent::tearDown();
     }
@@ -70,6 +67,16 @@ class ParameterFunctionsTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

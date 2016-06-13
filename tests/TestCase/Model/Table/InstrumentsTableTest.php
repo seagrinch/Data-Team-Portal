@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\ParameterFunctionsTable;
+use App\Model\Table\InstrumentsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\ParameterFunctionsTable Test Case
+ * App\Model\Table\InstrumentsTable Test Case
  */
-class ParameterFunctionsTableTest extends TestCase
+class InstrumentsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\ParameterFunctionsTable
+     * @var \App\Model\Table\InstrumentsTable
      */
-    public $ParameterFunctions;
+    public $Instruments;
 
     /**
      * Fixtures
@@ -24,10 +24,8 @@ class ParameterFunctionsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.parameter_functions',
-        'app.parameters',
-        'app.streams',
-        'app.parameters_streams'
+        'app.instruments',
+        'app.data_streams'
     ];
 
     /**
@@ -38,8 +36,8 @@ class ParameterFunctionsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('ParameterFunctions') ? [] : ['className' => 'App\Model\Table\ParameterFunctionsTable'];
-        $this->ParameterFunctions = TableRegistry::get('ParameterFunctions', $config);
+        $config = TableRegistry::exists('Instruments') ? [] : ['className' => 'App\Model\Table\InstrumentsTable'];
+        $this->Instruments = TableRegistry::get('Instruments', $config);
     }
 
     /**
@@ -49,7 +47,7 @@ class ParameterFunctionsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->ParameterFunctions);
+        unset($this->Instruments);
 
         parent::tearDown();
     }
@@ -70,6 +68,16 @@ class ParameterFunctionsTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

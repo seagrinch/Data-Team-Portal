@@ -1,13 +1,13 @@
 <?php
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\ParameterFunctionsController;
+use App\Controller\SitesController;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
- * App\Controller\ParameterFunctionsController Test Case
+ * App\Controller\SitesController Test Case
  */
-class ParameterFunctionsControllerTest extends IntegrationTestCase
+class SitesControllerTest extends IntegrationTestCase
 {
 
     /**
@@ -16,10 +16,7 @@ class ParameterFunctionsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.parameter_functions',
-        'app.parameters',
-        'app.streams',
-        'app.parameters_streams'
+        'app.sites'
     ];
 
     /**

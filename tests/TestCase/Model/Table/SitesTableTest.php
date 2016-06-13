@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\ParameterFunctionsTable;
+use App\Model\Table\SitesTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\ParameterFunctionsTable Test Case
+ * App\Model\Table\SitesTable Test Case
  */
-class ParameterFunctionsTableTest extends TestCase
+class SitesTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\ParameterFunctionsTable
+     * @var \App\Model\Table\SitesTable
      */
-    public $ParameterFunctions;
+    public $Sites;
 
     /**
      * Fixtures
@@ -24,10 +24,7 @@ class ParameterFunctionsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.parameter_functions',
-        'app.parameters',
-        'app.streams',
-        'app.parameters_streams'
+        'app.sites'
     ];
 
     /**
@@ -38,8 +35,8 @@ class ParameterFunctionsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('ParameterFunctions') ? [] : ['className' => 'App\Model\Table\ParameterFunctionsTable'];
-        $this->ParameterFunctions = TableRegistry::get('ParameterFunctions', $config);
+        $config = TableRegistry::exists('Sites') ? [] : ['className' => 'App\Model\Table\SitesTable'];
+        $this->Sites = TableRegistry::get('Sites', $config);
     }
 
     /**
@@ -49,7 +46,7 @@ class ParameterFunctionsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->ParameterFunctions);
+        unset($this->Sites);
 
         parent::tearDown();
     }
@@ -70,6 +67,16 @@ class ParameterFunctionsTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

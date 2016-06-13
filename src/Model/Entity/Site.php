@@ -4,18 +4,21 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * InstrumentModel Entity.
+ * Site Entity.
  *
  * @property int $id
- * @property string $class
- * @property string $series
+ * @property string $reference_designator
+ * @property string $region
+ * @property string $array_name
  * @property string $name
- * @property string $make
- * @property string $model
+ * @property string $description
+ * @property float $latitude
+ * @property float $longitude
+ * @property float $bottom_depth
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
  */
-class InstrumentModel extends Entity
+class Site extends Entity
 {
 
     /**

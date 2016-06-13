@@ -34,7 +34,7 @@ class StreamsController extends AppController
     public function view($id = null)
     {
         $stream = $this->Streams->get($id, [
-            'contain' => ['Designators', 'Parameters']
+            'contain' => ['Parameters']
         ]);
 
         $this->set('stream', $stream);

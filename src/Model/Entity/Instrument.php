@@ -4,18 +4,22 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * InstrumentModel Entity.
+ * Instrument Entity.
  *
  * @property int $id
- * @property string $class
- * @property string $series
+ * @property string $reference_designator
+ * @property string $region
+ * @property string $site
+ * @property string $node
  * @property string $name
- * @property string $make
- * @property string $model
+ * @property float $start_depth
+ * @property float $end_depth
+ * @property string $location
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
+ * @property \App\Model\Entity\DataStream[] $data_streams
  */
-class InstrumentModel extends Entity
+class Instrument extends Entity
 {
 
     /**
