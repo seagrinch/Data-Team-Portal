@@ -30,13 +30,9 @@ class StreamsTable extends Table
         $this->displayField('name');
         $this->primaryKey('id');
 
-/*
-        $this->belongsToMany('Designators', [
-            'foreignKey' => 'stream_id',
-            'targetForeignKey' => 'designator_id',
-            'joinTable' => 'designators_streams',
+        $this->hasMany('DataStreams', [
+            'foreignKey' => 'stream_id'
         ]);
-*/
         $this->belongsToMany('Parameters', [
             'foreignKey' => 'stream_id',
             'targetForeignKey' => 'parameter_id',

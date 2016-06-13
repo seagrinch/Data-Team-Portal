@@ -54,7 +54,7 @@
 
 
 <h3><?= __('Related Instruments') ?></h3>
-<?php if (!empty($stream->designators)): ?>
+<?php if (!empty($stream->data_streams)): ?>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -66,13 +66,13 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($stream->designators as $designators): ?>
+        <?php foreach ($stream->data_streams as $instrument): ?>
             <tr>
-                <td><?= $this->Html->link($designators->reference_designator,['controller'=>'designators','action'=>'view',$designators->reference_designator]) ?></td>
-                <td><?= h($designators->name) ?></td>
-                <td><?= h($designators->location) ?></td>
-                <td><?= h($designators->start_depth) ?></td>
-                <td><?= h($designators->end_depth) ?></td>
+                <td><?= $this->Html->link($instrument->reference_designator,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?></td>
+                <td><?= h($instrument->instrument->name) ?></td>
+                <td><?= h($instrument->instrument->location) ?></td>
+                <td><?= h($instrument->instrument->start_depth) ?></td>
+                <td><?= h($instrument->instrument->end_depth) ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

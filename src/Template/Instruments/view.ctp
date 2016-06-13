@@ -33,7 +33,37 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="streams">
-      <p>Coming Soon</p>
+      <?php if (count($instrument->data_streams)>0): ?>
+        <table class="table table-striped">
+          <tr>
+            <th>Method</th>
+            <th>Stream Name</th>
+            <th>uFrame Route</th>
+            <th>Driver</th>
+            <th>Parser</th>
+          </tr>
+          <?php foreach ($instrument->data_streams as $s): ?>
+          <tr>
+            <td><?= h($s->method) ?></td>
+            <td>
+              <?= $this->Html->link($s->stream->name, ['controller'=>'streams', 'action' => 'view', $s->stream->id]) ?>
+              <?php if (count($instrument->data_streams)>0): ?>
+                <ul>
+                <?php foreach ($s->stream->parameters as $p): ?>
+                   <li><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?></li>
+                <?php endforeach; ?>
+                </ul>
+              <?php endif; ?>
+            </td>
+            <td><?= h($s->uframe_route) ?></td>
+            <td><?= h($s->driver) ?></td>
+            <td><?= h($s->parser) ?></td>
+          </tr>
+          <?php endforeach; ?>
+        </table>
+      <?php else: ?>
+        <p>No deployments found</p>
+      <?php endif; ?>
 
     </div>
     <div role="tabpanel" class="tab-pane" id="deployments">
@@ -138,6 +168,6 @@
 <?php 
 /*
   use Cake\Error\Debugger;
-  Debugger::dump($designator);
+  Debugger::dump($instrument);
 */
 ?>

@@ -34,7 +34,7 @@ class InstrumentsController extends AppController
     public function view($id = null) {
       $query = $this->Instruments->find()
         ->where(['instruments.reference_designator'=>$id])
-        ->contain(['Nodes.Sites.Regions','Deployments','Calibrations']);
+        ->contain(['Nodes.Sites.Regions','Deployments','Calibrations','DataStreams.Streams.Parameters']);
       $instrument = $query->first();
       
       if (empty($instrument)) {
