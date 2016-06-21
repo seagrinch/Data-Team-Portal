@@ -40,11 +40,37 @@ class AppController extends Controller
     public function initialize()
     {
         parent::initialize();
-
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        //$this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
+        $this->loadComponent('Auth', [
+            'authorize' => ['Controller'], 
+            'loginAction' => ['prefix'=>false, 'controller'=>'Users', 'action'=>'login'],
+            'loginRedirect' => ['prefix'=>false, 'controller' => 'Regions', 'action' => 'index'],
+            'logoutRedirect' => ['prefix'=>false, 'controller' => 'Regions', 'action' => 'index'],
+            'flash' => ['element' => 'error','key' => 'auth'], //Bootstrap
+        ]);
     }
 
+    /**
+     * Before filter callback.
+     *
+     * @param \Cake\Event\Event $event The beforeFilter event.
+     * @return void
+     */
+    public function beforeFilter(Event $event)
+    {
+        //$this->Security->requireSecure(); //Require SSL
+        // Allow default non-admin routes
+        if (empty($this->request->params['prefix'])) {
+            $this->Auth->allow(['index', 'view', 'display']);
+        }
+        //Disable auth messages when not yet logged in.
+        if (!$this->Auth->user()) {
+            $this->Auth->config('authError', false);
+        }
+    }
+    
     /**
      * Before render callback.
      *
@@ -59,4 +85,27 @@ class AppController extends Controller
             $this->set('_serialize', true);
         }
     }
+
+    public function isAuthorized($user)
+    {
+        // Only admins can access admin functions
+        if ($this->request->params['prefix'] === 'admin') {
+            return (bool)($user['role'] === 'admin');
+        }
+    
+        // Default deny
+        return false;
+    }
+
+    /**
+     * forceSSL function.
+     * 
+     * @access public
+     * @return void
+     */
+    public function forceSSL()
+    {
+        return $this->redirect('https://' . env('SERVER_NAME') . $this->request->here);
+    }
+
 }

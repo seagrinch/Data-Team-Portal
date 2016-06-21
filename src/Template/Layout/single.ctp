@@ -43,8 +43,26 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li class="active"><a href="/regions">Arrays</a></li>
-						<li class="active"><a href="/pages/reference">Reference</a></li>
+						<li><a href="/regions">Arrays</a></li>
+						<li><a href="/pages/reference">Reference</a></li>
+						
+            <?php 
+              $session = $this->request->session();
+              if ($session->check('Auth.User')) { ?>
+            <li class="dropdown"><?php echo $this->Html->link('<span class="glyphicon glyphicon-user" aria-hidden="true"></span> ' . $session->read('Auth.User.first_name') . ' <span class="caret"></span>','/users/profile',array('escape'=>false,'class'=>'dropdown-toggle','data-toggle'=>'dropdown','role'=>'button','aria-expanded'=>'false'))?>           
+              <ul class="dropdown-menu" role="menu">
+                <li><?php echo $this->Html->link('My Profile','/users/profile')?></li>
+                <?php if ($session->read('Auth.User.role')=='admin') { ?>
+                <li><?php echo $this->Html->link('User Admin','/admin/users')?></li>
+                <?php } ?>
+                <li class="divider"></li>
+                <li><?php echo $this->Html->link('Sign Out','/users/logout')?></li>
+              </ul>
+            </li>
+            <?php } else { ?>
+            <li><?php echo $this->Html->link('Sign In','/users/login',array('class'=>''))?></li>
+            <?php } ?>
+
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>
@@ -52,9 +70,11 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
 
 		<div class="container">
       <?php 
-        if (isset($this->Flash))
-          echo $this->Flash->render(); ?>
- 
+        if (isset($this->Flash)) {
+          echo $this->Flash->render(); 
+          echo $this->Flash->render('auth'); 
+        } ?>
+
           <?= $this->fetch('content') ?>
 
 			<hr>

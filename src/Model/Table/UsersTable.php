@@ -25,7 +25,7 @@ class UsersTable extends Table
         parent::initialize($config);
 
         $this->table('users');
-        $this->displayField('id');
+        $this->displayField('username');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
@@ -44,28 +44,68 @@ class UsersTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('username')
-            ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->notEmpty('username', 'A username is required')
+            ->add('username', 'alphaNumeric', [
+                'rule'=>'alphaNumeric', 
+                'message'=>'Usernames can contain only letters and numbers'
+            ])
+            ->add('username', 'length', [
+                'rule'=>['lengthBetween', 4, 20], 
+                'message'=>'Usernames should be between 4 and 20 characters'
+            ])
+            ->add('username', 'unique', [
+                'rule' => 'validateUnique', 
+                'provider' => 'table', 
+                'message'=>'This username is already in use'
+            ]);
 
         $validator
-            ->allowEmpty('password');
+            ->requirePresence('password', 'create')
+            ->notEmpty('password', 'A password is required')
+            ->add('password', 'compare', [
+                'rule'=>['compareWith', 'password_confirm'], 
+                'message'=>'Passwords do not match'
+            ])
+            ->add('password', 'length', [
+                'rule'=>['lengthBetween', 6, 20], 
+                'message'=>'Passwords should be between 6 and 20 characters'
+            ]);
 
         $validator
-            ->email('email')
-            ->allowEmpty('email')
-            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->notEmpty('email', 'An email address is required')
+            ->add('email', 'email', [
+                'rule'=>'email', 
+                'message'=>'Please enter a valid email address'
+            ])
+            ->add('email', 'unique', [
+                'rule' => 'validateUnique', 
+                'provider' => 'table', 
+                'message'=>'This email is already in use'
+            ]);
 
         $validator
-            ->allowEmpty('first_name');
+            ->notEmpty('first_name', 'Please enter a first name');
 
         $validator
-            ->allowEmpty('last_name');
+            ->notEmpty('last_name', 'Please enter a last name');
 
         $validator
-            ->allowEmpty('role');
+            ->notEmpty('role', 'A role is required')
+            ->add('role', 'inList', [
+                'rule' => ['inList', ['admin', 'user', 'data', 'marine']],
+                'message' => 'Please enter a valid role'
+            ]);
 
+        $validator
+            ->allowEmpty('token');
+            
+        $validator
+            ->add('token_expires', 'valid', ['rule' => 'datetime'])
+            ->allowEmpty('token_expires');
+            
         return $validator;
     }
+
 
     /**
      * Returns a rules checker object that will be used for validating

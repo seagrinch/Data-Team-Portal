@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
+use Cake\Mailer\MailerAwareTrait;
 
 /**
  * Users Controller
@@ -11,29 +13,69 @@ use App\Controller\AppController;
 class UsersController extends AppController
 {
 
-    /**
-     * Index method
-     *
-     * @return \Cake\Network\Response|null
-     */
-    public function index()
-    {
-        $users = $this->paginate($this->Users);
+    use MailerAwareTrait;
 
-        $this->set(compact('users'));
-        $this->set('_serialize', ['users']);
+    /**
+     * beforeFilter method
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['logout','requestResetPassword','resetPassword']);
     }
 
     /**
-     * View method
+     * isAuthorized method
+     */
+    public function isAuthorized($user)
+    {
+        if (in_array($this->request->action, ['profile', 'update'])) {
+            return true;
+        }        
+        return parent::isAuthorized($user);
+    }
+
+    /**
+     * Login method
+     */
+    public function login()
+    {
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            if ($user) {
+                $this->Auth->setUser($user);
+                $this->Flash->success(__('You have successfully logged in.'));
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Flash->error(__('Invalid username or password, please try again'));
+        }
+    }
+
+    /**
+     * Logout method
+     */
+    public function logout()
+    {
+        return $this->redirect($this->Auth->logout());
+    }
+    
+    /**
+     * Index method - redirects to profile
+     */
+    public function index()
+    {
+        return $this->redirect(['action'=>'profile']);
+    }
+
+    /**
+     * Profile method
      *
-     * @param string|null $id User id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function profile()
     {
-        $user = $this->Users->get($id, [
+        $user = $this->Users->get($this->Auth->user('id'), [
             'contain' => []
         ]);
 
@@ -42,67 +84,89 @@ class UsersController extends AppController
     }
 
     /**
-     * Add method
+     * Update method
      *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $user = $this->Users->newEntity();
-        if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->data);
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
-            }
-        }
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id User id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function update()
     {
-        $user = $this->Users->get($id, [
+        $user = $this->Users->get($this->Auth->user('id'), [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->data);
+        unset($user->password);  //Remove password from array
+        if ($this->request->is(['patch', 'post', 'put'])) {          
+            $user->id = $this->Auth->user('id'); // Manually override id
+            if (empty($this->request->data['password'])) {
+              unset($this->request->data['password']);  //If the password isn't set, remove it to prevent validation
+            }
+            $user = $this->Users->patchEntity($user, $this->request->data, [
+                'fieldList'=>['username','password','email','first_name','last_name']
+            ]);
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success(__('Your profile was updated.'));
+                $this->Auth->setUser($user->toArray()); //Update session info
+                return $this->redirect(['action' => 'profile']);
             } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                $this->Flash->error(__('Your profile could not be saved. Please, try again.'));
             }
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
 
+
     /**
-     * Delete method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * Request Password Reset
      */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
+    public function requestResetPassword() {
+      //if ($this->Auth->login()) {
+      //  return $this->redirect($this->Auth->redirectUrl());  //Redirect if already logged in
+      //}
+      if ($this->request->is(['patch', 'post', 'put'])) {          
+        $query = $this->Users->findAllByUsernameOrEmail($this->request->data['email'],$this->request->data['email']);
+        $user = $query->first();
+        if ($user) {
+          $user->updateToken(60*60*24*2); //Expire in 2 Days
+          $this->Users->save($user);
+          $this->getMailer('User')->send('resetPassword', [$user]);
+          $this->Flash->success('Instructions on how to reset your password were set to ' . $user->email . '');
+  				$this->redirect(['action'=>'login']);
         } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+          $this->Flash->error('The entered email address could not be found. Please try again.');
         }
-        return $this->redirect(['action' => 'index']);
+      }
     }
+  
+    /**
+     * Reset Password
+     */
+    public function resetPassword($token=null) {
+        $query = $this->Users->find()
+          ->where(['token'=>$token, 'token_expires >'=>date('Y-m-d H:i:s')]);
+        $user = $query->first();
+        
+        if (empty($user)) {
+            $this->Flash->error('The specified token is invalid. Please, check the link and try again or request a new password reset link below.');
+            $this->redirect(['action'=>'requestResetPassword']);
+        } else {
+            if ($this->request->is(['patch', 'post', 'put'])) {          
+                $user = $this->Users->patchEntity($user, $this->request->data, [
+                    'fieldList'=>['password']
+                ]);
+                $user->token='';
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('Your password has been changed.'));
+                    $this->Auth->setUser($user->toArray()); //Manually log in user
+                    return $this->redirect(['action' => 'profile']);
+                } else {
+                    $this->Flash->error(__('Your password could not be updated. Please, try again.'));
+                }
+            }
+            unset($user->password);  //Remove password from array
+            $this->set(compact('user'));
+        }
+    }
+
+
 }

@@ -1,7 +1,10 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\Entity;
+use Cake\I18n\Time;
+use Cake\Utility\Text;
 
 /**
  * User Entity.
@@ -41,4 +44,31 @@ class User extends Entity
     protected $_hidden = [
         'password'
     ];
+
+    protected function _setPassword($password)
+    {
+        if (strlen($password) > 0) {
+          return (new DefaultPasswordHasher)->hash($password);
+        }
+    }
+    
+    protected function _getFullName()
+    {
+        return $this->_properties['first_name'] . '  ' .
+            $this->_properties['last_name'];
+    }
+
+    /**
+     * Generate token_expires and token in a user
+     * from CakeDC/users
+     * @param int $tokenExpiration seconds to expire the token from Now
+     * @return void
+     */
+    public function updateToken($tokenExpiration = 0)
+    {
+        $expiration = new Time('now');
+        $this->token_expires = $expiration->addSeconds($tokenExpiration);
+        $this->token = str_replace('-', '', Text::uuid());
+    }
+        
 }
