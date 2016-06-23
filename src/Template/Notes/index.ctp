@@ -1,21 +1,20 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Comment'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('New Note'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>
 </nav>
-<div class="comments index large-9 medium-8 columns content">
-    <h3><?= __('Comments') ?></h3>
+<div class="notes index large-9 medium-8 columns content">
+    <h3><?= __('Notes') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
                 <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('model') ?></th>
-                <th><?= $this->Paginator->sort('model_id') ?></th>
                 <th><?= $this->Paginator->sort('user_id') ?></th>
                 <th><?= $this->Paginator->sort('type') ?></th>
+                <th><?= $this->Paginator->sort('model') ?></th>
                 <th><?= $this->Paginator->sort('reference_designator') ?></th>
                 <th><?= $this->Paginator->sort('redmine_issue') ?></th>
                 <th><?= $this->Paginator->sort('resolved') ?></th>
@@ -25,22 +24,21 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($comments as $comment): ?>
+            <?php foreach ($notes as $note): ?>
             <tr>
-                <td><?= $this->Number->format($comment->id) ?></td>
-                <td><?= h($comment->model) ?></td>
-                <td><?= $this->Number->format($comment->model_id) ?></td>
-                <td><?= $comment->has('user') ? $this->Html->link($comment->user->username, ['controller' => 'Users', 'action' => 'view', $comment->user->id]) : '' ?></td>
-                <td><?= h($comment->type) ?></td>
-                <td><?= h($comment->reference_designator) ?></td>
-                <td><?= h($comment->redmine_issue) ?></td>
-                <td><?= h($comment->resolved) ?></td>
-                <td><?= h($comment->created) ?></td>
-                <td><?= h($comment->modified) ?></td>
+                <td><?= $this->Number->format($note->id) ?></td>
+                <td><?= $note->has('user') ? $this->Html->link($note->user->username, ['controller' => 'Users', 'action' => 'view', $note->user->id]) : '' ?></td>
+                <td><?= h($note->type) ?></td>
+                <td><?= h($note->model) ?></td>
+                <td><?= h($note->reference_designator) ?></td>
+                <td><?= h($note->redmine_issue) ?></td>
+                <td><?= h($note->resolved) ?></td>
+                <td><?= h($note->created) ?></td>
+                <td><?= h($note->modified) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $comment->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $comment->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $comment->id], ['confirm' => __('Are you sure you want to delete # {0}?', $comment->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $note->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $note->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $note->id], ['confirm' => __('Are you sure you want to delete # {0}?', $note->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

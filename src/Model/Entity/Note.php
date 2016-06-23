@@ -4,15 +4,14 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Comment Entity.
+ * Note Entity.
  *
  * @property int $id
- * @property \App\Model\Entity\Model $model
- * @property int $model_id
  * @property int $user_id
  * @property \App\Model\Entity\User $user
  * @property string $body
  * @property string $type
+ * @property string $model
  * @property string $reference_designator
  * @property string $redmine_issue
  * @property \Cake\I18n\Time $resolved
@@ -20,7 +19,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
  */
-class Comment extends Entity
+class Note extends Entity
 {
 
     /**

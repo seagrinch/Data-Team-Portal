@@ -1,19 +1,18 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Comment;
+use App\Model\Entity\Note;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Comments Model
+ * Notes Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Models
  * @property \Cake\ORM\Association\BelongsTo $Users
  */
-class CommentsTable extends Table
+class NotesTable extends Table
 {
 
     /**
@@ -26,15 +25,12 @@ class CommentsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('comments');
+        $this->table('notes');
         $this->displayField('id');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Models', [
-            'foreignKey' => 'model_id'
-        ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
@@ -53,13 +49,13 @@ class CommentsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('model');
-
-        $validator
             ->allowEmpty('body');
 
         $validator
             ->allowEmpty('type');
+
+        $validator
+            ->allowEmpty('model');
 
         $validator
             ->allowEmpty('reference_designator');
@@ -86,7 +82,6 @@ class CommentsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['model_id'], 'Models'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         return $rules;
     }

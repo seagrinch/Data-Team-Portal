@@ -1,13 +1,13 @@
 <?php
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\CommentsController;
+use App\Controller\NotesController;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
- * App\Controller\CommentsController Test Case
+ * App\Controller\NotesController Test Case
  */
-class CommentsControllerTest extends IntegrationTestCase
+class NotesControllerTest extends IntegrationTestCase
 {
 
     /**
@@ -16,8 +16,7 @@ class CommentsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.comments',
-        'app.models',
+        'app.notes',
         'app.users'
     ];
 
