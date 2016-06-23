@@ -15,7 +15,7 @@
       <dd><?= h($user->role) ?></dd>
     </dl>
 
-    <p class="text-right"><?php echo $this->Html->link('Edit your Profile', array('controller'=>'Users', 'action'=>'update'), array('class'=>'btn btn-info'));?></p>
+    <p class="text-right"><?php echo $this->Html->link('Edit your Profile', ['controller'=>'Users', 'action'=>'update'], ['class'=>'btn btn-info']);?></p>
     
   </div>
 </div>

@@ -26,7 +26,7 @@
       <dd><?= h($user->modified) ?></dd>
     </dl>
 
-    <?php echo $this->Html->link('Edit User', array('controller'=>'Users', 'action'=>'edit', $user->id), array('class'=>'btn btn-primary pull-right'));?>
+    <?php echo $this->Html->link('Edit User', ['controller'=>'Users', 'action'=>'edit', $user->id], ['class'=>'btn btn-primary pull-right']);?>
     <?= $this->Form->postLink(__('Delete User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete {0}?', $user->username), 'class'=>'btn btn-danger']) ?>
 
   </div>
