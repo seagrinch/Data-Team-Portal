@@ -13,6 +13,17 @@ class SitesController extends AppController
 {
 
     /**
+     * isAuthorized method
+     */
+    public function isAuthorized($user)
+    {
+        if (in_array($this->request->action, ['edit'])) {
+            return true;
+        }        
+        return parent::isAuthorized($user);
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Network\Response|null
@@ -73,18 +84,26 @@ class SitesController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function admin_edit($id = null)
+    public function edit($id = null)
     {
-        $site = $this->Sites->get($id, [
-            'contain' => []
-        ]);
+        $query = $this->Sites->find()
+          ->where(['Sites.reference_designator'=>$id])
+          ->contain(['Regions']);
+        $site = $query->first();
+        
+        if (empty($site)) {
+            throw new NotFoundException(__('Site not found'));
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $site = $this->Sites->patchEntity($site, $this->request->data);
+            $site = $this->Sites->patchEntity($site, $this->request->data, [
+                'fieldList'=>['latitude','longitude','bottom_depth','current_status']
+            ]);
             if ($this->Sites->save($site)) {
-                $this->Flash->success(__('The site has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success(__('The site has been updated.'));
+                return $this->redirect(['action' => 'view', $site->reference_designator]);
             } else {
-                $this->Flash->error(__('The site could not be saved. Please, try again.'));
+                $this->Flash->error(__('The site could not be updated. Please, try again.'));
             }
         }
         $this->set(compact('site'));

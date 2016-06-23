@@ -6,6 +6,12 @@
   <li class="active"><?= h($instrument->name) ?></li>
 </ol>
 
+<?php 
+  $session = $this->request->session();
+  if ($session->check('Auth.User')) { 
+    echo $this->Html->link('Edit Instrument', ['action'=>'edit', $instrument->reference_designator], ['class'=>'btn btn-info pull-right']);
+  }
+?>
 <h3><?= h($instrument->name) ?></h3>
 
 <dl class="dl-horizontal">
@@ -17,6 +23,22 @@
   <dd><?= $this->Number->format($instrument->end_depth) ?></dd>
   <dt><?= __('Location') ?></dt>
   <dd><?= h($instrument->location) ?></dd>
+  <dt><?= __('uFrame Status') ?></dt>
+  <dd><?php if ($instrument->uframe_status=='1') { ?>
+      <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green;"></span> OK
+    <?php } else { ?>
+      <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Unknown
+    <?php } ?>
+  </dd>
+  <dt><?= __('Current Status') ?></dt>
+  <dd><?php if ($instrument->current_status=='deployed') { ?>
+      <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green;"></span> Deployed
+    <?php } elseif ($instrument->current_status=='recovered') { ?>
+      <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red;"></span> Recovered
+    <?php } else { ?>
+      <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Unknown
+    <?php } ?>
+  </dd>
 </dl>
 
 <div>

@@ -13,6 +13,17 @@ class InstrumentsController extends AppController
 {
 
     /**
+     * isAuthorized method
+     */
+    public function isAuthorized($user)
+    {
+        if (in_array($this->request->action, ['edit'])) {
+            return true;
+        }        
+        return parent::isAuthorized($user);
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Network\Response|null
@@ -83,18 +94,26 @@ class InstrumentsController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function admin_edit($id = null)
+    public function edit($id = null)
     {
-        $instrument = $this->Instruments->get($id, [
-            'contain' => []
-        ]);
+        $query = $this->Instruments->find()
+          ->where(['Instruments.reference_designator'=>$id])
+          ->contain(['Nodes.Sites.Regions']);
+        $instrument = $query->first();
+        
+        if (empty($instrument)) {
+            throw new NotFoundException(__('Instrument not found'));
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $instrument = $this->Instruments->patchEntity($instrument, $this->request->data);
+            $instrument = $this->Instruments->patchEntity($instrument, $this->request->data, [
+                'fieldList'=>['start_depth','end_depth','location','uframe_status','current_status']
+            ]);
             if ($this->Instruments->save($instrument)) {
-                $this->Flash->success(__('The instrument has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success(__('The instrument has been updated.'));
+                return $this->redirect(['action' => 'view', $instrument->reference_designator]);
             } else {
-                $this->Flash->error(__('The instrument could not be saved. Please, try again.'));
+                $this->Flash->error(__('The instrument could not be updated. Please, try again.'));
             }
         }
         $this->set(compact('instrument'));

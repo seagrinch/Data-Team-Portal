@@ -80,11 +80,11 @@ class InstrumentsTable extends Table
             ->allowEmpty('name');
 
         $validator
-            ->decimal('start_depth')
+            ->add('start_depth', 'naturalNumber', ['rule' => 'naturalNumber', 'message'=>'Please specify a valid whole number'])
             ->allowEmpty('start_depth');
 
         $validator
-            ->decimal('end_depth')
+            ->add('end_depth', 'naturalNumber', ['rule' => 'naturalNumber', 'message'=>'Please specify a valid whole number'])
             ->allowEmpty('end_depth');
 
         $validator

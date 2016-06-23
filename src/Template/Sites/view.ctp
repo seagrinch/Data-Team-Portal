@@ -4,7 +4,14 @@
   <li class="active"><?= h($site->name) ?></li>
 </ol>
 
-<h3> <?= h($site->name) ?></h3>
+<?php 
+  $session = $this->request->session();
+  if ($session->check('Auth.User')) { 
+    echo $this->Html->link('Edit Site', ['action'=>'edit', $site->reference_designator], ['class'=>'btn btn-info pull-right']);
+  }
+?>
+
+<h3><?= h($site->name) ?></h3>
 
 <dl class="dl-horizontal">
   <dt><?= __('Reference Designator') ?></dt>
@@ -19,6 +26,15 @@
   <dd><?= $this->Number->format($site->longitude) ?></dd>
   <dt><?= __('Bottom Depth') ?></dt>
   <dd><?= $this->Number->format($site->bottom_depth) ?></dd>
+  <dt><?= __('Current Status') ?></dt>
+  <dd><?php if ($site->current_status=='deployed') { ?>
+      <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green;"></span> Deployed
+    <?php } elseif ($site->current_status=='recovered') { ?>
+      <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red;"></span> Recovered
+    <?php } else { ?>
+      <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Unknown
+    <?php } ?>
+  </dd>
 </dl>
 
 <h3>Nodes & Instruments</h3>

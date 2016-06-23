@@ -72,15 +72,15 @@ class SitesTable extends Table
             ->allowEmpty('description');
 
         $validator
-            ->numeric('latitude')
+            ->add('latitude', 'decimal', ['rule' => ['decimal', true], 'message'=>'Please specify a valid decimal number'])
             ->allowEmpty('latitude');
 
         $validator
-            ->numeric('longitude')
+            ->add('longitude', 'decimal', ['rule' => ['decimal', true], 'message'=>'Please specify a valid decimal number'])
             ->allowEmpty('longitude');
 
         $validator
-            ->numeric('bottom_depth')
+            ->add('bottom_depth', 'naturalNumber', ['rule' => 'naturalNumber', 'message'=>'Please specify a valid whole number'])
             ->allowEmpty('bottom_depth');
 
         return $validator;

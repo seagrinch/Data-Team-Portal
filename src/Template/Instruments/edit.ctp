@@ -1,32 +1,29 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $instrument->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $instrument->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Instruments'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Data Streams'), ['controller' => 'DataStreams', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Data Stream'), ['controller' => 'DataStreams', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="instruments form large-9 medium-8 columns content">
+<ol class="breadcrumb">
+  <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'index']) ?></li>
+  <li><?= $this->html->link($instrument->node->site->region->name,['controller'=>'regions','action'=>'view',$instrument->node->site->region->reference_designator]) ?></li>
+  <li><?= $this->html->link($instrument->node->site->name,['controller'=>'sites','action'=>'view',$instrument->node->site->reference_designator]) ?></li>
+  <li><?= $this->html->link($instrument->node->name,['controller'=>'nodes','action'=>'view',$instrument->node->reference_designator]) ?></li>
+  <li><?= $this->html->link($instrument->name,['action'=>'view',$instrument->reference_designator]) ?></li>
+  <li class="active">Edit</li>
+</ol>
+
+<div class="row">
+  <div class='col-md-6 col-md-offset-3'>
+
     <?= $this->Form->create($instrument) ?>
     <fieldset>
-        <legend><?= __('Edit Instrument') ?></legend>
+        <legend>Edit <?= h($instrument->name) ?></legend>
         <?php
-            echo $this->Form->input('reference_designator');
-            echo $this->Form->input('region');
-            echo $this->Form->input('site');
-            echo $this->Form->input('node');
-            echo $this->Form->input('name');
             echo $this->Form->input('start_depth');
             echo $this->Form->input('end_depth');
             echo $this->Form->input('location');
+            echo $this->Form->input('uframe_status',['options'=>['1'=>'OK',''=>'Unknown']]);
+            echo $this->Form->input('current_status',['options'=>['deployed'=>'Deployed','recovered'=>'Recovered',''=>'Unknown']]);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+		<?= $this->Html->link('Cancel', ['action' => 'view', $instrument->reference_designator], ['class'=>'btn btn-default']); ?>
+    <?= $this->Form->button(__('Save Changes'),['class'=>'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
+    
+  </div>
 </div>
