@@ -42,7 +42,7 @@ class AppController extends Controller
         parent::initialize();
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-        //$this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
+        $this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
         $this->loadComponent('Auth', [
             'authorize' => ['Controller'], 
             'loginAction' => ['prefix'=>false, 'controller'=>'Users', 'action'=>'login'],
@@ -60,7 +60,10 @@ class AppController extends Controller
      */
     public function beforeFilter(Event $event)
     {
-        //$this->Security->requireSecure(); //Require SSL
+        // Require SSL if not localhost
+        if (strcasecmp(env('SERVER_NAME'),'data-team.localhost') != 0) {
+          $this->Security->requireSecure(); 
+        }
         // Allow default non-admin routes
         if (empty($this->request->params['prefix'])) {
             $this->Auth->allow(['index', 'view', 'display']);
