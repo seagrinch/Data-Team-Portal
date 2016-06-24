@@ -1,55 +1,46 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Note'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="notes index large-9 medium-8 columns content">
-    <h3><?= __('Notes') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('user_id') ?></th>
-                <th><?= $this->Paginator->sort('type') ?></th>
-                <th><?= $this->Paginator->sort('model') ?></th>
-                <th><?= $this->Paginator->sort('reference_designator') ?></th>
-                <th><?= $this->Paginator->sort('redmine_issue') ?></th>
-                <th><?= $this->Paginator->sort('resolved') ?></th>
-                <th><?= $this->Paginator->sort('created') ?></th>
-                <th><?= $this->Paginator->sort('modified') ?></th>
-                <th class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($notes as $note): ?>
-            <tr>
-                <td><?= $this->Number->format($note->id) ?></td>
-                <td><?= $note->has('user') ? $this->Html->link($note->user->username, ['controller' => 'Users', 'action' => 'view', $note->user->id]) : '' ?></td>
-                <td><?= h($note->type) ?></td>
-                <td><?= h($note->model) ?></td>
-                <td><?= h($note->reference_designator) ?></td>
-                <td><?= h($note->redmine_issue) ?></td>
-                <td><?= h($note->resolved) ?></td>
-                <td><?= h($note->created) ?></td>
-                <td><?= h($note->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $note->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $note->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $note->id], ['confirm' => __('Are you sure you want to delete # {0}?', $note->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
-    </div>
+<h3>Notes</h3>
+<p>Sort by: <?= $this->Paginator->sort('reference_designator') ?> | 
+  <?= $this->Paginator->sort('User.full_name',['label'=>'Name']) ?> | 
+  <?= $this->Paginator->sort('created') ?> | 
+  <?= $this->Paginator->sort('type') ?>
+</p>
+
+<table class="table table-striped" cellpadding="0" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Reference Designator</th>
+      <th>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach ($notes as $note): ?>
+    <tr <?= ($note->type=='flag') ? 'class="warning"' : '' ?>>
+      <td><?= $this->Html->link($note->reference_designator,['controller'=>$note->model,'action'=>'view',$note->reference_designator]) ?></td>
+      <td>
+        <?php //echo $this->Text->autoParagraph(h($note->body)); ?>
+        <?= $this->Text->truncate($note->body, 500, ['exact'=>false,'ellipsis'=>'...']); ?>
+        <p>
+          <small><em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
+          <?= $this->Time->timeAgoInWords($note->created) ?></em>
+          <?php if ($this->request->session()->read('Auth.User.id') == $note->user_id): ?>
+            [<?php echo $this->Html->link('Edit', ['controller'=>'notes','action'=>'edit',$note->id]); ?>]
+          <?php endif; ?>
+          </small>
+        </p>
+      </td>
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
+
+<!-- <p class="text-right"><?php echo $this->Html->link(__('Add a New Note'), ['action'=>'add'], ['class'=>'btn btn-primary']); ?></p> -->
+
+<div class="paginator">
+  <ul class="pagination">
+    <?= $this->Paginator->prev('< ' . __('previous')) ?>
+    <?= $this->Paginator->numbers(['before' => '', 'after' => '']) ?>
+    <?= $this->Paginator->next(__('next') . ' >') ?>
+  </ul>
+  <p><?= $this->Paginator->counter() ?></p>
 </div>
+

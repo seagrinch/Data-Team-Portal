@@ -49,22 +49,25 @@ class NotesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('body');
+            ->notEmpty('user_id', 'A user_id is required');
 
         $validator
-            ->allowEmpty('type');
+            ->notEmpty('body', 'A comment is required');
 
         $validator
-            ->allowEmpty('model');
+            ->notEmpty('type', 'A type is required');
 
         $validator
-            ->allowEmpty('reference_designator');
+            ->notEmpty('model', 'A model is required');
+
+        $validator
+            ->notEmpty('reference_designator', 'A reference_designator is required');
 
         $validator
             ->allowEmpty('redmine_issue');
 
         $validator
-            ->dateTime('resolved')
+            ->date('resolved')
             ->allowEmpty('resolved');
 
         $validator

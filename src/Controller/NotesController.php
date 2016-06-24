@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Notes Controller
@@ -10,6 +11,17 @@ use App\Controller\AppController;
  */
 class NotesController extends AppController
 {
+
+    /**
+     * isAuthorized method
+     */
+    public function isAuthorized($user)
+    {
+        if (in_array($this->request->action, ['add','edit'])) {
+            return true;
+        }        
+        return parent::isAuthorized($user);
+    }
 
     /**
      * Index method
@@ -49,19 +61,40 @@ class NotesController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($model=null,$reference_designator=null)
     {
+        if ($model=='sites') {
+          $this->loadModel('Sites');
+          $query = $this->Sites->find()
+            ->where(['Sites.reference_designator'=>$reference_designator]);
+          $rd = $query->first();
+        } elseif ($model=='instruments') {
+          $this->loadModel('Instruments');
+          $query = $this->Instruments->find()
+            ->where(['Instruments.reference_designator'=>$reference_designator]);
+          $rd = $query->first();
+        }
+
+        if (empty($rd)) {
+            throw new NotFoundException(__('Reference Designator not found'));
+        }
+
         $note = $this->Notes->newEntity();
         if ($this->request->is('post')) {
-            $note = $this->Notes->patchEntity($note, $this->request->data);
+            $note->model = $model;
+            $note->reference_designator = $rd->reference_designator;
+            $note = $this->Notes->patchEntity($note, $this->request->data, [
+              'fieldList'=>['body','type','redmine_issue']
+            ]);
+            $note->user_id = $this->Auth->user('id');
             if ($this->Notes->save($note)) {
                 $this->Flash->success(__('The note has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller'=>$model, 'action' => 'view', $rd->reference_designator]);
             } else {
                 $this->Flash->error(__('The note could not be saved. Please, try again.'));
             }
         }
-        $users = $this->Notes->Users->find('list', ['limit' => 200]);
+        //$users = $this->Notes->Users->find('list', ['limit' => 200]);
         $this->set(compact('note', 'users'));
         $this->set('_serialize', ['note']);
     }
@@ -79,15 +112,17 @@ class NotesController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $note = $this->Notes->patchEntity($note, $this->request->data);
+            $note = $this->Notes->patchEntity($note, $this->request->data, [
+              'fieldList'=>['body','type','redmine_issue','resolved','resolved_comment']
+            ]);
             if ($this->Notes->save($note)) {
                 $this->Flash->success(__('The note has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller'=>$note->model, 'action' => 'view', $note->reference_designator]);
             } else {
                 $this->Flash->error(__('The note could not be saved. Please, try again.'));
             }
         }
-        $users = $this->Notes->Users->find('list', ['limit' => 200]);
+        //$users = $this->Notes->Users->find('list', ['limit' => 200]);
         $this->set(compact('note', 'users'));
         $this->set('_serialize', ['note']);
     }

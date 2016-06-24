@@ -1,26 +1,28 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Notes'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="notes form large-9 medium-8 columns content">
+<ol class="breadcrumb">
+  <li><?= $this->Html->link(__('Notes'), ['controller'=>'notes', 'action' => 'index']) ?></li>
+  <li class="active">Create a new Note</li>
+</ol>
+
+
+<div class="row">
+  <div class='col-md-6 col-md-offset-3'>
+
     <?= $this->Form->create($note) ?>
     <fieldset>
         <legend><?= __('Add Note') ?></legend>
         <?php
-            echo $this->Form->input('user_id', ['options' => $users, 'empty' => true]);
-            echo $this->Form->input('body');
-            echo $this->Form->input('type');
-            echo $this->Form->input('model');
-            echo $this->Form->input('reference_designator');
+            echo $this->Form->input('body',['type'=>'textarea']);
+            echo $this->Form->input('type',[
+              'type'=>'radio',
+              'options'=>['note'=>'Note','flag'=>'Flag'],
+              'inline'=>true, 
+              'label'=>false
+            ]);
             echo $this->Form->input('redmine_issue');
-            echo $this->Form->input('resolved', ['empty' => true]);
-            echo $this->Form->input('resolved_comment');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Save'),['class'=>'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
+    
+  </div>
 </div>

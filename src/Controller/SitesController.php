@@ -45,7 +45,7 @@ class SitesController extends AppController
     public function view($id = null) {
       $query = $this->Sites->find()
         ->where(['Sites.reference_designator'=>$id])
-        ->contain(['Regions','Nodes','Nodes.Instruments']);
+        ->contain(['Regions','Nodes','Nodes.Instruments','Notes.Users']);
       $site = $query->first();
       
       if (empty($site)) {
