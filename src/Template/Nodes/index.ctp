@@ -3,17 +3,17 @@
   <thead>
     <tr>
       <th><?= $this->Paginator->sort('reference_designator') ?></th>
-      <th><?= $this->Paginator->sort('region_rd') ?></th>
-      <th><?= $this->Paginator->sort('site_rd') ?></th>
-      <th><?= $this->Paginator->sort('name') ?></th>
+      <th><?= $this->Paginator->sort('Site.array_name') ?></th>
+      <th><?= $this->Paginator->sort('Site.name') ?></th>
+      <th><?= $this->Paginator->sort('name',['label'=>'Node Name']) ?></th>
     </tr>
   </thead>
   <tbody>
     <?php foreach ($nodes as $node): ?>
     <tr>
       <td><?= $this->html->link($node->reference_designator,['action'=>'view',$node->reference_designator]) ?> 
-      <td><?= h($node->region_rd) ?></td>
-      <td><?= h($node->site_rd) ?></td>
+      <td><?= h($node->site->array_name) ?></td>
+      <td><?= h($node->site->name) ?></td>
       <td><?= h($node->name) ?></td>
       </td>
     </tr>

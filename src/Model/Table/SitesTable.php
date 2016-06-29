@@ -31,14 +31,13 @@ class SitesTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Regions', [
-            'foreignKey' => 'region_rd',
+            'foreignKey' => 'parent_region',
             'bindingKey' => 'reference_designator'
         ]);
         $this->hasMany('Nodes', [
-            'foreignKey' => 'site_rd',
+            'foreignKey' => 'parent_site',
             'bindingKey' => 'reference_designator'
         ]);
-
         $this->hasMany('Notes', [
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator',
@@ -86,8 +85,12 @@ class SitesTable extends Table
             ->allowEmpty('longitude');
 
         $validator
-            ->add('bottom_depth', 'naturalNumber', ['rule' => 'naturalNumber', 'message'=>'Please specify a valid whole number'])
-            ->allowEmpty('bottom_depth');
+            ->add('min_depth', 'naturalNumber', ['rule' => 'naturalNumber', 'message'=>'Please specify a valid whole number'])
+            ->allowEmpty('min_depth');
+
+        $validator
+            ->add('max_depth', 'naturalNumber', ['rule' => 'naturalNumber', 'message'=>'Please specify a valid whole number'])
+            ->allowEmpty('max_depth');
 
         return $validator;
     }

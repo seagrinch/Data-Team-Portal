@@ -4,6 +4,8 @@
         <tr>
             <th><?= $this->Paginator->sort('id'); ?></th>
             <th><?= $this->Paginator->sort('name'); ?></th>
+            <th><?= $this->Paginator->sort('display_name'); ?></th>
+            <th><?= $this->Paginator->sort('stream_type'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -11,6 +13,8 @@
         <tr>
             <td><?= $this->Number->format($stream->id) ?></td>
             <td><?= $this->Html->link($stream->name,['action'=>'view',$stream->id]) ?></td>
+            <td><?= h($stream->display_name) ?></td>
+            <td><?= h($stream->stream_type) ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

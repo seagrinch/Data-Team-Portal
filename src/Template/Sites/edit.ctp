@@ -15,8 +15,9 @@
         <?php
             echo $this->Form->input('latitude');
             echo $this->Form->input('longitude');
-            echo $this->Form->input('bottom_depth');
-            echo $this->Form->input('current_status',['options'=>['deployed'=>'Deployed','recovered'=>'Recovered',''=>'Unknown']]);
+            echo $this->Form->input('min_depth');
+            echo $this->Form->input('max_depth');
+            echo $this->Form->input('current_status',['options'=>['deployed'=>'Deployed','recovered'=>'Recovered'],'empty'=>'Unknown']);
         ?>
     </fieldset>
 		<?= $this->Html->link('Cancel', ['action' => 'view', $site->reference_designator], ['class'=>'btn btn-default']); ?>

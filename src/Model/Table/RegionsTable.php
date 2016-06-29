@@ -32,7 +32,7 @@ class RegionsTable extends Table
         
         $this->hasMany('Sites', [
             //'className' => 'Sites',
-            'foreignKey' => 'region_rd',
+            'foreignKey' => 'parent_region',
             'bindingKey' => 'reference_designator'
         ]);
     }

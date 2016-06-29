@@ -16,7 +16,8 @@
             echo $this->Form->input('description');
             echo $this->Form->input('latitude');
             echo $this->Form->input('longitude');
-            echo $this->Form->input('bottom_depth');
+            echo $this->Form->input('min_depth');
+            echo $this->Form->input('max_depth');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

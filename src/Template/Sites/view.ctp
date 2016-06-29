@@ -16,16 +16,18 @@
 <dl class="dl-horizontal">
   <dt><?= __('Reference Designator') ?></dt>
   <dd><?= h($site->reference_designator) ?></dd>
-  <dt><?= __('Description') ?></dt>
-  <dd><?= $site->description ?></dd>
   <dt><?= __('Array Name') ?></dt>
   <dd><?= $site->array_name ?></dd>
+  <dt><?= __('Description') ?></dt>
+  <dd><?= $site->description ?></dd>
   <dt><?= __('Latitude') ?></dt>
   <dd><?= $this->Number->format($site->latitude) ?></dd>
   <dt><?= __('Longitude') ?></dt>
   <dd><?= $this->Number->format($site->longitude) ?></dd>
-  <dt><?= __('Bottom Depth') ?></dt>
-  <dd><?= $this->Number->format($site->bottom_depth) ?></dd>
+  <dt><?= __('Min Depth') ?></dt>
+  <dd><?= $this->Number->format($site->min_depth) ?></dd>
+  <dt><?= __('Max Depth') ?></dt>
+  <dd><?= $this->Number->format($site->max_depth) ?></dd>
   <dt><?= __('Current Status') ?></dt>
   <dd><?php if ($site->current_status=='deployed') { ?>
       <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green;"></span> Deployed

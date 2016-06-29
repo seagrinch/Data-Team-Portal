@@ -32,7 +32,7 @@ class InstrumentsTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Nodes', [
-            'foreignKey' => 'node_rd',
+            'foreignKey' => 'parent_node',
             'bindingKey' => 'reference_designator'
         ]);
         $this->hasMany('DataStreams', [
@@ -46,7 +46,6 @@ class InstrumentsTable extends Table
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator'
         ]);
-
         $this->hasMany('Notes', [
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator',

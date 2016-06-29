@@ -68,6 +68,15 @@ class StreamsTable extends Table
             ->integer('binsize_minutes')
             ->allowEmpty('binsize_minutes');
 
+        $validator
+            ->allowEmpty('stream_type');
+
+        $validator
+            ->allowEmpty('display_name');
+
+        $validator
+            ->allowEmpty('description');
+
         return $validator;
     }
 

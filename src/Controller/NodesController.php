@@ -18,7 +18,8 @@ class NodesController extends AppController
      * @return \Cake\Network\Response|null
      */
     public function index() {
-        $nodes = $this->paginate($this->Nodes);
+        $query = $this->Nodes->find()->contain('Sites');
+        $nodes = $this->paginate($query);
 
         $this->set(compact('nodes'));
         $this->set('_serialize', ['nodes']);

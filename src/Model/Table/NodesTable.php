@@ -31,11 +31,11 @@ class NodesTable extends Table
         $this->addBehavior('Timestamp');
         
         $this->belongsTo('Sites', [
-            'foreignKey' => 'site_rd',
+            'foreignKey' => 'parent_site',
             'bindingKey' => 'reference_designator'
         ]);
         $this->hasMany('Instruments', [
-            'foreignKey' => 'node_rd',
+            'foreignKey' => 'parent_node',
             'bindingKey' => 'reference_designator'
         ]);
     }

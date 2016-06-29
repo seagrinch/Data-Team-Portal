@@ -3,11 +3,10 @@
   <thead>
     <tr>
       <th><?= $this->Paginator->sort('reference_designator') ?></th>
-      <th><?= $this->Paginator->sort('name') ?></th>
+      <th><?= $this->Paginator->sort('name',['label'=>'Instrument Name']) ?></th>
       <th><?= $this->Paginator->sort('start_depth') ?></th>
       <th><?= $this->Paginator->sort('end_depth') ?></th>
-      <th><?= $this->Paginator->sort('location') ?></th>
-      <th><?= $this->Paginator->sort('uframe_status') ?></th>
+      <th><?= $this->Paginator->sort('uframe_status',['label'=>'uFrame Status']) ?></th>
       <th><?= $this->Paginator->sort('current_status') ?></th>
     </tr>
   </thead>
@@ -18,7 +17,6 @@
       <td><?= h($instrument->name) ?></td>
       <td><?= $this->Number->format($instrument->start_depth) ?></td>
       <td><?= $this->Number->format($instrument->end_depth) ?></td>
-      <td><?= h($instrument->location) ?></td>
       <td> 
         <?php if ($instrument->uframe_status=='1') { ?>
           <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green;"></span> OK
