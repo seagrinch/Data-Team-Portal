@@ -101,7 +101,7 @@ class UsersController extends AppController
               unset($this->request->data['password']);  //If the password isn't set, remove it to prevent validation
             }
             $user = $this->Users->patchEntity($user, $this->request->data, [
-                'fieldList'=>['username','password','email','first_name','last_name']
+                'fieldList'=>['password','email','first_name','last_name']
             ]);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Your profile was updated.'));
@@ -130,7 +130,7 @@ class UsersController extends AppController
           $user->updateToken(60*60*24*2); //Expire in 2 Days
           $this->Users->save($user);
           $this->getMailer('User')->send('resetPassword', [$user]);
-          $this->Flash->success('Instructions on how to reset your password were set to ' . $user->email . '');
+          $this->Flash->success('Instructions on how to reset your password were set to your email address.');
   				$this->redirect(['action'=>'login']);
         } else {
           $this->Flash->error('The entered email address could not be found. Please try again.');

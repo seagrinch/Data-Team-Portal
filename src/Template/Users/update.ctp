@@ -5,8 +5,11 @@
     <fieldset>
         <legend><?= __('Edit your profile') ?></legend>
         <?php
-            echo $this->Form->input('username');
-            echo $this->Form->input('password', ['label'=>'New password', 'help'=>'Leave this blank unless you want to change your password.  Passwords must be at least 6 characters long.']);
+            echo $this->Form->input('username', ['disabled'=>true]);
+            echo $this->Form->input('password', [
+              'label'=>'New password', 
+              'help'=>'Leave this blank unless you want to change your password.  Passwords must be at least 6 characters long.',
+              'required'=>false]);
             echo $this->Form->input('password_confirm', ['type'=>'password','label'=>'Confirm your new password']);
             echo $this->Form->input('email');
             echo $this->Form->input('first_name');
