@@ -52,7 +52,7 @@ class NotesTable extends Table
             ->notEmpty('user_id', 'A user_id is required');
 
         $validator
-            ->notEmpty('body', 'A comment is required');
+            ->notEmpty('comment', 'A comment is required');
 
         $validator
             ->notEmpty('type', 'A type is required');
@@ -64,11 +64,20 @@ class NotesTable extends Table
             ->notEmpty('reference_designator', 'A reference_designator is required');
 
         $validator
+            ->date('start_date')
+            ->allowEmpty('start_date');
+
+        $validator
+            ->date('end_date')
+            ->allowEmpty('end_date');
+
+        $validator
+            ->integer('redmine_issue','Please enter just the Redmine issue #')
             ->allowEmpty('redmine_issue');
 
         $validator
-            ->date('resolved')
-            ->allowEmpty('resolved');
+            ->date('resolved_date')
+            ->allowEmpty('resolved_date');
 
         $validator
             ->allowEmpty('resolved_comment');

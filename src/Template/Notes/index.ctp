@@ -1,9 +1,15 @@
 <h3>Notes</h3>
-<p>Sort by: <?= $this->Paginator->sort('reference_designator') ?> | 
-  <?= $this->Paginator->sort('User.full_name',['label'=>'Name']) ?> | 
-  <?= $this->Paginator->sort('created') ?> | 
-  <?= $this->Paginator->sort('type') ?>
-</p>
+  Sort by:
+<div class="btn-group" role="group" aria-label="...">
+  <li class="btn btn-default <?= ($this->Paginator->sortKey()=='Notes.reference_designator' ? 'active' : '') ?>">
+    <?= $this->Paginator->sort('reference_designator') ?></li> 
+  <li class="btn btn-default <?= ($this->Paginator->sortKey()=='User.first_name' ? 'active' : '') ?>">
+    <?= $this->Paginator->sort('User.first_name','Name') ?></li>
+  <li class="btn btn-default <?= ($this->Paginator->sortKey()=='Notes.created' ? 'active' : '') ?>">
+    <?= $this->Paginator->sort('created') ?></li> 
+  <li class="btn btn-default <?= ($this->Paginator->sortKey()=='Notes.type' ? 'active' : '') ?>">
+    <?= $this->Paginator->sort('type') ?></li><?= $this->Paginator->sortKey()?>
+</div>
 
 <table class="table table-striped" cellpadding="0" cellspacing="0">
   <thead>
@@ -18,7 +24,7 @@
       <td><?= $this->Html->link($note->reference_designator,['controller'=>$note->model,'action'=>'view',$note->reference_designator]) ?></td>
       <td>
         <?php //echo $this->Text->autoParagraph(h($note->body)); ?>
-        <?= $this->Text->truncate($note->body, 500, ['exact'=>false,'ellipsis'=>'...']); ?>
+        <?= $this->Text->truncate($note->comment, 500, ['exact'=>false,'ellipsis'=>'...']); ?>
         <p>
           <small><em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
           <?= $this->Time->timeAgoInWords($note->created) ?></em>

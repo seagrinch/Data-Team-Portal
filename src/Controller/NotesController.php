@@ -84,7 +84,7 @@ class NotesController extends AppController
             $note->model = $model;
             $note->reference_designator = $rd->reference_designator;
             $note = $this->Notes->patchEntity($note, $this->request->data, [
-              'fieldList'=>['body','type','redmine_issue']
+              'fieldList'=>['comment','type','start_date','end_date','redmine_issue']
             ]);
             $note->user_id = $this->Auth->user('id');
             if ($this->Notes->save($note)) {
@@ -113,7 +113,7 @@ class NotesController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $note = $this->Notes->patchEntity($note, $this->request->data, [
-              'fieldList'=>['body','type','redmine_issue','resolved','resolved_comment']
+              'fieldList'=>['comment','type','start_date','end_date','redmine_issue','resolved_date','resolved_comment']
             ]);
             if ($this->Notes->save($note)) {
                 $this->Flash->success(__('The note has been saved.'));

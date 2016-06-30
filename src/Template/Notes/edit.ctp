@@ -12,15 +12,17 @@
     <fieldset>
         <legend><?= __('Edit Note') ?></legend>
         <?php
-            echo $this->Form->input('body', ['type'=>'textarea', 'rows'=>12]);
+            echo $this->Form->input('comment', ['type'=>'textarea', 'rows'=>12]);
             echo $this->Form->input('type',[
               'type'=>'radio',
               'options'=>['note'=>'Note','flag'=>'Flag'],
               'inline'=>true, 
               'label'=>false
             ]);
+            echo $this->Form->input('start_date');
+            echo $this->Form->input('end_date');
             echo $this->Form->input('redmine_issue');
-            echo $this->Form->input('resolved', ['empty' => true]);
+            echo $this->Form->input('resolved_date', ['empty' => true]);
             echo $this->Form->input('resolved_comment');
         ?>
     </fieldset>
