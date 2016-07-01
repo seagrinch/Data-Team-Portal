@@ -68,6 +68,11 @@ class NotesController extends AppController
           $query = $this->Sites->find()
             ->where(['Sites.reference_designator'=>$reference_designator]);
           $rd = $query->first();
+        } elseif ($model=='nodes') {
+          $this->loadModel('Nodes');
+          $query = $this->Nodes->find()
+            ->where(['Nodes.reference_designator'=>$reference_designator]);
+          $rd = $query->first();
         } elseif ($model=='instruments') {
           $this->loadModel('Instruments');
           $query = $this->Instruments->find()

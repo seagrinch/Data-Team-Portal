@@ -38,6 +38,11 @@ class NodesTable extends Table
             'foreignKey' => 'parent_node',
             'bindingKey' => 'reference_designator'
         ]);
+        $this->hasMany('Notes', [
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator',
+            'conditions' => ['model' => 'nodes']
+        ]);
     }
 
     /**

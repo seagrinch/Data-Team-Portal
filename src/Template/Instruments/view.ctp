@@ -190,11 +190,14 @@
             <?php if ($note->redmine_issue): ?>
               <a href="https://uframe-cm.ooi.rutgers.edu/issues/<?= $note->redmine_issue?>">#<?= $note->redmine_issue?></a> 
             <?php endif; ?> 
+            <?php if ($note->start_date): ?>
+              Annotation Range: <?= h($note->start_date) ?> to <?= h($note->end_date) ?> 
+            <?php endif; ?> 
             <?php if ($note->resolved): ?>
               Resolved: <?= h($note->resolved) ?> 
             <?php endif; ?> 
           </div>
-          <?= $this->Text->autoParagraph(h($note->body)); ?>
+          <?= $this->Text->autoParagraph(h($note->comment)); ?>
           <p>
             <small><em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
             <?= $this->Time->timeAgoInWords($note->created) ?></em>
