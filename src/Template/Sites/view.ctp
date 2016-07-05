@@ -96,6 +96,45 @@
   </div>
 </div>
 
+
+<h3>Deployments</h3>
+<?php if (count($site->deployments)>0): ?>
+  <table class="table table-striped">
+    <tr>
+      <th>Deployment Number</th>
+      <th>Mooring Barcode</th>
+      <th>Mooring Serial Number</th>
+      <th>Anchor Launch Date</th>
+      <th>Anchor Launch Time</th>
+      <th>Recover Date</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Water Depth</th>
+      <th>Cruise Number</th>
+      <th>Notes</th>
+    </tr>
+    <?php foreach ($site->deployments as $d): ?>
+    <tr>
+      <td><?= h($d->deployment_number) ?></td>
+      <td><?= $this->Html->link($d->mooring_barcode, ['controller'=>'assets', 'action' => 'view', $d->mooring_barcode]) ?></td>
+      <td><?= h($d->mooring_serial_number) ?></td>
+      <td><?= $this->Time->format($d->anchor_launch_date, 'MM/dd/yyyy') ?></td>
+      <td><?= $this->Time->format($d->anchor_launch_time, 'HH:mm') ?></td>
+      <td><?= $d->recover_date ?></td>
+      <td><?= h($d->latitude) ?></td>
+      <td><?= h($d->longitude) ?></td>
+      <td><?= h($d->water_depth) ?></td>
+      <td><?= h($d->cruise_number) ?></td>
+      <td><?= h($d->notes) ?></td>
+    </tr>
+    <?php endforeach; ?>
+  </table>
+<?php else: ?>
+  <p>No deployments found</p>
+<?php endif; ?>
+
+
+
 <?php 
 /*
   use Cake\Error\Debugger;

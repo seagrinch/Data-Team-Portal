@@ -43,6 +43,10 @@ class SitesTable extends Table
             'bindingKey' => 'reference_designator',
             'conditions' => ['model' => 'sites']
         ]);
+        $this->hasMany('Deployments', [
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator'
+        ]);
     }
 
     /**
