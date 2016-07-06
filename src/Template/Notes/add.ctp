@@ -23,6 +23,7 @@
             echo $this->Form->input('redmine_issue');
         ?>
     </fieldset>
+		<?= $this->Html->link('Cancel', ['controller'=>$note->model, 'action' => 'view', $note->reference_designator], ['class'=>'btn btn-default']); ?>
     <?= $this->Form->button(__('Save'),['class'=>'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
     

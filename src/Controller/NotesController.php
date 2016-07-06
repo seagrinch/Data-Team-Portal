@@ -85,9 +85,9 @@ class NotesController extends AppController
         }
 
         $note = $this->Notes->newEntity();
+        $note->model = $model;
+        $note->reference_designator = $rd->reference_designator;
         if ($this->request->is('post')) {
-            $note->model = $model;
-            $note->reference_designator = $rd->reference_designator;
             $note = $this->Notes->patchEntity($note, $this->request->data, [
               'fieldList'=>['comment','type','start_date','end_date','redmine_issue']
             ]);
