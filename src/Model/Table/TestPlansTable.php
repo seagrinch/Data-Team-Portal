@@ -35,7 +35,7 @@ class TestPlansTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
-        $this->hasMany('TestRuns', [
+        $this->hasMany('TestItems', [
             'foreignKey' => 'test_plan_id'
         ]);
     }

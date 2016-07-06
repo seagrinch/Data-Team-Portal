@@ -1,29 +1,34 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $testPlan->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $testPlan->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Test Plans'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Test Runs'), ['controller' => 'TestRuns', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Test Run'), ['controller' => 'TestRuns', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="testPlans form large-9 medium-8 columns content">
+<ol class="breadcrumb">
+  <li><?= $this->Html->link(__('Test Plans'), ['controller'=>'test-plans', 'action' => 'index']) ?></li>
+  <li><?= $this->Html->link($testPlan->name . ' (#' . $this->Number->format($testPlan->id) . ')' , ['controller'=>'test-plans', 'action' => 'view', $testPlan->id]) ?></li>
+  <li class="active">Edit</li>
+</ol>
+
+<div class="row">
+  <div class='col-md-6 col-md-offset-3'>
+
     <?= $this->Form->create($testPlan) ?>
     <fieldset>
         <legend><?= __('Edit Test Plan') ?></legend>
         <?php
             echo $this->Form->input('name');
-            echo $this->Form->input('user_id', ['options' => $users, 'empty' => true]);
-            echo $this->Form->input('status');
+            echo $this->Form->input('status',['options' => [
+                'Draft'=>'Draft', 
+                'In Progress'=>'In Progress', 
+                'Completed'=>'Completed']]);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+		<?= $this->Html->link('Cancel', ['action' => 'view', $testPlan->id], ['class'=>'btn btn-default']); ?>
+    <?= $this->Form->button(__('Save Changes'),['class'=>'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
+    
+  </div>
+  <div class="col-md-3">
+    <?= $this->Form->postLink(
+        __('Delete Test Plan'),
+        ['action' => 'delete', $testPlan->id],
+        ['confirm' => __('Are you sure you want to delete # {0}?', $testPlan->id), 'class'=>'btn btn-danger']
+      )
+    ?>
+  </div>
 </div>

@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * TestPlans Controller
@@ -12,6 +13,17 @@ class TestPlansController extends AppController
 {
 
     /**
+     * isAuthorized method
+     */
+    public function isAuthorized($user)
+    {
+        if (in_array($this->request->action, ['add','edit'])) {
+            return true;
+        }        
+        return parent::isAuthorized($user);
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Network\Response|null
@@ -19,7 +31,8 @@ class TestPlansController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users']
+            'contain' => ['Users'], 
+            //'where'=> ['user_id'=>$this->Auth->user('id')]
         ];
         $testPlans = $this->paginate($this->TestPlans);
 
@@ -37,7 +50,7 @@ class TestPlansController extends AppController
     public function view($id = null)
     {
         $testPlan = $this->TestPlans->get($id, [
-            'contain' => ['Users', 'TestRuns']
+            'contain' => ['Users', 'TestItems']
         ]);
 
         $this->set('testPlan', $testPlan);
@@ -53,15 +66,18 @@ class TestPlansController extends AppController
     {
         $testPlan = $this->TestPlans->newEntity();
         if ($this->request->is('post')) {
-            $testPlan = $this->TestPlans->patchEntity($testPlan, $this->request->data);
+            $testPlan = $this->TestPlans->patchEntity($testPlan, $this->request->data, [
+              'fieldList'=>['name','status']
+            ]);
+            $testPlan->user_id = $this->Auth->user('id');
+            $testPlan->status = 'Draft';
             if ($this->TestPlans->save($testPlan)) {
                 $this->Flash->success(__('The test plan has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $testPlan->id]);
             } else {
                 $this->Flash->error(__('The test plan could not be saved. Please, try again.'));
             }
         }
-        $users = $this->TestPlans->Users->find('list', ['limit' => 200]);
         $this->set(compact('testPlan', 'users'));
         $this->set('_serialize', ['testPlan']);
     }
@@ -79,15 +95,17 @@ class TestPlansController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $testPlan = $this->TestPlans->patchEntity($testPlan, $this->request->data);
+            $testPlan = $this->TestPlans->patchEntity($testPlan, $this->request->data, [
+              'fieldList'=>['name','status']
+            ]);
+            $testPlan->user_id = $this->Auth->user('id');
             if ($this->TestPlans->save($testPlan)) {
                 $this->Flash->success(__('The test plan has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $testPlan->id]);
             } else {
                 $this->Flash->error(__('The test plan could not be saved. Please, try again.'));
             }
         }
-        $users = $this->TestPlans->Users->find('list', ['limit' => 200]);
         $this->set(compact('testPlan', 'users'));
         $this->set('_serialize', ['testPlan']);
     }

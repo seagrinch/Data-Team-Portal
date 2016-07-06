@@ -1,7 +1,8 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * TestQuestions Controller
@@ -10,6 +11,17 @@ use App\Controller\AppController;
  */
 class TestQuestionsController extends AppController
 {
+
+    /**
+     * isAuthorized method
+     */
+    public function isAuthorized($user)
+    {
+        if (in_array($this->request->action, ['add','edit'])) {
+            return true;
+        }        
+        return parent::isAuthorized($user);
+    }
 
     /**
      * Index method
@@ -34,7 +46,7 @@ class TestQuestionsController extends AppController
     public function view($id = null)
     {
         $testQuestion = $this->TestQuestions->get($id, [
-            'contain' => ['TestRuns']
+            'contain' => []
         ]);
 
         $this->set('testQuestion', $testQuestion);
@@ -50,7 +62,9 @@ class TestQuestionsController extends AppController
     {
         $testQuestion = $this->TestQuestions->newEntity();
         if ($this->request->is('post')) {
-            $testQuestion = $this->TestQuestions->patchEntity($testQuestion, $this->request->data);
+            $testQuestion = $this->TestQuestions->patchEntity($testQuestion, $this->request->data, [
+              'fieldList'=>['question','type']
+            ]);
             if ($this->TestQuestions->save($testQuestion)) {
                 $this->Flash->success(__('The test question has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -75,7 +89,9 @@ class TestQuestionsController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $testQuestion = $this->TestQuestions->patchEntity($testQuestion, $this->request->data);
+            $testQuestion = $this->TestQuestions->patchEntity($testQuestion, $this->request->data, [
+              'fieldList'=>['question','type']
+            ]);
             if ($this->TestQuestions->save($testQuestion)) {
                 $this->Flash->success(__('The test question has been saved.'));
                 return $this->redirect(['action' => 'index']);

@@ -45,6 +45,7 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/regions">Arrays</a></li>
 						<li><a href="/pages/reference">Reference</a></li>
+            <li><a href="/test-plans">Test Plans</a></li>
 						
             <?php 
               $session = $this->request->session();
@@ -53,6 +54,7 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
               <ul class="dropdown-menu" role="menu">
                 <li><?php echo $this->Html->link('My Profile','/users/profile')?></li>
                 <?php if ($session->read('Auth.User.role')=='admin') { ?>
+                <li><?php echo $this->Html->link('Test Questions','/admin/test-questions')?></li>
                 <li><?php echo $this->Html->link('User Admin','/admin/users')?></li>
                 <?php } ?>
                 <li class="divider"></li>
