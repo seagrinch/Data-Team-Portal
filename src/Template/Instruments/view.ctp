@@ -50,6 +50,7 @@
     <li role="presentation"><a href="#calibrations" aria-controls="calibrations" role="tab" data-toggle="tab">Calibrations</a></li>
     <li role="presentation"><a href="#instrument" aria-controls="instrument" role="tab" data-toggle="tab">Instrument Info</a></li>
     <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+    <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -84,7 +85,7 @@
           <?php endforeach; ?>
         </table>
       <?php else: ?>
-        <p>No deployments found</p>
+        <p>No streams found</p>
       <?php endif; ?>
 
     </div>
@@ -216,6 +217,31 @@
       <p>No notes yet.</p>
     <?php endif; ?>
     <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','instruments',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?></p>
+
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="stats">
+      <?php if (count($instrument->monthly_stats)>0): ?>
+        <table class="table table-striped">
+          <tr>
+            <th>Month</th>
+            <th>Deployment Status</th>
+            <th>Cassandra Status</th>
+            <th>Operational Status</th>
+            <th>Reviewed Status</th>
+          </tr>
+          <?php foreach ($instrument->monthly_stats as $s): ?>
+          <tr>
+            <td><?= $this->Time->i18nFormat($s->month,'MMMM, yyyy') ?></td>
+            <td><?= h($s->deployment_status) ?></td>
+            <td><?= h($s->cassandra_status) ?></td>
+            <td><?= h($s->operational_status) ?></td>
+            <td><?= h($s->reviewed_status) ?></td>
+          </tr>
+          <?php endforeach; ?>
+        </table>
+      <?php else: ?>
+        <p>No stats found</p>
+      <?php endif; ?>
 
     </div>
   </div>

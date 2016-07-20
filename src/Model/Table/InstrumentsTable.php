@@ -51,6 +51,10 @@ class InstrumentsTable extends Table
             'bindingKey' => 'reference_designator',
             'conditions' => ['model' => 'instruments']
         ]);
+        $this->hasMany('MonthlyStats', [
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator',
+        ]);
 
     }
 
