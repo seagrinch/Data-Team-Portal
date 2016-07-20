@@ -31,7 +31,8 @@ class NotesController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users']
+            'contain' => ['Users'],
+            'sortWhitelist' => ['reference_designator', 'Users.first_name', 'created','type']
         ];
         $notes = $this->paginate($this->Notes);
 

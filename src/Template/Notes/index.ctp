@@ -3,12 +3,12 @@
 <div class="btn-group" role="group" aria-label="...">
   <li class="btn btn-default <?= ($this->Paginator->sortKey()=='Notes.reference_designator' ? 'active' : '') ?>">
     <?= $this->Paginator->sort('reference_designator') ?></li> 
-  <li class="btn btn-default <?= ($this->Paginator->sortKey()=='User.first_name' ? 'active' : '') ?>">
-    <?= $this->Paginator->sort('User.first_name','Name') ?></li>
+  <li class="btn btn-default <?= ($this->Paginator->sortKey()=='Users.first_name' ? 'active' : '') ?>">
+    <?= $this->Paginator->sort('Users.first_name') ?></li>
   <li class="btn btn-default <?= ($this->Paginator->sortKey()=='Notes.created' ? 'active' : '') ?>">
     <?= $this->Paginator->sort('created') ?></li> 
   <li class="btn btn-default <?= ($this->Paginator->sortKey()=='Notes.type' ? 'active' : '') ?>">
-    <?= $this->Paginator->sort('type') ?></li><?= $this->Paginator->sortKey()?>
+    <?= $this->Paginator->sort('type') ?></li>
 </div>
 
 <table class="table table-striped" cellpadding="0" cellspacing="0">
