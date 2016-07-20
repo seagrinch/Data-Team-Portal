@@ -34,4 +34,15 @@ class Site extends Entity
         '*' => true,
         'id' => false,
     ];
+
+    /**
+     * Fields that are excluded from JSON an array versions of the entity.
+     *
+     * @var array
+     */
+    protected $_hidden = [
+        'description'
+    ];
+
+
 }
