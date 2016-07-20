@@ -28,11 +28,13 @@ class SitesController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index() {
-        $sites = $this->paginate($this->Sites);
-
-        $this->set(compact('sites'));
-        $this->set('_serialize', ['sites']);
+    public function index($region=null) {
+      $query = $this->Sites->find('all');
+      if ($region) {
+        $query->where(['parent_region'=>$region]);
+      }
+      $this->set('sites',$this->paginate($query));
+      $this->set('_serialize', 'sites');
     }
 
     /**

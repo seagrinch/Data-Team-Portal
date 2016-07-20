@@ -28,11 +28,13 @@ class InstrumentsController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index() {
-        $instruments = $this->paginate($this->Instruments);
-
-        $this->set(compact('instruments'));
-        $this->set('_serialize', ['instruments']);
+    public function index($site=null) {
+      $query = $this->Instruments->find('all');
+      if ($site) {
+        $query->where(['parent_node LIKE'=>$site.'%']);
+      }
+      $this->set('instruments',$this->paginate($query));
+      $this->set('_serialize', 'instruments');
     }
 
     /**
@@ -45,7 +47,7 @@ class InstrumentsController extends AppController
     public function view($id = null) {
       $query = $this->Instruments->find()
         ->where(['Instruments.reference_designator'=>$id])
-        ->contain(['Nodes.Sites.Regions','Deployments','Calibrations','DataStreams.Streams.Parameters','Notes.Users']);
+        ->contain(['Nodes.Sites.Regions','Deployments','Calibrations','DataStreams.Streams.Parameters','Notes.Users','MonthlyStats']);
       $instrument = $query->first();
       
       if (empty($instrument)) {
@@ -65,6 +67,7 @@ class InstrumentsController extends AppController
       $this->set(compact(['instrument','instrument_class','instrument_model']));
       $this->set('_serialize', ['instrument']);
     }
+    
 
     /**
      * Add method
