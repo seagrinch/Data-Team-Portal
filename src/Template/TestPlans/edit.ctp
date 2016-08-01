@@ -16,7 +16,44 @@
                 'Draft'=>'Draft', 
                 'In Progress'=>'In Progress', 
                 'Completed'=>'Completed']]);
+            echo $this->Form->input('start_date',[
+              'type'=>'text',
+              'append' => '<span class="glyphicon glyphicon-th" id="start-date-dp"></span>',
+              'value'=> $this->Time->i18nFormat($testPlan->start_date,'M/d/yyyy')
+              ]);
+            echo $this->Form->input('end_date',[
+              'type'=>'text',
+              'append' => '<span class="glyphicon glyphicon-th" id="end-date-dp"></span>',
+              'value'=> $this->Time->i18nFormat($testPlan->end_date,'M/d/yyyy')
+              ]);
         ?>
+<?php $this->Html->css('datepicker/bootstrap-datepicker3',['block'=>true]); ?>
+<?php $this->Html->script('datepicker/bootstrap-datepicker',['block'=>true]); ?>
+<?php $this->Html->scriptStart(['block' => true]); ?>
+  $('#start-date').datepicker({
+    autoclose: true,
+    todayHighlight: true,
+    showOnFocus: false,
+    format:  "m/d/yyyy"
+  });
+  $('#start-date-dp')
+    .css('cursor', 'pointer')
+    .on('click', function () {
+      $('#start-date').datepicker('show');
+    });
+  $('#end-date').datepicker({
+    autoclose: true,
+    todayHighlight: true,
+    showOnFocus: false,
+    format:  "m/d/yyyy"
+  });
+  $('#end-date-dp')
+    .css('cursor', 'pointer')
+    .on('click', function () {
+      $('#end-date').datepicker('show');
+    });
+<?php $this->Html->scriptEnd(); ?>
+
     </fieldset>
 		<?= $this->Html->link('Cancel', ['action' => 'view', $testPlan->id], ['class'=>'btn btn-default']); ?>
     <?= $this->Form->button(__('Save Changes'),['class'=>'btn btn-primary']) ?>

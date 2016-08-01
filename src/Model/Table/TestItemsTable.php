@@ -1,19 +1,21 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\TestPlan;
+use App\Model\Entity\TestItem;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * TestPlans Model
+ * TestItems Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Users
- * @property \Cake\ORM\Association\HasMany $TestRuns
+ * @property \Cake\ORM\Association\BelongsTo $TestPlans
+ * @property \Cake\ORM\Association\BelongsTo $TestQuestions
+ * @property \Cake\ORM\Association\BelongsTo $Streams
+ * @property \Cake\ORM\Association\BelongsTo $Parameters
  */
-class TestPlansTable extends Table
+class TestItemsTable extends Table
 {
 
     /**
@@ -26,17 +28,23 @@ class TestPlansTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('test_plans');
-        $this->displayField('name');
+        $this->table('test_items');
+        $this->displayField('id');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id'
-        ]);
-        $this->hasMany('TestItems', [
+        $this->belongsTo('TestPlans', [
             'foreignKey' => 'test_plan_id'
+        ]);
+        $this->belongsTo('TestQuestions', [
+            'foreignKey' => 'test_question_id'
+        ]);
+        $this->belongsTo('Streams', [
+            'foreignKey' => 'stream_id'
+        ]);
+        $this->belongsTo('Parameters', [
+            'foreignKey' => 'parameter_id'
         ]);
     }
 
@@ -53,18 +61,17 @@ class TestPlansTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->notBlank('name');
+            ->notEmpty('reference_designator');
 
         $validator
-            ->allowEmpty('status');
-        
+            ->allowEmpty('result');
+
         $validator
-            ->allowEmpty('start_date')
-            ->date('start_date','mdy');
-        
+            ->allowEmpty('result_comment');
+
         $validator
-            ->allowEmpty('end_date')
-            ->date('end_date','mdy');
+            ->integer('redmine_issue','Please enter just the Redmine issue #')
+            ->allowEmpty('redmine_issue');
 
         return $validator;
     }
@@ -78,7 +85,10 @@ class TestPlansTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['test_plan_id'], 'TestPlans'));
+        $rules->add($rules->existsIn(['test_question_id'], 'TestQuestions'));
+        $rules->add($rules->existsIn(['stream_id'], 'Streams'));
+        $rules->add($rules->existsIn(['parameter_id'], 'Parameters'));
         return $rules;
     }
 }
