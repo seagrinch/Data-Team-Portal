@@ -92,7 +92,7 @@ class AppController extends Controller
     public function isAuthorized($user)
     {
         // Only admins can access admin functions
-        if (isset($this->request->params['prefix']) &&  ($this->request->params['prefix'] === 'admin')) {
+        if (isset($this->request->params['prefix']) && ($this->request->params['prefix'] === 'admin')) {
             return (bool)($user['role'] === 'admin');
         }
     

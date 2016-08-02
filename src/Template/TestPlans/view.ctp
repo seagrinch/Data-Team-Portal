@@ -5,7 +5,7 @@
 
 <?php 
   $session = $this->request->session();
-  if ($session->check('Auth.User')) { 
+  if ($session->read('Auth.User.id')==$testPlan->user_id) { 
     echo $this->Html->link('Edit Test Plan', ['action'=>'edit', $testPlan->id], ['class'=>'btn btn-info pull-right']);
   }
 ?>
@@ -13,7 +13,7 @@
 <h3><?= h($testPlan->name) ?> (#<?= $this->Number->format($testPlan->id) ?>)</h3>
 
 <dl class="dl-horizontal">
-  <dt>Creator</dt>
+  <dt>Owner</dt>
   <dd><?= $testPlan->has('user') ? $testPlan->user->full_name : '' ?></dd>
   <dt>Date Range</dt>
   <dd><?php if ($testPlan->start_date) { ?>
@@ -41,21 +41,31 @@
     <?php foreach ($testItems as $testItem): ?>
     <tr>
         <td><?= $this->Html->link($testItem->reference_designator,['controller'=>'instruments','action'=>'view',$testItem->reference_designator]) ?> 
-          <?= $this->Form->postLink(
-            '<span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true">',
-            ['controller'=>'test-items','action'=>'delete',$testItem->id],
-            ['confirm' => __('Are you sure you want to delete #{0}?', $testItem->id),'escape'=>false]
-          );?>
+          <?php 
+            if ($session->read('Auth.User.id')==$testPlan->user_id) { 
+              echo $this->Form->postLink(
+              '<span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true">',
+              ['controller'=>'test-items','action'=>'delete',$testItem->id],
+              ['confirm' => __('Are you sure you want to delete #{0}?', $testItem->id),'escape'=>false]
+              );
+            } ?>
         </td>
         <td><?= h($testItem->method) ?> <br> 
             <?= ($testItem->stream) ? h($testItem->stream->name) . ' (#' . h($testItem->stream->id) . ')' : '' ?></td>
         <td><?= ($testItem->parameter) ? h($testItem->parameter->name) . ' (PD' . h($testItem->parameter->id) . ')': '' ?></td>
         <td><?= h($testItem->test_question->question) ?></td>
-        <td><?= h($testItem->result) ?></td>
-        <td><?= $this->Html->link('<span class="glyphicon glyphicon-pencil" aria-hidden="true">',['controller'=>'test-items','action'=>'edit',$testItem->id],['escape'=>false])?></td>
+        <td><?= h($testItem->result) ?> <?= $this->Html->link('<span class="glyphicon glyphicon-pencil" aria-hidden="true">',['controller'=>'test-items','action'=>'edit',$testItem->id],['escape'=>false])?></td>
     </tr>
     <?php endforeach; ?>
 </table>
+
+<?php if ($session->read('Auth.User.id')==$testPlan['user_id']): ?>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#myModal">
+  Add Test Cases
+</button>
+<?php endif; ?>
+
 <div class="paginator">
   <ul class="pagination">
     <?= $this->Paginator->prev('< ' . __('previous')) ?>
@@ -69,12 +79,6 @@
 <p>No test cases yet.  Add some below to being the fun.</p>
 <?php endif; ?>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Add Test Cases
-</button>
-
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -84,7 +88,7 @@
       </div>
       <div class="modal-body">
 
-        <?= $this->Form->create('',['url'=>['action'=>'add-test']]); ?>
+        <?= $this->Form->create('', [ 'url'=>['action'=>'add-test', $testPlan['id'] ] ]); ?>
         <legend><?= __('Add Test Cases') ?></legend>
         <?php
           echo $this->Form->input('test_plan_id',['type'=>'hidden','value'=>$testPlan->id]);
@@ -104,4 +108,3 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-

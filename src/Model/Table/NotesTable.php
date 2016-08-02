@@ -97,4 +97,13 @@ class NotesTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         return $rules;
     }
+
+    /**
+     * isOwnedBy function.
+     */
+    public function isOwnedBy($id, $userId)
+    {
+        return $this->exists(['id' => $id, 'user_id' => $userId]);
+    }
+
 }

@@ -17,9 +17,21 @@ class TestPlansController extends AppController
      */
     public function isAuthorized($user)
     {
-        if (in_array($this->request->action, ['add','edit','addTest'])) {
+        // All registered users can add
+        if (in_array($this->request->action, ['add'])) {
             return true;
-        }        
+        }
+        // Only the owner of an item can edit and delete it
+        if (in_array($this->request->action, ['edit', 'delete','addTest'])) {
+            $id = (int)$this->request->params['pass'][0];
+            if ($this->TestPlans->isOwnedBy($id, $user['id'])) {
+                return true;
+            }
+        }
+        // Admin can do anything
+        if ($user['role'] === 'admin') {
+          return true;
+        }
         return parent::isAuthorized($user);
     }
 
@@ -138,7 +150,7 @@ class TestPlansController extends AppController
             $testPlan->test_items = $items;
             
             if ($this->TestPlans->save($testPlan)) {
-                $this->Flash->success(__('The test cases were added for instrument: ' . $instrument->name));
+                $this->Flash->success(__('The test cases were added for ' . $instrument->reference_designator));
             } else {
                 $this->Flash->error(__('The test cases could not be added.  Please try again.'));
             }

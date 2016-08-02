@@ -7,7 +7,7 @@
     <thead>
         <tr>
             <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('User.full_name') ?></th>
+            <th><?= $this->Paginator->sort('User.full_name','Owner') ?></th>
             <th><?= $this->Paginator->sort('name') ?></th>
             <th><?= $this->Paginator->sort('status') ?></th>
             <th><?= $this->Paginator->sort('created') ?></th>

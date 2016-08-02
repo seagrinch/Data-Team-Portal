@@ -17,9 +17,21 @@ class NotesController extends AppController
      */
     public function isAuthorized($user)
     {
-        if (in_array($this->request->action, ['add','edit'])) {
+        // All registered users can add
+        if (in_array($this->request->action, ['add'])) {
             return true;
-        }        
+        }
+        // Only the owner of an item can edit and delete it
+        if (in_array($this->request->action, ['edit', 'delete'])) {
+            $id = (int)$this->request->params['pass'][0];
+            if ($this->Notes->isOwnedBy($id, $user['id'])) {
+                return true;
+            }
+        }
+        // Admin can do anything
+        if ($user['role'] === 'admin') {
+          return true;
+        }
         return parent::isAuthorized($user);
     }
 

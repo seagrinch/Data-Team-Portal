@@ -5,7 +5,7 @@
 
 <?php 
   $session = $this->request->session();
-  if ($session->check('Auth.User')) { 
+  if ($session->read('Auth.User.id')==$note->user_id) { 
     echo $this->Html->link('Edit Note', ['action'=>'edit', $note->id], ['class'=>'btn btn-info pull-right']);
   }
 ?>
