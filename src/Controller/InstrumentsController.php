@@ -33,6 +33,9 @@ class InstrumentsController extends AppController
       if ($site) {
         $query->where(['parent_node LIKE'=>$site.'%']);
       }
+      if ($this->request->is('ajax')) {
+        $this->paginate['limit'] = 1000;
+      }
       $this->set('instruments',$this->paginate($query));
       $this->set('_serialize', 'instruments');
     }

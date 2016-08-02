@@ -5,10 +5,13 @@
 
 <?php 
   $session = $this->request->session();
-  if ($session->read('Auth.User.id')==$testPlan->user_id) { 
-    echo $this->Html->link('Edit Test Plan', ['action'=>'edit', $testPlan->id], ['class'=>'btn btn-info pull-right']);
-  }
-?>
+  if ($session->read('Auth.User.id')==$testPlan->user_id): 
+  ?>
+  <div class="btn-group pull-right" role="group">
+    <?= $this->Html->link('Edit Test Plan', ['action'=>'edit', $testPlan->id], ['class'=>'btn btn-info']); ?>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Test Cases</button> 
+  </div>
+<?php endif; ?>
 
 <h3><?= h($testPlan->name) ?> (#<?= $this->Number->format($testPlan->id) ?>)</h3>
 
@@ -59,13 +62,6 @@
     <?php endforeach; ?>
 </table>
 
-<?php if ($session->read('Auth.User.id')==$testPlan['user_id']): ?>
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#myModal">
-  Add Test Cases
-</button>
-<?php endif; ?>
-
 <div class="paginator">
   <ul class="pagination">
     <?= $this->Paginator->prev('< ' . __('previous')) ?>
@@ -88,15 +84,20 @@
       </div>
       <div class="modal-body">
 
-        <?= $this->Form->create('', [ 'url'=>['action'=>'add-test', $testPlan['id'] ] ]); ?>
-        <legend><?= __('Add Test Cases') ?></legend>
+        <?= $this->Form->create('', [ 'url'=>['action'=>'add-test-items', $testPlan['id'] ] ]); ?>
+<!--         <legend><?= __('Add Test Cases') ?></legend> -->
         <?php
           echo $this->Form->input('test_plan_id',['type'=>'hidden','value'=>$testPlan->id]);
-          echo $this->Form->input('region',['options'=>$regions,'label'=>false,'empty'=>'(Choose an Array)']);
-          echo $this->Form->input('site',['type'=>'select','label'=>false,'empty'=>'(Select an Array first)']);
-          echo $this->Form->input('instrument',['type'=>'select','label'=>false,'empty'=>'(Select a Site first)']);
+          echo $this->Form->input('region',['options'=>$regions,'label'=>'Array','empty'=>'(Choose an Array)']);
+          echo $this->Form->input('site',['type'=>'select','label'=>'Site','empty'=>'-- Select an Array first --']);
+          echo $this->Form->input('instrument',['type'=>'select','label'=>'Instrument','empty'=>'--']);
+          echo $this->Form->input('stream',['type'=>'select','label'=>'Method/Stream','empty'=>'--']);
+          echo "<p><strong>Select which test question types you want to add:</strong></p>";
+          echo $this->Form->input('instrument_questions',['type'=>'checkbox','checked'=>true]);
+          echo $this->Form->input('stream_questions',['type'=>'checkbox','checked'=>true]);
+          echo $this->Form->input('parameter_questions',['type'=>'checkbox','checked'=>true]);
         ?>
-        <div><strong>Instrument:</strong> <span id="reference-designator">Please select one using the pulldowns</span></div>
+<!--         <div><strong>Instrument:</strong> <span id="reference-designator">Please select one using the pulldowns</span></div> -->
         <?php echo $this->Html->script('test-case',['block'=>true]);?>
 
       </div>

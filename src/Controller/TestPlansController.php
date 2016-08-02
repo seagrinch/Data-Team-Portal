@@ -22,7 +22,7 @@ class TestPlansController extends AppController
             return true;
         }
         // Only the owner of an item can edit and delete it
-        if (in_array($this->request->action, ['edit', 'delete','addTest'])) {
+        if (in_array($this->request->action, ['edit', 'delete','addTestItems'])) {
             $id = (int)$this->request->params['pass'][0];
             if ($this->TestPlans->isOwnedBy($id, $user['id'])) {
                 return true;
@@ -86,13 +86,13 @@ class TestPlansController extends AppController
 
 
     /**
-     * Add Test method
+     * Add Test Items method
      *
      * @param string|null $id Test Plan id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function addTest()
+    public function addTestItems()
     {
         if ($this->request->is('post')) {
           $this->loadModel('Instruments');
@@ -100,63 +100,85 @@ class TestPlansController extends AppController
 
           $testPlan = $this->TestPlans->get($this->request->data['test_plan_id']);
 
-          $query = $this->Instruments->find()
-            ->where(['Instruments.reference_designator'=>$this->request->data['instrument']])
-            ->contain(['DataStreams.Streams.Parameters']);
-          $instrument = $query->first();
+          if ($this->request->data['instrument']=='all') {
+            $query = $this->Instruments->find()
+              ->where(['Sites.reference_designator'=>$this->request->data['site']])
+              ->contain(['DataStreams.Streams.Parameters', 'Nodes.Sites']);
+            $instruments = $query->find('all');
+          } else {
+            $query = $this->Instruments->find()
+              ->where(['Instruments.reference_designator'=>$this->request->data['instrument']])
+              ->contain(['DataStreams.Streams.Parameters']);
+            $instruments = $query->find('all');            
+          }
+          
+          $items = [];
+          foreach($instruments as $instrument) {
 
-          if (!empty($instrument)) {
-            $items = [];
-
+//           if (!empty($instrument)) {
+            
             // Instrument Questions
-            $questions = $this->TestQuestions->find('all')->where(['type'=>'instrument']);
-            foreach ($questions as $q) {
-              $testItem = $this->TestPlans->TestItems->newEntity();
-              $testItem->test_question_id = $q->id;
-              $testItem->reference_designator = $instrument->reference_designator;
-              $items[] = $testItem;
-            }
-
-            // Stream Questions
-            $questions = $this->TestQuestions->find('all')->where(['type'=>'stream']);
-            foreach ($questions as $q) {
-              foreach ($instrument->data_streams as $s) {
+            if ($this->request->data['instrument_questions']) {
+              $questions = $this->TestQuestions->find('all')->where(['type'=>'instrument']);
+              foreach ($questions as $q) {
                 $testItem = $this->TestPlans->TestItems->newEntity();
                 $testItem->test_question_id = $q->id;
                 $testItem->reference_designator = $instrument->reference_designator;
-                $testItem->method = $s->method;
-                $testItem->stream_id = $s->stream_id;
-                //$testItem->parameter = $instrument->reference_designator;
                 $items[] = $testItem;
               }
-            }
-            
-            // Instrument Questions
-            $questions = $this->TestQuestions->find('all')->where(['type'=>'parameter']);
-            foreach ($questions as $q) {
-              foreach ($instrument->data_streams as $s) {
-                foreach ($s->stream->parameters as $p) {
-                  $testItem = $this->TestPlans->TestItems->newEntity();
-                  $testItem->test_question_id = $q->id;
-                  $testItem->reference_designator = $instrument->reference_designator;
-                  $testItem->method = $s->method;
-                  $testItem->stream_id = $s->stream_id;
-                  $testItem->parameter_id = $p->id;
-                  $items[] = $testItem;
+            } // End instrument questions
+
+            // Stream Questions
+            if ($this->request->data['stream_questions']) {
+              $questions = $this->TestQuestions->find('all')->where(['type'=>'stream']);
+              foreach ($questions as $q) {
+                foreach ($instrument->data_streams as $s) {
+                  if ($this->request->data['stream']=='all' || $this->request->data['stream']==$s->id) {  
+                    $testItem = $this->TestPlans->TestItems->newEntity();
+                    $testItem->test_question_id = $q->id;
+                    $testItem->reference_designator = $instrument->reference_designator;
+                    $testItem->method = $s->method;
+                    $testItem->stream_id = $s->stream_id;
+                    $items[] = $testItem;
+                  }
                 }
               }
-            }
-
-            $testPlan->test_items = $items;
+            } // End Stream Questions
             
+            // Parameter Questions
+            if ($this->request->data['parameter_questions']) {
+              $questions = $this->TestQuestions->find('all')->where(['type'=>'parameter']);
+              foreach ($questions as $q) {
+                foreach ($instrument->data_streams as $s) {
+                  if ($this->request->data['stream']=='all' || $this->request->data['stream']==$s->id) {  
+                    foreach ($s->stream->parameters as $p) {
+                      $testItem = $this->TestPlans->TestItems->newEntity();
+                      $testItem->test_question_id = $q->id;
+                      $testItem->reference_designator = $instrument->reference_designator;
+                      $testItem->method = $s->method;
+                      $testItem->stream_id = $s->stream_id;
+                      $testItem->parameter_id = $p->id;
+                      $items[] = $testItem;
+                    }
+                  }
+                }
+              }
+            } // End parameter questions
+            
+            } //End foreach
+
+            // Add items to test plan to save
+            $testPlan->test_items = $items;
             if ($this->TestPlans->save($testPlan)) {
-                $this->Flash->success(__('The test cases were added for ' . $instrument->reference_designator));
+                $this->Flash->success( count($items) . ' test cases were added');
             } else {
                 $this->Flash->error(__('The test cases could not be added.  Please try again.'));
             }
+/*
           } else {
                 $this->Flash->error(__('Please select an instrument first, in order to add test cases.'));
           }
+*/
           $this->redirect(['action'=>'view', $testPlan->id]);
         }
 
