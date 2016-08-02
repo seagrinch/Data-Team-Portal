@@ -92,7 +92,7 @@ class UsersTable extends Table
         $validator
             ->notEmpty('role', 'A role is required')
             ->add('role', 'inList', [
-                'rule' => ['inList', ['admin', 'user', 'data', 'marine']],
+                'rule' => ['inList', ['admin', 'data', 'marine']],
                 'message' => 'Please enter a valid role'
             ]);
 
