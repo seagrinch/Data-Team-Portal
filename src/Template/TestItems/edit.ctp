@@ -24,7 +24,9 @@
     <fieldset>
         <legend><?= __('Edit Test Item') ?></legend>
         <?php
-            echo $this->Form->input('result',['options'=>['Passed'=>'Passed','Failed'=>'Failed'],'empty'=>true]);
+            echo $this->Form->input('result',[
+            'options'=>['Passed'=>'Passed','Failed'=>'Failed','Suspect'=>'Suspect','Blocked'=>'Blocked'],
+            'empty'=>true]);
             echo $this->Form->input('result_comment');
             echo $this->Form->input('redmine_issue');
         ?>
