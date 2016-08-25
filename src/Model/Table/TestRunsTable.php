@@ -1,19 +1,19 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\TestPlan;
+use App\Model\Entity\TestRun;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * TestPlans Model
+ * TestRuns Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Users
- * @property \Cake\ORM\Association\HasMany $TestRuns
+ * @property \Cake\ORM\Association\HasMany $TestItems
  */
-class TestPlansTable extends Table
+class TestRunsTable extends Table
 {
 
     /**
@@ -26,17 +26,21 @@ class TestPlansTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('test_plans');
+        $this->table('test_runs');
         $this->displayField('name');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Instruments', [
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator'
+        ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
         $this->hasMany('TestItems', [
-            'foreignKey' => 'test_plan_id'
+            'foreignKey' => 'test_run_id'
         ]);
     }
 
@@ -54,10 +58,14 @@ class TestPlansTable extends Table
 
         $validator
             ->notBlank('name');
+            
+        $validator
+            //->requirePresence('reference_designator','create')
+            ->notEmpty('reference_designator');
 
         $validator
-            ->allowEmpty('status');
-        
+            ->allowEmpty('deployment');
+
         $validator
             ->allowEmpty('start_date')
             ->date('start_date','mdy');
@@ -66,6 +74,9 @@ class TestPlansTable extends Table
             ->allowEmpty('end_date')
             ->date('end_date','mdy');
 
+        $validator
+            ->allowEmpty('status');
+        
         return $validator;
     }
 

@@ -4,7 +4,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * TestPlan Entity.
+ * TestRun Entity.
  *
  * @property int $id
  * @property string $name
@@ -15,7 +15,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $modified
  * @property \App\Model\Entity\TestRun[] $test_runs
  */
-class TestPlan extends Entity
+class TestRun extends Entity
 {
 
     /**

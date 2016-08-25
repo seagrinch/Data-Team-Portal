@@ -51,6 +51,7 @@
     <li role="presentation"><a href="#calibrations" aria-controls="calibrations" role="tab" data-toggle="tab">Calibrations</a></li>
     <li role="presentation"><a href="#instrument" aria-controls="instrument" role="tab" data-toggle="tab">Instrument Info</a></li>
     <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats</a></li>
+    <li role="presentation"><a href="#tests" aria-controls="stats" role="tab" data-toggle="tab">Tests</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -220,6 +221,7 @@
 
     </div>
     <div role="tabpanel" class="tab-pane" id="stats">
+
       <?php if (count($instrument->monthly_stats)>0): ?>
         <table class="table table-striped">
           <tr>
@@ -244,7 +246,38 @@
       <?php endif; ?>
 
     </div>
-  </div>
+    <div role="tabpanel" class="tab-pane" id="tests">
+
+      <?php if (count($instrument->test_runs)>0): ?>
+        <table class="table table-striped">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Deployment</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Created</th>
+          </tr>
+          <?php foreach ($instrument->test_runs as $testRun): ?>
+          <tr>
+            <td><?= h($testRun->id) ?></td>
+            <td><?= $this->Html->link($testRun->name, ['controller'=>'test-runs', 'action' => 'view', $testRun->id]) ?></td>
+            <td><?= h($testRun->deployment) ?></td>
+            <td><?= h($testRun->start_date) ?></td>
+            <td><?= h($testRun->end_date) ?></td>
+            <td><?= h($testRun->status) ?></td>
+            <td><?= $this->Time->timeAgoInWords($testRun->created) ?></td>
+          </tr>
+          <?php endforeach; ?>
+        </table>
+      <?php else: ?>
+        <p>No tests found</p>
+      <?php endif; ?>
+      <p class="text-left"><?php echo $this->Html->link(__('Add a Test Run'), ['controller'=>'test-runs', 'action'=>'add', $instrument->reference_designator], ['class'=>'btn btn-primary']); ?></p>
+
+    </div>
+  </div><!-- Tab content -->
 
 </div>
 

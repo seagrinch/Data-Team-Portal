@@ -45,7 +45,8 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/regions">Arrays</a></li>
 						<li><a href="/pages/reference">Reference</a></li>
-            <li><a href="/test-plans">Test Plans</a></li>
+            <li><a href="/notes">Notes</a></li>
+            <li><a href="/test-runs">Test Runs</a></li>
 						
             <?php 
               $session = $this->request->session();

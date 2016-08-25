@@ -55,6 +55,10 @@ class InstrumentsTable extends Table
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator',
         ]);
+        $this->hasMany('TestRuns', [
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator',
+        ]);
 
     }
 

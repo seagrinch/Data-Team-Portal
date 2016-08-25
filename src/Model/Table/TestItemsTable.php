@@ -10,8 +10,7 @@ use Cake\Validation\Validator;
 /**
  * TestItems Model
  *
- * @property \Cake\ORM\Association\BelongsTo $TestPlans
- * @property \Cake\ORM\Association\BelongsTo $TestQuestions
+ * @property \Cake\ORM\Association\BelongsTo $TestRuns
  * @property \Cake\ORM\Association\BelongsTo $Streams
  * @property \Cake\ORM\Association\BelongsTo $Parameters
  */
@@ -34,11 +33,8 @@ class TestItemsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('TestPlans', [
-            'foreignKey' => 'test_plan_id'
-        ]);
-        $this->belongsTo('TestQuestions', [
-            'foreignKey' => 'test_question_id'
+        $this->belongsTo('TestRuns', [
+            'foreignKey' => 'test_run_id'
         ]);
         $this->belongsTo('Streams', [
             'foreignKey' => 'stream_id'
@@ -61,13 +57,20 @@ class TestItemsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->notEmpty('reference_designator');
+            ->notEmpty('test_run_id');
+        $validator
+            ->notEmpty('method');
+        $validator
+            ->notEmpty('stream_id');
+        $validator
+            ->notEmpty('parameter_id');
 
         $validator
-            ->allowEmpty('result');
-
+            ->allowEmpty('status_complete');
         $validator
-            ->allowEmpty('result_comment');
+            ->allowEmpty('status_reasonable');
+        $validator
+            ->allowEmpty('comment');
 
         $validator
             ->integer('redmine_issue','Please enter just the Redmine issue #')
@@ -85,8 +88,7 @@ class TestItemsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['test_plan_id'], 'TestPlans'));
-        $rules->add($rules->existsIn(['test_question_id'], 'TestQuestions'));
+        $rules->add($rules->existsIn(['test_run_id'], 'TestRuns'));
         $rules->add($rules->existsIn(['stream_id'], 'Streams'));
         $rules->add($rules->existsIn(['parameter_id'], 'Parameters'));
         return $rules;

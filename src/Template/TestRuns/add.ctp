@@ -1,16 +1,18 @@
 <ol class="breadcrumb">
-  <li><?= $this->Html->link(__('Test Plans'), ['controller'=>'test-plans', 'action' => 'index']) ?></li>
-  <li class="active">Create a Test Plan</li>
+  <li><?= $this->Html->link(__('Test Runs'), ['controller'=>'test-runs', 'action' => 'index']) ?></li>
+  <li class="active">Create a Test Run</li>
 </ol>
 
 <div class="row">
   <div class='col-md-6 col-md-offset-3'>
     
-    <?= $this->Form->create($testPlan) ?>
+    <?= $this->Form->create($testRun) ?>
     <fieldset>
-        <legend><?= __('Create a new Test Plan') ?></legend>
+        <legend><?= __('Create a new Test Run') ?></legend>
         <?php
+            echo $this->Form->input('reference_designator', ['disabled'=>true]);
             echo $this->Form->input('name');
+            echo $this->Form->input('deployment');
             echo $this->Form->input('start_date',[
               'type'=>'text',
               'append' => '<span class="glyphicon glyphicon-th" id="start-date-dp"></span>',
@@ -21,6 +23,7 @@
               ]);
         ?>
     </fieldset>
+		<?= $this->Html->link('Cancel', ['controller'=>'instruments', 'action' => 'view', $testRun->reference_designator], ['class'=>'btn btn-default']); ?>
     <?= $this->Form->button(__('Save'),['class'=>'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
 

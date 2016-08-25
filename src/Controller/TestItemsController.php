@@ -32,15 +32,17 @@ class TestItemsController extends AppController
     public function edit($id = null)
     {
         $testItem = $this->TestItems->get($id, [
-            'contain' => ['TestPlans','TestQuestions','Streams','Parameters']
+            'contain' => ['TestRuns','Streams','Parameters']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $testItem = $this->TestItems->patchEntity($testItem, $this->request->data);
+            $testItem = $this->TestItems->patchEntity($testItem, $this->request->data,[
+              'fieldList'=>['status_complete','status_reasonable','comment','redmine_issue']
+            ]);
             if ($this->TestItems->save($testItem)) {
-                $this->Flash->success(__('The test item has been saved.'));
-                return $this->redirect(['controller'=>'test_plans','action' => 'view',$testItem->test_plan_id]);
+                $this->Flash->success(__('The test result has been saved.'));
+                return $this->redirect(['controller'=>'test_runs','action' => 'view',$testItem->test_run_id]);
             } else {
-                $this->Flash->error(__('The test item could not be saved. Please, try again.'));
+                $this->Flash->error(__('The test result could not be saved. Please, try again.'));
             }
         }
         $this->set(compact('testItem'));
@@ -63,6 +65,6 @@ class TestItemsController extends AppController
         } else {
             $this->Flash->error(__('The test item could not be deleted. Please, try again.'));
         }
-        return $this->redirect(['controller'=>'test_plans','action' => 'view',$testItem->test_plan_id]);
+        return $this->redirect(['controller'=>'test_runs','action' => 'view',$testItem->test_run_id]);
     }
 }
