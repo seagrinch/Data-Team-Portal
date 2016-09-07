@@ -12,9 +12,17 @@
       <dt>Method</dt>
       <dd><?= h($testItem->method) ?></dd>
       <dt>Stream</dt>
-      <dd><?= ($testItem->stream) ? h($testItem->stream->name) . ' (#' . h($testItem->stream->id) . ')' : '' ?></dd>
+      <dd><?= ($testItem->stream) ? h($testItem->stream->name) : '' ?></dd>
+      <dt>&nbsp;</dt>
+      <dd>&nbsp;</dd>
       <dt>Parameter</dt>
-      <dd><?= ($testItem->parameter) ? h($testItem->parameter->name) . ' (PD' . h($testItem->parameter->id) . ')': '' ?></dd>
+      <dd><?= ($testItem->parameter) ? h($testItem->parameter->name) . ' (PD' . h($testItem->parameter->id) . ')' : '' ?></dd>
+      <dt>Units</dt>
+      <dd><?= ($testItem->parameter) ? h($testItem->parameter->unit) : '' ?></dd>
+      <dt>Fill Value</dt>
+      <dd><?= ($testItem->parameter) ? h($testItem->parameter->fill_value) : '' ?></dd>
+      <dt>Data Product</dt>
+      <dd><?= ($testItem->parameter) ? h($testItem->parameter->data_product_identifier) : '' ?></dd>
     </dl>
   </div>
   <div class='col-md-6'>

@@ -19,8 +19,6 @@
   <dd><?= $this->Html->link($testRun->reference_designator,['controller'=>'instruments','action'=>'view',$testRun->reference_designator]) ?></dd>
   <dt>Deployment</dt>
   <dd><?= h($testRun->deployment) ?></dd>
-  <dt>Owner</dt>
-  <dd><?= $testRun->has('user') ? $testRun->user->full_name : '' ?></dd>
   <dt>Date Range</dt>
   <dd><?php if ($testRun->start_date) { ?>
     <?= $this->Time->i18nFormat($testRun->start_date,'MMMM d, yyyy')  ?> to 
@@ -30,6 +28,10 @@
   <dd><?= $this->Time->timeAgoInWords($testRun->modified) ?></dd>
   <dt>Status</dt>
   <dd><?= h($testRun->status) ?></dd>
+  <dt>Comment</dt>
+  <dd><?= h($testRun->comment) ?></dd>
+  <dt>Test Owner</dt>
+  <dd><?= $testRun->has('user') ? $testRun->user->full_name : '' ?></dd>
 </dl>
 
 
@@ -42,6 +44,7 @@
         <th><?= $this->Paginator->sort('Parameters.name','Parameter') ?></th>
         <th><?= $this->Paginator->sort('status_complete','Complete?') ?></th>
         <th><?= $this->Paginator->sort('status_reasonable','Reasonable?') ?></th>
+        <th></th>
         <th></th>
     </tr>
     <?php foreach ($testItems as $testItem): ?>
@@ -56,15 +59,24 @@
               );
             } ?>
         </td>
-        <td><?= ($testItem->stream) ? h($testItem->stream->name) . ' (#' . h($testItem->stream->id) . ')' : '' ?></td>
-        <td><?= ($testItem->parameter) ? h($testItem->parameter->name) . ' (PD' . h($testItem->parameter->id) . ')': '' ?></td>
+        <td><?= ($testItem->stream) ? h($testItem->stream->name) : '' ?></td>
+        <td><?= ($testItem->parameter) ? h($testItem->parameter->name) . ' (PD' . h($testItem->parameter->id) . ')' : '' ?></td>
         <td><?= h($testItem->status_complete) ?></td>
         <td><?= h($testItem->status_reasonable) ?></td>
         <td>
           <?= $this->Html->link('<span class="glyphicon glyphicon-pencil" aria-hidden="true">',['controller'=>'test-items','action'=>'edit',$testItem->id],['escape'=>false])?></td>
+        <td>
+          <?= ($testItem->comment) ? '<a data-toggle="tooltip" data-placement="left" title="' . h($testItem->comment) . '"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>' : '' ?></td>
     </tr>
     <?php endforeach; ?>
 </table>
+
+<?php $this->Html->scriptStart(['block' => true]); ?>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+<?php $this->Html->scriptEnd(); ?>
+
 
 <div class="paginator">
   <ul class="pagination">

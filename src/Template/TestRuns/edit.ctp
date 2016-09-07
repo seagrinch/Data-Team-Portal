@@ -29,6 +29,7 @@
                 'Blocked'=>'Blocked',
                 'In Progress'=>'In Progress', 
                 'Completed'=>'Completed']]);
+            echo $this->Form->input('comment');
         ?>
 <?php $this->Html->css('datepicker/bootstrap-datepicker3',['block'=>true]); ?>
 <?php $this->Html->script('datepicker/bootstrap-datepicker',['block'=>true]); ?>

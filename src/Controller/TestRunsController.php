@@ -254,7 +254,7 @@ class TestRunsController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $testRun = $this->TestRuns->patchEntity($testRun, $this->request->data, [
-              'fieldList'=>['name','deployment','start_date','end_date','status']
+              'fieldList'=>['name','deployment','start_date','end_date','status','comment']
             ]);
             //$testRun->user_id = $this->Auth->user('id');
             if ($this->TestRuns->save($testRun)) {
