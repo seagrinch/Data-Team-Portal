@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Event\Event;
 
 /**
  * Instruments Controller
@@ -11,6 +12,15 @@ use Cake\Network\Exception\NotFoundException;
  */
 class InstrumentsController extends AppController
 {
+
+    /**
+     * beforeFilter method
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['all']);
+    }
 
     /**
      * isAuthorized method
@@ -33,11 +43,20 @@ class InstrumentsController extends AppController
       if ($site) {
         $query->where(['parent_node LIKE'=>$site.'%']);
       }
-      if ($this->request->is('ajax')) {
-        $this->paginate['limit'] = 1000;
+      if ($this->request->is('json') ) { //Formerly ajax
+        $this->paginate['limit'] = 2000;
+        $query->contain(['Nodes.Sites.Regions']);
+        $this->set('_serialize', false);
       }
       $this->set('instruments',$this->paginate($query));
-      $this->set('_serialize', 'instruments');
+    }
+    
+    /**
+     * All method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function all($site=null) {
     }
 
     /**
