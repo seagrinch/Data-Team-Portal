@@ -69,7 +69,7 @@ class TestRunsController extends AppController
          'TestItems'=> [
           'contain' => ['Streams','Parameters'],
           'sortWhitelist' => ['method', 'Streams.name','Parameters.name','status_complete','status_reasonable'],
-          'limit' => 50
+          'limit' => 1000
          ]
         ];
         $query = $this->TestRuns->TestItems->find('all')
@@ -78,7 +78,7 @@ class TestRunsController extends AppController
         $testItems = $this->paginate($query);
 
         $this->set(compact('testRun','testItems'));
-        $this->set('_serialize', ['testRun']);
+        $this->set('_serialize', ['testRun','testItems']);
     }
 
 

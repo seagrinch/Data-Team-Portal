@@ -37,29 +37,34 @@
 
 <h3><?= __('Parameter Tests') ?></h3>
 <?php if (count($testItems)>0): ?>
-<table class="table table-striped table-condensed table-hover">
+<table id="parameterTests" class="table table-striped table-condensed table-hover">
+  <thead>
     <tr>
-        <th><?= $this->Paginator->sort('method') ?></th>
-        <th><?= $this->Paginator->sort('Streams.name','Stream') ?></th>
-        <th><?= $this->Paginator->sort('Parameters.name','Parameter') ?></th>
-        <th><?= $this->Paginator->sort('status_complete','Complete?') ?></th>
-        <th><?= $this->Paginator->sort('status_reasonable','Reasonable?') ?></th>
+        <th>Method</th>
+        <th>Stream</th>
+        <th>Parameter</th>
+        <th>Complete</th>
+        <th>Reasonable</th>
         <th></th>
         <th></th>
     </tr>
-    <?php foreach ($testItems as $testItem): ?>
+  </thead>
+  <tfoot>
     <tr>
-        <td><?= h($testItem->method) ?>
-          <?php 
-            if ($session->read('Auth.User.id')==$testRun->user_id) { 
-              echo $this->Form->postLink(
-              '<span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true">',
-              ['controller'=>'test-items','action'=>'delete',$testItem->id],
-              ['confirm' => __('Are you sure you want to delete #{0}?', $testItem->id),'escape'=>false]
-              );
-            } ?>
-        </td>
-        <td><?= ($testItem->stream) ? h($testItem->stream->name) : '' ?></td>
+        <th>Method</th>
+        <th>Stream</th>
+        <th>Parameter</th>
+        <th>Complete</th>
+        <th>Reasonable</th>
+        <th></th>
+        <th></th>
+    </tr>
+  </tfoot>
+  <tbody>
+  <?php foreach ($testItems as $testItem): ?>
+    <tr>
+        <td><?= h($testItem->method) ?></td>
+        <td><?= h($testItem->stream->name) ?></td>
         <td><?= ($testItem->parameter) ? h($testItem->parameter->name) . ' (PD' . h($testItem->parameter->id) . ')' : '' ?></td>
         <td><?= h($testItem->status_complete) ?></td>
         <td><?= h($testItem->status_reasonable) ?></td>
@@ -68,24 +73,55 @@
         <td>
           <?= ($testItem->comment) ? '<a data-toggle="tooltip" data-placement="left" title="' . h($testItem->comment) . '"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>' : '' ?></td>
     </tr>
-    <?php endforeach; ?>
+  <?php endforeach; ?>
+  </tbody>
 </table>
 
+<?php echo $this->Html->script('https://cdn.datatables.net/v/bs/dt-1.10.12/datatables.min.js', ['block' => true]); ?>
+
 <?php $this->Html->scriptStart(['block' => true]); ?>
+
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+$(document).ready(function() {
+  $('#parameterTests').DataTable( {
+    pageLength: 10,
+    lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+    stateSave: true,
+    initComplete: function () {
+      this.api().columns().every( function () {
+        var column = this;
+        col_title = $(column.header()).html();
+        if (col_title) {
+          var select = $('<select><option value=""></option></select>')
+            .appendTo( $(column.footer()).empty() )
+            .on( 'change', function () {
+              var val = $.fn.dataTable.util.escapeRegex(
+                $(this).val()
+              );
+
+              column
+                .search( val ? '^'+val+'$' : '', true, false )
+                .draw();
+            } );
+
+          column.data().unique().sort().each( function ( d, j ) {
+            if(d) {
+              select.append( '<option value="'+d+'">'+d+'</option>' )
+            }
+          } );
+        }
+      } );
+    }
+  } );
+} );
+
 <?php $this->Html->scriptEnd(); ?>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/datatables.min.css"/>
 
-<div class="paginator">
-  <ul class="pagination">
-    <?= $this->Paginator->prev('< ' . __('previous')) ?>
-    <?= $this->Paginator->numbers(['before' => '', 'after' => '']) ?>
-    <?= $this->Paginator->next(__('next') . ' >') ?>
-  </ul>
-  <p>Page <?= $this->Paginator->counter() ?></p>
-</div>
 
 <?php else: ?>
 <p>No test items.</p>
