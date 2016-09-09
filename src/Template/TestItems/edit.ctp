@@ -35,7 +35,7 @@
               'options' => [
                 'Pass'=>'Pass',
                 'Fail'=>'Fail',
-                'n/a'=>'Not Available'
+                'N/A'=>'Not Available'
               ],
               'empty' => true]);
             echo $this->Form->input('status_reasonable',[
@@ -45,8 +45,8 @@
                 'Fail'=>'Fail',
                 'Suspect'=>'Suspect',
                 'Software'=>'Software Investigation',
-                'n/r'=>'Not for review',
-                'n/a'=>'Not Available'
+                'N/R'=>'Not for Review',
+                'N/A'=>'Not Available'
               ],
               'empty' => true]);
             echo $this->Form->input('comment');

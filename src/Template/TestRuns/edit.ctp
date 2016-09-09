@@ -26,9 +26,10 @@
               ]);
             echo $this->Form->input('status',['options' => [
                 'Draft'=>'Draft', 
-                'Blocked'=>'Blocked',
-                'In Progress'=>'In Progress', 
-                'Completed'=>'Completed']]);
+                'Blocked'=>'Testing Blocked',
+                'In Progress'=>'Testing In Progress', 
+                'Awaiting Fixes'=>'Awaiting Data Fixes', 
+                'Completed'=>'Completed / Good to Go']]);
             echo $this->Form->input('comment');
         ?>
 <?php $this->Html->css('datepicker/bootstrap-datepicker3',['block'=>true]); ?>
