@@ -14,14 +14,16 @@
 <dl class="dl-horizontal">
   <dt><?= __('User') ?></dt>
   <dd><?= $note->has('user') ? $this->Html->link($note->user->username, ['controller' => 'Users', 'action' => 'view', $note->user->id]) : '' ?></dd>
+  <dt><?= __('Type') ?></dt>
+  <dd><?= h($note->type) ?></dd>
   <dt><?= __('Model') ?></dt>
   <dd><?= h($note->model) ?></dd>
   <dt><?= __('Reference Designator') ?></dt>
   <dd><?= h($note->reference_designator) ?></dd>
   <dt><?= __('Comment') ?></dt>
   <dd><?= $this->Text->autoParagraph(h($note->comment)); ?></dd>
-  <dt><?= __('Type') ?></dt>
-  <dd><?= h($note->type) ?></dd>
+  <dt><?= __('Deployment') ?></dt>
+  <dd><?= h($note->deployment) ?></dd>
   <dt><?= __('Start Date') ?></dt>
   <dd><?= h($note->start_date) ?></dd>
   <dt><?= __('End Date') ?></dt>

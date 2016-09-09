@@ -32,6 +32,23 @@
                 'Completed'=>'Completed / Good to Go']]);
             echo $this->Form->input('comment');
         ?>
+    </fieldset>
+    
+		<?= $this->Html->link('Cancel', ['action' => 'view', $testRun->id], ['class'=>'btn btn-default']); ?>
+    <?= $this->Form->button(__('Save Changes'),['class'=>'btn btn-primary']) ?>
+    <?= $this->Form->end() ?>
+    
+  </div>
+  <div class="col-md-3">
+    <?= $this->Form->postLink(
+        __('Delete Test Run'),
+        ['action' => 'delete', $testRun->id],
+        ['confirm' => __('Are you sure you want to delete # {0}?', $testRun->id), 'class'=>'btn btn-danger']
+      )
+    ?>
+  </div>
+</div>
+
 <?php $this->Html->css('datepicker/bootstrap-datepicker3',['block'=>true]); ?>
 <?php $this->Html->script('datepicker/bootstrap-datepicker',['block'=>true]); ?>
 <?php $this->Html->scriptStart(['block' => true]); ?>
@@ -58,19 +75,3 @@
       $('#end-date').datepicker('show');
     });
 <?php $this->Html->scriptEnd(); ?>
-
-    </fieldset>
-		<?= $this->Html->link('Cancel', ['action' => 'view', $testRun->id], ['class'=>'btn btn-default']); ?>
-    <?= $this->Form->button(__('Save Changes'),['class'=>'btn btn-primary']) ?>
-    <?= $this->Form->end() ?>
-    
-  </div>
-  <div class="col-md-3">
-    <?= $this->Form->postLink(
-        __('Delete Test Run'),
-        ['action' => 'delete', $testRun->id],
-        ['confirm' => __('Are you sure you want to delete # {0}?', $testRun->id), 'class'=>'btn btn-danger']
-      )
-    ?>
-  </div>
-</div>

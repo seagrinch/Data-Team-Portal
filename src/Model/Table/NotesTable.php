@@ -64,20 +64,23 @@ class NotesTable extends Table
             ->notEmpty('reference_designator', 'A reference_designator is required');
 
         $validator
-            ->date('start_date')
-            ->allowEmpty('start_date');
+            ->allowEmpty('deployment');
 
         $validator
-            ->date('end_date')
-            ->allowEmpty('end_date');
+            ->allowEmpty('start_date')
+            ->date('start_date','mdy');
+        
+        $validator
+            ->allowEmpty('end_date')
+            ->date('end_date','mdy');
 
         $validator
             ->integer('redmine_issue','Please enter just the Redmine issue #')
             ->allowEmpty('redmine_issue');
 
         $validator
-            ->date('resolved_date')
-            ->allowEmpty('resolved_date');
+            ->allowEmpty('resolved_date')
+            ->date('resolved_date','mdy');
 
         $validator
             ->allowEmpty('resolved_comment');
