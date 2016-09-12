@@ -35,7 +35,7 @@ class NodesController extends AppController
     public function view($id = null) {
       $query = $this->Nodes->find()
         ->where(['Nodes.reference_designator'=>$id])
-        ->contain(['Sites.Regions','Instruments','Notes.Users']);
+        ->contain(['Sites.Regions','Instruments','Notes.Users','Deployments']);
       $node = $query->first();
       
       if (empty($node)) {

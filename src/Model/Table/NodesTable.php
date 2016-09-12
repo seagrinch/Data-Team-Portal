@@ -43,6 +43,10 @@ class NodesTable extends Table
             'bindingKey' => 'reference_designator',
             'conditions' => ['model' => 'nodes']
         ]);
+        $this->hasMany('Deployments', [
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator'
+        ]);
     }
 
     /**

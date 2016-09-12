@@ -5,6 +5,11 @@
   <li class="active"><?= h($node->name) ?></li>
 </ol>
 
+<div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
+  <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'http://oceanobservatories.org/site/' . substr($node->reference_designator,0,8), ['class'=>'btn btn-default', 'escape'=>false]); ?>
+  <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooiui.oceanobservatories.org/plot/#' . $node->reference_designator, ['class'=>'btn btn-default', 'escape'=>false]); ?>
+</div>
+
 <h3><?= h($node->name) ?></h3>
 
 <dl class="dl-horizontal">
@@ -20,17 +25,65 @@
   <dd><?= $this->Number->format($node->end_depth) ?></dd>
 </dl>
 
-<h3>Instruments</h3>
-<ul>
-  <?php foreach ($node->instruments as $instrument): ?>
-  <li><?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
-  <?php endforeach; ?>
-</ul>
+<div><!-- Tabbed Navigation -->
 
-<div class="row">
-  <div class='col-md-9'>
-    
-    <h3>Notes</h3>
+  <!-- Nav Tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#instruments" aria-controls="instruments" role="tab" data-toggle="tab">Instruments</a></li>
+    <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
+    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="instruments">
+      <ul>
+        <?php foreach ($node->instruments as $instrument): ?>
+        <li><?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
+        <?php endforeach; ?>
+      </ul>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="deployments">
+
+      <?php if (count($node->deployments)>0): ?>
+        <table class="table table-striped">
+          <tr>
+            <th>Deployment Number</th>
+            <th>Mooring Barcode</th>
+            <th>Mooring Serial Number</th>
+            <th>Anchor Launch Date</th>
+            <th>Anchor Launch Time</th>
+            <th>Recover Date</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Water Depth</th>
+            <th>Cruise Number</th>
+            <th>Notes</th>
+          </tr>
+          <?php foreach ($node->deployments as $d): ?>
+          <tr>
+            <td><?= h($d->deployment_number) ?></td>
+            <td><?= $this->Html->link($d->mooring_barcode, ['controller'=>'assets', 'action' => 'view', $d->mooring_barcode]) ?></td>
+            <td><?= h($d->mooring_serial_number) ?></td>
+            <td><?= $this->Time->format($d->anchor_launch_date, 'MM/dd/yyyy') ?></td>
+            <td><?= $this->Time->format($d->anchor_launch_time, 'HH:mm') ?></td>
+            <td><?= $d->recover_date ?></td>
+            <td><?= h($d->latitude) ?></td>
+            <td><?= h($d->longitude) ?></td>
+            <td><?= h($d->water_depth) ?></td>
+            <td><?= h($d->cruise_number) ?></td>
+            <td><?= h($d->notes) ?></td>
+          </tr>
+          <?php endforeach; ?>
+        </table>
+      <?php else: ?>
+        <p>No deployments found</p>
+      <?php endif; ?>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="notes">
+
     <?php if (count($node->notes)>0): ?>
       <?php foreach ($node->notes as $note): ?>
         <div class="well">
@@ -67,14 +120,8 @@
       <p>No notes yet.</p>
     <?php endif; ?>
     <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','nodes',$node->reference_designator], ['class'=>'btn btn-primary']); ?></p>
-    
-  </div>
-</div>
 
+    </div>
+  </div><!-- End Tab Content -->
 
-<?php 
-/*
-  use Cake\Error\Debugger;
-  Debugger::dump($site);
-*/
-?>
+</div><!-- End Tabbed Navigation -->

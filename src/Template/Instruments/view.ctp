@@ -6,12 +6,17 @@
   <li class="active"><?= h($instrument->name) ?></li>
 </ol>
 
-<?php 
-  $session = $this->request->session();
-  if ($session->check('Auth.User')) { 
-    echo $this->Html->link('Edit Instrument', ['action'=>'edit', $instrument->reference_designator], ['class'=>'btn btn-info pull-right']);
-  }
-?>
+<div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
+  <?php 
+    $session = $this->request->session();
+    if ($session->check('Auth.User')) { 
+      echo $this->Html->link('Edit Instrument', ['action'=>'edit', $instrument->reference_designator], ['class'=>'btn btn-info']);
+    }
+  ?>
+  <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'http://oceanobservatories.org/site/' . substr($instrument->reference_designator,0,8), ['class'=>'btn btn-default', 'escape'=>false]); ?>
+  <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooiui.oceanobservatories.org/plot/#' . $instrument->reference_designator, ['class'=>'btn btn-default', 'escape'=>false]); ?>
+</div>
+
 <h3><?= h($instrument->name) ?></h3>
 
 <dl class="dl-horizontal">
@@ -41,62 +46,21 @@
   </dd>
 </dl>
 
-<div>
+<div><!-- Tabbed Navigation -->
 
-  <!-- Nav tabs -->
+  <!-- Nav Tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
     <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams/Parameters</a></li>
     <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
+    <li role="presentation" class="active"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
     <li role="presentation"><a href="#calibrations" aria-controls="calibrations" role="tab" data-toggle="tab">Calibrations</a></li>
     <li role="presentation"><a href="#instrument" aria-controls="instrument" role="tab" data-toggle="tab">Instrument Info</a></li>
     <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats</a></li>
     <li role="presentation"><a href="#tests" aria-controls="stats" role="tab" data-toggle="tab">Tests</a></li>
   </ul>
 
-  <!-- Tab panes -->
+  <!-- Tab Content -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="notes">
-
-    <h3>Notes</h3>
-    <?php if (count($instrument->notes)>0): ?>
-      <?php foreach ($instrument->notes as $note): ?>
-        <div class="well">
-          <div>
-            <?php if ($note->type=='flag'): ?>
-              <span class="glyphicon glyphicon-flag" style="color:red;" aria-hidden="true"></span>
-            <?php endif; ?> 
-            <?php if ($note->redmine_issue): ?>
-              <a href="https://uframe-cm.ooi.rutgers.edu/issues/<?= $note->redmine_issue?>">#<?= $note->redmine_issue?></a> 
-            <?php endif; ?> 
-            <?php if ($note->start_date): ?>
-              Annotation Range: <?= h($note->start_date) ?> to <?= h($note->end_date) ?> 
-            <?php endif; ?> 
-            <?php if ($note->resolved): ?>
-              Resolved: <?= h($note->resolved) ?> 
-            <?php endif; ?> 
-          </div>
-          <?= $this->Text->autoParagraph(h($note->comment)); ?>
-          <p>
-            <small><em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
-            <?= $this->Time->timeAgoInWords($note->created) ?></em>
-            <?php if ($this->request->session()->read('Auth.User.id') == $note->user_id): ?>
-              [<?php echo $this->Html->link('Edit', ['controller'=>'notes','action'=>'edit',$note->id]); ?>]
-            <?php endif; ?>
-            </small>
-          </p>
-          <?php if ($note->resolved_comment): ?>
-          <p><strong>Resolved Comment</strong></p>
-            <?= $this->Text->autoParagraph(h($note->resolved_comment)); ?> 
-          <?php endif; ?> 
-        </div>
-      <?php endforeach; ?>
-    <?php else: ?>
-      <p>No notes yet.</p>
-    <?php endif; ?>
-    <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','instruments',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?></p>
-
-    </div>
     <div role="tabpanel" class="tab-pane" id="streams">
       <?php if (count($instrument->data_streams)>0): ?>
         <table class="table table-striped">
@@ -169,6 +133,46 @@
       <?php endif; ?>
 
     </div>
+    <div role="tabpanel" class="tab-pane active" id="notes">
+
+    <?php if (count($instrument->notes)>0): ?>
+      <?php foreach ($instrument->notes as $note): ?>
+        <div class="well">
+          <div>
+            <?php if ($note->type=='flag'): ?>
+              <span class="glyphicon glyphicon-flag" style="color:red;" aria-hidden="true"></span>
+            <?php endif; ?> 
+            <?php if ($note->redmine_issue): ?>
+              <a href="https://uframe-cm.ooi.rutgers.edu/issues/<?= $note->redmine_issue?>">#<?= $note->redmine_issue?></a> 
+            <?php endif; ?> 
+            <?php if ($note->start_date): ?>
+              Annotation Range: <?= h($note->start_date) ?> to <?= h($note->end_date) ?> 
+            <?php endif; ?> 
+            <?php if ($note->resolved): ?>
+              Resolved: <?= h($note->resolved) ?> 
+            <?php endif; ?> 
+          </div>
+          <?= $this->Text->autoParagraph(h($note->comment)); ?>
+          <p>
+            <small><em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
+            <?= $this->Time->timeAgoInWords($note->created) ?></em>
+            <?php if ($this->request->session()->read('Auth.User.id') == $note->user_id): ?>
+              [<?php echo $this->Html->link('Edit', ['controller'=>'notes','action'=>'edit',$note->id]); ?>]
+            <?php endif; ?>
+            </small>
+          </p>
+          <?php if ($note->resolved_comment): ?>
+          <p><strong>Resolved Comment</strong></p>
+            <?= $this->Text->autoParagraph(h($note->resolved_comment)); ?> 
+          <?php endif; ?> 
+        </div>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <p>No notes yet.</p>
+    <?php endif; ?>
+    <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','instruments',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?></p>
+
+    </div>
     <div role="tabpanel" class="tab-pane" id="calibrations">
 
       <?php if (count($instrument->calibrations)>0): ?>
@@ -204,15 +208,14 @@
       <dl class="dl-horizontal">
         <dt><?= __('Class') ?></dt>
         <dd><?= h($instrument_class->class) ?></dd>
-        <dt><?= __('Name') ?></dt>
-        <dd><?= h($instrument_class->name) ?></dd>
-        <dt><?= __('Description') ?></dt>
-        <dd><?= h($instrument_class->description) ?></dd>
-        <dt><?= __('Primary Science Discipline') ?></dt>
-        <dd><?= h($instrument_class->primary_science_dicipline) ?></dd>
-
         <dt><?= __('Series') ?></dt>
         <dd><?= h($instrument_model->series) ?></dd>
+        <dt><?= __('Instrument Name') ?></dt>
+        <dd><?= h($instrument_class->name) ?></dd>
+        <dt><?= __('Science Discipline') ?></dt>
+        <dd><?= h($instrument_class->primary_science_dicipline) ?></dd>
+        <dt><?= __('Description') ?></dt>
+        <dd><?= h($instrument_class->description) ?></dd>
         <dt><?= __('Make') ?></dt>
         <dd><?= h($instrument_model->make) ?></dd>
         <dt><?= __('Model') ?></dt>
@@ -277,9 +280,9 @@
       <p class="text-left"><?php echo $this->Html->link(__('Add a Test Run'), ['controller'=>'test-runs', 'action'=>'add', $instrument->reference_designator], ['class'=>'btn btn-primary']); ?></p>
 
     </div>
-  </div><!-- Tab content -->
+  </div><!-- End Tab Content -->
 
-</div>
+</div><!-- End Tabbed Navigation -->
 
 
 <?php 

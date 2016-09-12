@@ -4,12 +4,16 @@
   <li class="active"><?= h($site->name) ?></li>
 </ol>
 
-<?php 
-  $session = $this->request->session();
-  if ($session->check('Auth.User')) { 
-    echo $this->Html->link('Edit Site', ['action'=>'edit', $site->reference_designator], ['class'=>'btn btn-info pull-right']);
-  }
-?>
+<div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
+  <?php 
+    $session = $this->request->session();
+    if ($session->check('Auth.User')) { 
+      echo $this->Html->link('Edit Site', ['action'=>'edit', $site->reference_designator], ['class'=>'btn btn-info']);
+    }
+  ?>
+  <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'http://oceanobservatories.org/site/' . substr($site->reference_designator,0,8), ['class'=>'btn btn-default', 'escape'=>false]); ?>
+  <?php echo $this->Html->link('Data portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooiui.oceanobservatories.org/plot/#' . $site->reference_designator, ['class'=>'btn btn-default', 'escape'=>false]); ?>
+</div>
 
 <h3><?= h($site->name) ?></h3>
 
@@ -39,23 +43,72 @@
   </dd>
 </dl>
 
-<h3>Nodes & Instruments</h3>
-<ul>
-  <?php foreach ($site->nodes as $node): ?>
-  <li><?= $this->html->link($node->name,['controller'=>'nodes','action'=>'view',$node->reference_designator]) ?> <small>(<?= h($node->reference_designator) ?>)</small>
-    <ul>
-      <?php foreach ($node->instruments as $instrument): ?>
-      <li><?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
-      <?php endforeach; ?>
-    </ul>
-  </li>
-  <?php endforeach; ?>
-</ul>
 
-<div class="row">
-  <div class='col-md-9'>
-    
-    <h3>Notes</h3>
+<div><!-- Tabbed Navigation -->
+
+  <!-- Nav Tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#instruments" aria-controls="instruments" role="tab" data-toggle="tab">Nodes & Instruments</a></li>
+    <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
+    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="instruments">
+      <ul>
+        <?php foreach ($site->nodes as $node): ?>
+        <li><?= $this->html->link($node->name,['controller'=>'nodes','action'=>'view',$node->reference_designator]) ?> <small>(<?= h($node->reference_designator) ?>)</small>
+          <ul>
+            <?php foreach ($node->instruments as $instrument): ?>
+            <li><?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
+            <?php endforeach; ?>
+          </ul>
+        </li>
+        <?php endforeach; ?>
+      </ul>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="deployments">
+
+    <?php if (count($site->deployments)>0): ?>
+      <table class="table table-striped">
+        <tr>
+          <th>Deployment Number</th>
+          <th>Mooring Barcode</th>
+          <th>Mooring Serial Number</th>
+          <th>Anchor Launch Date</th>
+          <th>Anchor Launch Time</th>
+          <th>Recover Date</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+          <th>Water Depth</th>
+          <th>Cruise Number</th>
+          <th>Notes</th>
+        </tr>
+        <?php foreach ($site->deployments as $d): ?>
+        <tr>
+          <td><?= h($d->deployment_number) ?></td>
+          <td><?= $this->Html->link($d->mooring_barcode, ['controller'=>'assets', 'action' => 'view', $d->mooring_barcode]) ?></td>
+          <td><?= h($d->mooring_serial_number) ?></td>
+          <td><?= $this->Time->format($d->anchor_launch_date, 'MM/dd/yyyy') ?></td>
+          <td><?= $this->Time->format($d->anchor_launch_time, 'HH:mm') ?></td>
+          <td><?= $d->recover_date ?></td>
+          <td><?= h($d->latitude) ?></td>
+          <td><?= h($d->longitude) ?></td>
+          <td><?= h($d->water_depth) ?></td>
+          <td><?= h($d->cruise_number) ?></td>
+          <td><?= h($d->notes) ?></td>
+        </tr>
+        <?php endforeach; ?>
+      </table>
+    <?php else: ?>
+      <p>No deployments found</p>
+    <?php endif; ?>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="notes">
+
     <?php if (count($site->notes)>0): ?>
       <?php foreach ($site->notes as $note): ?>
         <div class="well">
@@ -92,52 +145,8 @@
       <p>No notes yet.</p>
     <?php endif; ?>
     <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','sites',$site->reference_designator], ['class'=>'btn btn-primary']); ?></p>
-    
-  </div>
-</div>
 
+    </div>
+  </div><!-- End Tab Content -->
 
-<h3>Deployments</h3>
-<?php if (count($site->deployments)>0): ?>
-  <table class="table table-striped">
-    <tr>
-      <th>Deployment Number</th>
-      <th>Mooring Barcode</th>
-      <th>Mooring Serial Number</th>
-      <th>Anchor Launch Date</th>
-      <th>Anchor Launch Time</th>
-      <th>Recover Date</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th>Water Depth</th>
-      <th>Cruise Number</th>
-      <th>Notes</th>
-    </tr>
-    <?php foreach ($site->deployments as $d): ?>
-    <tr>
-      <td><?= h($d->deployment_number) ?></td>
-      <td><?= $this->Html->link($d->mooring_barcode, ['controller'=>'assets', 'action' => 'view', $d->mooring_barcode]) ?></td>
-      <td><?= h($d->mooring_serial_number) ?></td>
-      <td><?= $this->Time->format($d->anchor_launch_date, 'MM/dd/yyyy') ?></td>
-      <td><?= $this->Time->format($d->anchor_launch_time, 'HH:mm') ?></td>
-      <td><?= $d->recover_date ?></td>
-      <td><?= h($d->latitude) ?></td>
-      <td><?= h($d->longitude) ?></td>
-      <td><?= h($d->water_depth) ?></td>
-      <td><?= h($d->cruise_number) ?></td>
-      <td><?= h($d->notes) ?></td>
-    </tr>
-    <?php endforeach; ?>
-  </table>
-<?php else: ?>
-  <p>No deployments found</p>
-<?php endif; ?>
-
-
-
-<?php 
-/*
-  use Cake\Error\Debugger;
-  Debugger::dump($site);
-*/
-?>
+</div><!-- End Tabbed Navigation -->
