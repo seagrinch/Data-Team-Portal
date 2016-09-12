@@ -33,14 +33,20 @@ class InstrumentModelsController extends AppController
      */
     public function view($iclass = null,$iseries = null) {
       $query = $this->InstrumentModels->find()
-        ->where(['class'=>$iclass,'series'=>$iseries]);
+        ->where(['InstrumentModels.class'=>$iclass,'series'=>$iseries])
+        ->contain('InstrumentClasses');
       $instrumentModel = $query->first();
       
       if (empty($instrumentModel)) {
           throw new NotFoundException(__('Instrument Model not found'));
       }
 
-      $this->set('instrumentModel', $instrumentModel);
+      $this->loadModel('Instruments');
+      $instruments = $this->Instruments->find('all')
+        ->where(['Instruments.reference_designator LIKE' => '%' . $instrumentModel->class . $instrumentModel->series . '%'])
+        ->contain('Nodes.Sites.Regions');
+
+      $this->set(compact(['instrumentModel','instruments']));
       $this->set('_serialize', ['instrumentModel']);
     }
 
