@@ -35,7 +35,7 @@
   <tbody>
     <?php foreach ($instruments as $instrument): ?>
     <tr>
-      <td><?= $this->html->link($instrument->reference_designator,['action'=>'view',$instrument->reference_designator]) ?> 
+      <td><?= $this->html->link($instrument->reference_designator,['controller'=>'instruments', 'action'=>'view', $instrument->reference_designator, '#'=>'instrument']) ?> 
       <td><?= h($instrument->node->site->name) ?></td>
       <td><?= h($instrument->node->name) ?></td>
       <td><?= h($instrument->name) ?></td>
