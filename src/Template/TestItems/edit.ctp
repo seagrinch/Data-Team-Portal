@@ -8,7 +8,7 @@
   <div class='col-md-6'>
     <dl class="dl-horizontal">
       <dt>Reference Designator</dt>
-      <dd><?= $this->Html->link($testItem->test_run->reference_designator,['controller'=>'instruments','action'=>'view',$testItem->test_run->reference_designator]) ?></dd>
+      <dd><?= $this->Html->link($testItem->test_run->reference_designator,['controller'=>'instruments','action'=>'view',$testItem->test_run->reference_designator, '#'=>'tests']) ?></dd>
       <dt>Method</dt>
       <dd><?= h($testItem->method) ?></dd>
       <dt>Stream</dt>

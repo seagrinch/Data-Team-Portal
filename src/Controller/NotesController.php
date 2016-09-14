@@ -107,7 +107,7 @@ class NotesController extends AppController
             $note->user_id = $this->Auth->user('id');
             if ($this->Notes->save($note)) {
                 $this->Flash->success(__('The note has been saved.'));
-                return $this->redirect(['controller'=>$model, 'action' => 'view', $rd->reference_designator]);
+                return $this->redirect(['controller'=>$model, 'action'=>'view', $rd->reference_designator, '#'=>'notes']);
             } else {
                 $this->Flash->error(__('The note could not be saved. Please, try again.'));
             }
@@ -135,7 +135,7 @@ class NotesController extends AppController
             ]);
             if ($this->Notes->save($note)) {
                 $this->Flash->success(__('The note has been saved.'));
-                return $this->redirect(['controller'=>$note->model, 'action' => 'view', $note->reference_designator]);
+                return $this->redirect(['controller'=>$note->model, 'action'=>'view', $note->reference_designator, '#'=>'notes']);
             } else {
                 $this->Flash->error(__('The note could not be saved. Please, try again.'));
             }

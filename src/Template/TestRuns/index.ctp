@@ -22,7 +22,7 @@
             <td><?= $this->Number->format($testRun->id) ?></td>
             <td><?= $testRun->has('user') ? h($testRun->user->full_name) : '' ?></td>
             <td><?= $this->Html->link($testRun->name, ['action' => 'view', $testRun->id]) ?></td>
-            <td><?= $this->Html->link($testRun->reference_designator,['controller'=>'instruments','action'=>'view',$testRun->reference_designator]) ?></td>
+            <td><?= $this->Html->link($testRun->reference_designator,['controller'=>'instruments','action'=>'view',$testRun->reference_designator, '#'=>'tests']) ?></td>
             <td><?= h($testRun->deployment) ?></td>
             <td><?= h($testRun->status) ?></td>
             <td><?= h($testRun->created) ?></td>

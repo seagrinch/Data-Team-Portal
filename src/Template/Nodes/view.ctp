@@ -125,3 +125,16 @@
   </div><!-- End Tab Content -->
 
 </div><!-- End Tabbed Navigation -->
+
+<?php $this->Html->scriptStart(['block' => true]); ?>
+  var url = document.location.toString();
+  if (url.match('#')) {
+      $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+  } 
+  
+  // Change hash for page-reload
+  $('.nav-tabs a').on('shown.bs.tab', function (e) {
+      window.location.hash = e.target.hash;
+     window.scrollTo(0, 0);
+  })
+<?php $this->Html->scriptEnd(); ?>

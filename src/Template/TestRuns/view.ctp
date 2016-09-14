@@ -16,7 +16,7 @@
 
 <dl class="dl-horizontal">
   <dt>Reference Designator</dt>
-  <dd><?= $this->Html->link($testRun->reference_designator,['controller'=>'instruments','action'=>'view',$testRun->reference_designator]) ?></dd>
+  <dd><?= $this->Html->link($testRun->reference_designator,['controller'=>'instruments','action'=>'view',$testRun->reference_designator, '#'=>'tests']) ?></dd>
   <dt>Deployment</dt>
   <dd><?= h($testRun->deployment) ?></dd>
   <dt>Date Range</dt>

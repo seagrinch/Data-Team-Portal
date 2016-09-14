@@ -230,7 +230,8 @@ class TestRunsController extends AppController
                     $this->Flash->error(__('The test run was created, but tests could not be added.  Please try again.'));
                 }
                 //$this->Flash->success(__('The test run has been saved.'));
-                return $this->redirect(['action' => 'view', $testRun->id]);
+                //return $this->redirect(['action' => 'view', $testRun->id]);
+                return $this->redirect(['controller'=>'instruments', 'action' => 'view', $testRun->reference_designator, '#'=>'tests']);
             } else {
                 $this->Flash->error(__('The test could not be created. Please, try again.'));
             }
