@@ -109,42 +109,9 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="notes">
 
-    <?php if (count($site->notes)>0): ?>
-      <?php foreach ($site->notes as $note): ?>
-        <div class="well">
-          <div>
-            <?php if ($note->type=='flag'): ?>
-              <span class="glyphicon glyphicon-flag" style="color:red;" aria-hidden="true"></span>
-            <?php endif; ?> 
-            <?php if ($note->redmine_issue): ?>
-              <a href="https://uframe-cm.ooi.rutgers.edu/issues/<?= $note->redmine_issue?>">#<?= $note->redmine_issue?></a> 
-            <?php endif; ?> 
-            <?php if ($note->start_date): ?>
-              Annotation Range: <?= h($note->start_date) ?> to <?= h($note->end_date) ?> 
-            <?php endif; ?> 
-            <?php if ($note->resolved): ?>
-              Resolved: <?= h($note->resolved) ?> 
-            <?php endif; ?> 
-          </div>
-          <?= $this->Text->autoParagraph(h($note->comment)); ?>
-          <p>
-            <small><em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
-            <?= $this->Time->timeAgoInWords($note->created) ?></em>
-            <?php if ($this->request->session()->read('Auth.User.id') == $note->user_id): ?>
-              [<?php echo $this->Html->link('Edit', ['controller'=>'notes','action'=>'edit',$note->id]); ?>]
-            <?php endif; ?>
-            </small>
-          </p>
-          <?php if ($note->resolved_comment): ?>
-          <p><strong>Resolved Comment</strong></p>
-            <?= $this->Text->autoParagraph(h($note->resolved_comment)); ?> 
-          <?php endif; ?> 
-        </div>
-      <?php endforeach; ?>
-    <?php else: ?>
-      <p>No notes yet.</p>
-    <?php endif; ?>
-    <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','sites',$site->reference_designator], ['class'=>'btn btn-primary']); ?></p>
+      <?php echo $this->element('notes', ['notes'=>$site->notes]); ?>
+      
+      <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','sites',$site->reference_designator], ['class'=>'btn btn-primary']); ?></p>
 
     </div>
   </div><!-- End Tab Content -->
