@@ -83,6 +83,33 @@ class TestRunsController extends AppController
 
 
     /**
+     * Export method
+     *
+     * @param string|null $id Test Run id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function export($id = null)
+    {
+        $this->loadModel('TestItems');
+        $data = $this->TestItems->find('all')
+          ->where(['test_run_id'=>$id])
+          ->contain(['TestRuns','Streams','Parameters'])
+          ->order(['method','Streams.name','Parameters.name']);
+
+        $_serialize = 'data';
+        $_header = ['Test Run','Reference Designator','Deployment','Start Date','End Date',
+          'Method', 'Stream', 'Parameter', 'Status Complete', 'Status Reasonable', 'Comment', 'Redmine Issue'];
+        $_extract = ['test_run_id','test_run.reference_designator','test_run.deployment','test_run.start_date','test_run.end_date',
+          'method', 'stream.name', 'parameter.name', 'status_complete', 'status_reasonable', 'comment', 'redmine_issue'];
+
+        $this->response->download('Test Run ' . $id . '.csv');
+        $this->viewBuilder()->className('CsvView.Csv');
+        $this->set(compact('data', '_serialize', '_header', '_extract'));
+    }
+
+    
+    /**
      * Add Test Items method
      *
      * @param string|null $id Test Plan id.

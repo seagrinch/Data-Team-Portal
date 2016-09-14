@@ -3,14 +3,16 @@
   <li class="active"><?= h($testRun->name) ?> (#<?= $this->Number->format($testRun->id) ?>)</li>
 </ol>
 
-<?php 
-  $session = $this->request->session();
-  if ($session->read('Auth.User.id')==$testRun->user_id): 
+
+<div class="btn-group pull-right" role="group" aria-label="...">
+  <?php echo $this->Html->link('<span class="glyphicon glyphicon glyphicon-download-alt" aria-hidden="true"></span> CSV', ['action'=>'export', $testRun->id], ['class'=>'btn btn-default', 'escape'=>false]); ?>
+  <?php 
+    $session = $this->request->session();
+    if ($session->read('Auth.User.id')==$testRun->user_id) {
+      echo $this->Html->link('Edit Test Run', ['action'=>'edit', $testRun->id], ['class'=>'btn btn-info']);
+    }
   ?>
-  <div class="btn-group pull-right" role="group">
-    <?= $this->Html->link('Edit Test Run', ['action'=>'edit', $testRun->id], ['class'=>'btn btn-info']); ?>
-  </div>
-<?php endif; ?>
+</div>
 
 <h3><?= h($testRun->name) ?> (#<?= $this->Number->format($testRun->id) ?>)</h3>
 
