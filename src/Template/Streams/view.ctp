@@ -5,7 +5,6 @@
 
 <h2>Stream: <?= h($stream->name) ?></h2>
 
-
 <dl class="dl-horizontal">
   <dt><?= __('Id') ?></dt>
   <dd><?= $this->Number->format($stream->id) ?></dd>
@@ -24,66 +23,91 @@
 </dl>
 
 
-<h3><?= __('Related Parameters') ?></h3>
-<?php if (!empty($stream->parameters)): ?>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th><?= __('Id') ?></th>
-            <th><?= __('Name') ?></th>
-            <th><?= __('Display Name') ?></th>
-            <th><?= __('Standard Name') ?></th>
-            <th><?= __('Unit') ?></th>
-            <th><?= __('Fill Value') ?></th>
-            <th><?= __('Precision') ?></th>
-            <th><?= __('Data Product Identifier') ?></th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($stream->parameters as $parameters): ?>
+<div><!-- Tabbed Navigation -->
+
+  <!-- Nav Tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation"><a href="#parameters" aria-controls="streams" role="tab" data-toggle="tab">Related Parameters</a></li>
+    <li role="presentation"><a href="#instruments" aria-controls="instruments" role="tab" data-toggle="tab">Related Instruments</a></li>
+    <li role="presentation" class="active"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane" id="parameters">
+      
+    <?php if (!empty($stream->parameters)): ?>
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>PD<?= h($parameters->id) ?></td>
-                <td><?= $this->Html->link($parameters->name,['controller'=>'parameters','action'=>'view',$parameters->id]) ?></td>
-                <td><?= h($parameters->unit) ?></td>
-                <td><?= h($parameters->fill_value) ?></td>
-                <td><?= h($parameters->display_name) ?></td>
-                <td><?= h($parameters->standard_name) ?></td>
-                <td><?= h($parameters->precision) ?></td>
-                <td><?= h($parameters->data_product_identifier) ?></td>
+                <th><?= __('Id') ?></th>
+                <th><?= __('Name') ?></th>
+                <th><?= __('Display Name') ?></th>
+                <th><?= __('Standard Name') ?></th>
+                <th><?= __('Unit') ?></th>
+                <th><?= __('Fill Value') ?></th>
+                <th><?= __('Precision') ?></th>
+                <th><?= __('Data Product Identifier') ?></th>
             </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php else: ?>
-    <p class="panel-body">no related Parameters</p>
-<?php endif; ?>
+            </thead>
+            <tbody>
+            <?php foreach ($stream->parameters as $parameters): ?>
+                <tr>
+                    <td>PD<?= h($parameters->id) ?></td>
+                    <td><?= $this->Html->link($parameters->name,['controller'=>'parameters','action'=>'view',$parameters->name]) ?></td>
+                    <td><?= h($parameters->unit) ?></td>
+                    <td><?= h($parameters->fill_value) ?></td>
+                    <td><?= h($parameters->display_name) ?></td>
+                    <td><?= h($parameters->standard_name) ?></td>
+                    <td><?= h($parameters->precision) ?></td>
+                    <td><?= h($parameters->data_product_identifier) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p class="panel-body">no related Parameters</p>
+    <?php endif; ?>
 
+      
+    </div>
+    <div role="tabpanel" class="tab-pane" id="instruments">
 
-<h3><?= __('Related Instruments') ?></h3>
-<?php if (!empty($stream->data_streams)): ?>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th><?= __('Reference Designator') ?></th>
-            <th><?= __('Name') ?></th>
-            <th><?= __('Location') ?></th>
-            <th><?= __('Start Depth') ?></th>
-            <th><?= __('End Depth') ?></th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($stream->data_streams as $instrument): ?>
-            <tr>
-                <td><?= $this->Html->link($instrument->reference_designator,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?></td>
-                <td><?= h($instrument->instrument->name) ?></td>
-                <td><?= h($instrument->instrument->location) ?></td>
-                <td><?= h($instrument->instrument->start_depth) ?></td>
-                <td><?= h($instrument->instrument->end_depth) ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php else: ?>
-    <p class="panel-body">No related Instruments</p>
-<?php endif; ?>
+      <?php if (!empty($stream->data_streams)): ?>
+          <table class="table table-striped">
+              <thead>
+              <tr>
+                  <th><?= __('Reference Designator') ?></th>
+                  <th><?= __('Name') ?></th>
+                  <th><?= __('Location') ?></th>
+                  <th><?= __('Start Depth') ?></th>
+                  <th><?= __('End Depth') ?></th>
+              </tr>
+              </thead>
+              <tbody>
+              <?php foreach ($stream->data_streams as $instrument): ?>
+                  <tr>
+                      <td><?= $this->Html->link($instrument->reference_designator,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?></td>
+                      <td><?= h($instrument->instrument->name) ?></td>
+                      <td><?= h($instrument->instrument->location) ?></td>
+                      <td><?= h($instrument->instrument->start_depth) ?></td>
+                      <td><?= h($instrument->instrument->end_depth) ?></td>
+                  </tr>
+              <?php endforeach; ?>
+              </tbody>
+          </table>
+      <?php else: ?>
+          <p class="panel-body">No related Instruments</p>
+      <?php endif; ?>
 
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="notes">
+
+      <h4>Notes</h4>
+      <?php echo $this->element('notes', ['notes'=>$stream->notes]); ?>      
+      <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','streams',$stream->name], ['class'=>'btn btn-primary']); ?></p>
+
+    </div>
+  </div><!-- End Tab Content -->
+
+</div><!-- End Tabbed Navigation -->

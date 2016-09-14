@@ -12,7 +12,7 @@
         <?php foreach ($streams as $stream): ?>
         <tr>
             <td><?= $this->Number->format($stream->id) ?></td>
-            <td><?= $this->Html->link($stream->name,['action'=>'view',$stream->id]) ?></td>
+            <td><?= $this->Html->link($stream->name,['action'=>'view',$stream->name]) ?></td>
             <td><?= h($stream->display_name) ?></td>
             <td><?= h($stream->stream_type) ?></td>
         </tr>

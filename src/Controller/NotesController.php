@@ -91,6 +91,18 @@ class NotesController extends AppController
           $query = $this->Instruments->find()
             ->where(['Instruments.reference_designator'=>$reference_designator]);
           $rd = $query->first();
+        } elseif ($model=='streams') {
+          $this->loadModel('Streams');
+          $query = $this->Streams->find()
+            ->where(['Streams.name'=>$reference_designator]);
+          $rd = $query->first();
+          $rd->reference_designator = $rd->name;
+        } elseif ($model=='parameters') {
+          $this->loadModel('Parameters');
+          $query = $this->Parameters->find()
+            ->where(['Parameters.name'=>$reference_designator]);
+          $rd = $query->first();
+          $rd->reference_designator = $rd->name;
         }
 
         if (empty($rd)) {

@@ -75,11 +75,11 @@
           <tr>
             <td><?= h($s->method) ?></td>
             <td>
-              <?= $this->Html->link($s->stream->name, ['controller'=>'streams', 'action' => 'view', $s->stream->id]) ?>
+              <?= $this->Html->link($s->stream->name, ['controller'=>'streams', 'action' => 'view', $s->stream->name]) ?>
               <?php if (count($instrument->data_streams)>0): ?>
                 <ul>
                 <?php foreach ($s->stream->parameters as $p): ?>
-                   <li><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?></li>
+                   <li><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->name]) ?></li>
                 <?php endforeach; ?>
                 </ul>
               <?php endif; ?>

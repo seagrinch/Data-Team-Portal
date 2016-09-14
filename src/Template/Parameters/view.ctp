@@ -28,24 +28,48 @@
   <dd><?= $this->Text->autoParagraph(h($parameter->description)); ?></dd>
 </dl>
 
-<h4><?= __('Related Streams') ?></h4>
-<?php if (!empty($parameter->streams)): ?>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><?= __('Id') ?></th>
-      <th><?= __('Name') ?></th>
-    </tr>
-  </thead>
-  <tbody>
-  <?php foreach ($parameter->streams as $streams): ?>
-    <tr>
-      <td><?= h($streams->id) ?></td>
-      <td><?= $this->Html->link($streams->name,['controller'=>'streams','action'=>'view',$streams->id]) ?></td>
-    </tr>
-  <?php endforeach; ?>
-  </tbody>
-</table>
-<?php else: ?>
-  <p class="panel-body">no related Streams</p>
-<?php endif; ?>
+
+<div><!-- Tabbed Navigation -->
+
+  <!-- Nav Tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Related Streams</a></li>
+    <li role="presentation" class="active"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane" id="streams">
+
+      <?php if (!empty($parameter->streams)): ?>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th><?= __('Id') ?></th>
+            <th><?= __('Name') ?></th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($parameter->streams as $streams): ?>
+          <tr>
+            <td><?= h($streams->id) ?></td>
+            <td><?= $this->Html->link($streams->name,['controller'=>'streams','action'=>'view',$streams->name]) ?></td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
+      <?php else: ?>
+        <p class="panel-body">No related Streams found</p>
+      <?php endif; ?>
+
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="notes">
+
+      <h4>Notes</h4>
+      <?php echo $this->element('notes', ['notes'=>$parameter->notes]); ?>      
+      <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','parameters',$parameter->name], ['class'=>'btn btn-primary']); ?></p>
+
+    </div>
+  </div><!-- End Tab Content -->
+
+</div><!-- End Tabbed Navigation -->

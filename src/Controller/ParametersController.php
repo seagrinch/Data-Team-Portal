@@ -35,11 +35,12 @@ class ParametersController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($name = null)
     {
-        $parameter = $this->Parameters->get($id, [
-            'contain' => ['ParameterFunctions', 'Streams']
-        ]);
+        $query = $this->Parameters->find()
+          ->where(['Parameters.name'=>$name])
+          ->contain(['ParameterFunctions', 'Streams','Notes.Users']);
+        $parameter = $query->first();
 
         $this->set('parameter', $parameter);
         $this->set('_serialize', ['parameter']);

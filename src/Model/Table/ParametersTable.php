@@ -38,6 +38,11 @@ class ParametersTable extends Table
             'targetForeignKey' => 'stream_id',
             'joinTable' => 'parameters_streams'
         ]);
+        $this->hasMany('Notes', [
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'name',
+            'conditions' => ['model' => 'parameters']
+        ]);
     }
 
     /**

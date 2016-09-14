@@ -32,11 +32,12 @@ class StreamsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($name = null)
     {
-        $stream = $this->Streams->get($id, [
-            'contain' => ['Parameters','DataStreams.Instruments']
-        ]);
+        $query = $this->Streams->find()
+          ->where(['Streams.name'=>$name])
+          ->contain(['Parameters','DataStreams.Instruments','Notes.Users']);
+        $stream = $query->first();
 
         $this->set('stream', $stream);
         $this->set('_serialize', ['stream']);

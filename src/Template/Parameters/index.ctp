@@ -18,7 +18,7 @@
         <?php foreach ($parameters as $parameter): ?>
         <tr>
             <td>PD<?= $this->Number->format($parameter->id) ?></td>
-            <td><?= $this->Html->link($parameter->name,['action'=>'view',$parameter->id]) ?></td>
+            <td><?= $this->Html->link($parameter->name,['action'=>'view',$parameter->name]) ?></td>
             <td><?= h($parameter->display_name) ?></td>
             <td><?= h($parameter->standard_name) ?></td>
             <td><?= h($parameter->unit) ?></td>
