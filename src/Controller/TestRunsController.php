@@ -17,8 +17,8 @@ class TestRunsController extends AppController
      */
     public function isAuthorized($user)
     {
-        // All registered users can add
-        if (in_array($this->request->action, ['add'])) {
+        // All registered users can add or export
+        if (in_array($this->request->action, ['add','export','exportall'])) {
             return true;
         }
         // Only the owner of an item can edit and delete it
@@ -107,7 +107,35 @@ class TestRunsController extends AppController
         $this->viewBuilder()->className('CsvView.Csv');
         $this->set(compact('data', '_serialize', '_header', '_extract'));
     }
+    
+    /**
+     * Exportall method
+     *
+     * @param string|null $id Test Run id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function exportall($id = null)
+    {
+        $data = $this->TestRuns->find('all')
+          ->contain('Users')
+          ->order(['reference_designator','deployment']);
 
+        $_serialize = 'data';
+        $_header = ['Test Run','Name','Reference Designator','Deployment','Owner',     
+          'Start Date','End Date','Status','Comment',
+          'count_items','count_complete_good','count_complete_bad','count_reasonable_good','count_reasonable_bad',
+          'Created','Modified'];
+
+        $_extract = ['id','name','reference_designator','deployment','user.first_name',
+          'start_date','end_date','status','comment',
+          'count_items','count_complete_good','count_complete_bad','count_reasonable_good','count_reasonable_bad',
+          'created','modified'];
+
+        $this->response->download('Test Runs.csv');
+        $this->viewBuilder()->className('CsvView.Csv');
+        $this->set(compact('data', '_serialize', '_header', '_extract'));
+    }
     
     /**
      * Add Test Items method

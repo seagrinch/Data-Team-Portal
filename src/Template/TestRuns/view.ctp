@@ -16,6 +16,9 @@
 
 <h3><?= h($testRun->name) ?> (#<?= $this->Number->format($testRun->id) ?>)</h3>
 
+<div clas="row">
+  <div class="col-md-6">
+
 <dl class="dl-horizontal">
   <dt>Reference Designator</dt>
   <dd><?= $this->Html->link($testRun->reference_designator,['controller'=>'instruments','action'=>'view',$testRun->reference_designator, '#'=>'tests']) ?></dd>
@@ -36,6 +39,50 @@
   <dd><?= $testRun->has('user') ? $testRun->user->full_name : '' ?></dd>
 </dl>
 
+  </div>
+  <div class="col-md-6">
+
+    <h3>Test Statistics</h3>
+    <?php
+      if ($testRun->count_items) {
+        $cg = $testRun->count_complete_good / $testRun->count_items * 100;
+        $cb = $testRun->count_complete_bad / $testRun->count_items * 100;
+        $rg = $testRun->count_reasonable_good / $testRun->count_items * 100;
+        $rb = $testRun->count_reasonable_bad / $testRun->count_items * 100;
+      } else {
+        $cg = $cb = $rg = $rb = 0;
+      }
+    ?>
+    <dl class="dl-horizontal">
+      <dt>Complete</dt>
+      <dd>
+        <small><strong>Pass or N/A</strong>: <?= $testRun->count_complete_good ?>, <strong>Fail</strong>: <?= $testRun->count_complete_bad ?></small>
+        <div class="progress">
+          <div class="progress-bar progress-bar-success" style="width: <?= $this->Number->toPercentage($cg) ?>">
+            <?= $this->Number->toPercentage($cg,0) ?>
+          </div>
+          <div class="progress-bar progress-bar-danger" style="width: <?= $this->Number->toPercentage($cb) ?>">
+            <?= $this->Number->toPercentage($cb,0) ?>
+          </div>
+        </div>
+      </dd>
+      <dt>Reasonable</dt>
+      <dd>
+        <small><strong>Pass, N/A or N/R</strong>: <?= $testRun->count_reasonable_good ?>, <strong>Fail/Suspect/Software</strong>: <?= $testRun->count_reasonable_bad ?></small>
+        <div class="progress">
+          <div class="progress-bar progress-bar-success" style="width: <?= $this->Number->toPercentage($rg) ?>">
+            <?= $this->Number->toPercentage($rg,0) ?>
+          </div>
+          <div class="progress-bar progress-bar-danger" style="width: <?= $this->Number->toPercentage($rb) ?>">
+            <?= $this->Number->toPercentage($rb,0) ?>
+          </div>
+        </div>
+      </dd>
+      <dt>Number of Items</dt>
+      <dd><?= $testRun->count_items ?></dd>
+    </dl>
+    
+  </div>
 
 <h3><?= __('Parameter Tests') ?></h3>
 <?php if (count($testItems)>0): ?>

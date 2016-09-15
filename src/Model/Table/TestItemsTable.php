@@ -42,6 +42,35 @@ class TestItemsTable extends Table
         $this->belongsTo('Parameters', [
             'foreignKey' => 'parameter_id'
         ]);
+
+        $this->addBehavior('CounterCache', [
+            'TestRuns' => [
+                'count_items',
+                'count_complete_good' => [
+                    'conditions' => ['OR'=>[
+                      ['TestItems.status_complete' => 'Pass'],
+                      ['TestItems.status_complete' => 'N/A']
+                    ]]
+                ],
+                'count_complete_bad' => [
+                    'conditions' => ['TestItems.status_complete' => 'Fail']
+                ],
+                'count_reasonable_good' => [
+                    'conditions' => ['OR'=>[
+                      ['TestItems.status_reasonable' => 'Pass'],
+                      ['TestItems.status_reasonable' => 'N/A'],
+                      ['TestItems.status_reasonable' => 'N/R']
+                    ]]
+                ],
+                'count_reasonable_bad' => [
+                    'conditions' => ['OR'=>[
+                      ['TestItems.status_reasonable' => 'Fail'],
+                      ['TestItems.status_reasonable' => 'Suspect'],
+                      ['TestItems.status_reasonable' => 'Software']
+                    ]]
+                ],
+            ]
+        ]);
     }
 
     /**
