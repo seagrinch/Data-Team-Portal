@@ -12,10 +12,10 @@
   </thead>
   <tfoot>
     <tr>
-        <th>Region</th>
-        <th>Site</th>
-        <th>Node</th>
-        <th>Instrument</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
         <th></th>
     </tr>
   </tfoot>
@@ -55,31 +55,31 @@ $(document).ready(function() {
     pageLength: 10,
     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
     stateSave: true,
-    initComplete: function () {
-      this.api().columns().every( function () {
-        var column = this;
-        col_title = $(column.header()).html();
-        if (col_title != "Reference Designator") {
-          var select = $('<select><option value=""></option></select>')
-            .appendTo( $(column.footer()).empty() )
-            .on( 'change', function () {
-              var val = $.fn.dataTable.util.escapeRegex(
-                $(this).val()
-              );
+    //initComplete: function () {
+    //  this.api().columns().every( function () {
+    //    var column = this;
+    //    col_title = $(column.header()).html();
+    //    if (col_title != "Reference Designator") {
+    //      var select = $('<select><option value=""></option></select>')
+    //        .appendTo( $(column.footer()).empty() )
+    //        .on( 'change', function () {
+    //          var val = $.fn.dataTable.util.escapeRegex(
+    //            $(this).val()
+    //          );
 
-              column
-                .search( val ? '^'+val+'$' : '', true, false )
-                .draw();
-            } );
+    //          column
+    //            .search( val ? '^'+val+'$' : '', true, false )
+    //            .draw();
+    //        } );
 
-          column.data().unique().sort().each( function ( d, j ) {
-            if(d) {
-              select.append( '<option value="'+d+'">'+d+'</option>' )
-            }
-          } );
-        }
-      } );
-    },
+    //      column.data().unique().sort().each( function ( d, j ) {
+    //        if(d) {
+    //          select.append( '<option value="'+d+'">'+d+'</option>' )
+    //        }
+    //      } );
+    //    }
+    //  } );
+    //},
 
   } );
   
