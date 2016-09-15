@@ -89,6 +89,7 @@
 <table id="parameterTests" class="table table-striped table-condensed table-hover">
   <thead>
     <tr>
+        <th>Id</th>
         <th>Method</th>
         <th>Stream</th>
         <th>Parameter</th>
@@ -100,6 +101,7 @@
   </thead>
   <tfoot>
     <tr>
+        <th>Id</th>
         <th>Method</th>
         <th>Stream</th>
         <th>Parameter</th>
@@ -112,6 +114,7 @@
   <tbody>
   <?php foreach ($testItems as $testItem): ?>
     <tr>
+        <td><?= h($testItem->id) ?></td>
         <td><?= h($testItem->method) ?></td>
         <td><?= h($testItem->stream->name) ?></td>
         <td><?= ($testItem->parameter) ? h($testItem->parameter->name) . ' (PD' . h($testItem->parameter->id) . ')' : '' ?></td>
@@ -126,7 +129,7 @@
   </tbody>
 </table>
 
-<?php echo $this->Html->script('https://cdn.datatables.net/v/bs/dt-1.10.12/datatables.min.js', ['block' => true]); ?>
+<?php echo $this->Html->script('https://cdn.datatables.net/v/bs/dt-1.10.12/b-1.2.2/se-1.2.0/datatables.min.js', ['block' => true]); ?>
 
 <?php $this->Html->scriptStart(['block' => true]); ?>
 
@@ -135,10 +138,30 @@ $(function () {
 })
 
 $(document).ready(function() {
-  $('#parameterTests').DataTable( {
+  var table = $('#parameterTests').DataTable( {
     pageLength: 10,
     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-    stateSave: true,
+    stateSave: false,
+    buttons: [
+      'selectNone',
+      {
+        extend: 'selected',
+        text: 'Edit Selected',
+        action: function () {
+          var itemCount = table.rows( { selected: true } ).count();
+          $('#item-count').html(itemCount);
+          var tableData = table.rows( { selected: true } ).data();
+          idList=[];
+          for(var idx=0; idx < tableData.length; idx++) {
+            idList.push(tableData[idx][0]);
+          }
+          $('#test-ids').val(JSON.stringify(idList));
+          $('#editTestItems').modal('show');
+        },
+      }
+    ],
+    columnDefs: [ { "targets": [ 0 ], "visible": false }],
+    select: {style: 'multi'},
     initComplete: function () {
       this.api().columns().every( function () {
         var column = this;
@@ -165,14 +188,67 @@ $(document).ready(function() {
       } );
     }
   } );
+
+  table.buttons().container()
+    .appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
+  
 } );
 
 <?php $this->Html->scriptEnd(); ?>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/datatables.min.css"/>
-
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/b-1.2.2/se-1.2.0/datatables.min.css"/>
+ 
 <?php else: ?>
 <p>No test items.</p>
 <?php endif; ?>
 
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="editTestItems">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Editing <span id='item-count'>0</span> Test Items</h4>
+      </div>
+      <div class="modal-body">
+
+        <?= $this->Form->create('', [ 'url'=>['action'=>'update-test-items', $testRun->id] ]); ?>
+        <fieldset>
+            <?php
+                echo '<input type="hidden" name="test-ids" id="test-ids">';
+                $this->Form->unlockField('test-ids');
+                echo $this->Form->input('status_complete',[
+                  'label' => "The parameter's record is complete",
+                  'options' => [
+                    'Pass'=>'Pass',
+                    'Fail'=>'Fail',
+                    'N/A'=>'Not Available'
+                  ],
+                  'empty' => true]);
+                echo $this->Form->input('status_reasonable',[
+                  'label' => "The science parameter's values are reasonable",
+                  'options' => [
+                    'Pass'=>'Pass',
+                    'Fail'=>'Fail',
+                    'Suspect'=>'Suspect',
+                    'Software'=>'Software Investigation',
+                    'N/R'=>'Not for Review',
+                    'N/A'=>'Not Available'
+                  ],
+                  'empty' => true]);
+                echo $this->Form->input('comment');
+                echo $this->Form->input('redmine_issue');
+            ?>
+        </fieldset>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <?= $this->Form->button(__('Save Changes'),['class'=>'btn btn-primary']) ?>
+        <?= $this->Form->end() ?>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

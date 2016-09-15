@@ -18,7 +18,7 @@ class TestRunsController extends AppController
     public function isAuthorized($user)
     {
         // All registered users can add or export
-        if (in_array($this->request->action, ['add','export','exportall'])) {
+        if (in_array($this->request->action, ['add','export','exportall','update-test-items'])) {
             return true;
         }
         // Only the owner of an item can edit and delete it
@@ -135,6 +135,50 @@ class TestRunsController extends AppController
         $this->response->download('Test Runs.csv');
         $this->viewBuilder()->className('CsvView.Csv');
         $this->set(compact('data', '_serialize', '_header', '_extract'));
+    }
+
+    /**
+     * Update Test Items method
+     *
+     * @param string|null $id Test Run id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function updateTestItems($id=null)
+    {
+        if ($this->request->is(['patch', 'post', 'put'])) {
+          $this->loadModel('TestItems');
+          
+          $testItems = json_decode($this->request->data['test-ids']); 
+          $icount=0;
+          foreach ($testItems as $t) {
+            $testItem = $this->TestItems->get($t);
+            $testItem = $this->TestItems->patchEntity($testItem, $this->request->data, [
+              'fieldList'=>['status_complete','status_reasonable','comment','redmine_issue']
+            ]);
+            $this->TestItems->save($testItem);
+            $icount++;
+          }
+          $this->Flash->success($icount . ' test items updated.');
+          
+/*
+          $query = $this->TestItems->query();
+          $query->update()
+            ->set([
+              'status_complete' => $this->request->data['status_complete'],
+              'status_reasonable' => $this->request->data['status_reasonable'],
+              'comment' =>$this->request->data['comment'],
+              'redmine_issue' => $this->request->data['redmine_issue'],
+              ])
+            ->where(['id IN' => json_decode($this->request->data['test-ids']) ]);
+          if ($query->execute()) {
+                $this->Flash->success(__('The tests have been updated.' . $this->request->data['test-ids']));
+            } else {
+                $this->Flash->error(__('The tests could not be updated. Please, try again.'));
+            }
+*/
+        }
+        $this->redirect(['action'=>'view', $id]);
     }
     
     /**
