@@ -142,7 +142,7 @@ $(document).ready(function() {
   var table = $('#parameterTests').DataTable( {
     pageLength: 25,
     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-    stateSave: false,
+    stateSave: true,
     buttons: [
       {
         extend: 'selectNone',
