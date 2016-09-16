@@ -56,7 +56,7 @@
     <dl class="dl-horizontal">
       <dt>Complete</dt>
       <dd>
-        <small><strong>Pass or N/A</strong>: <?= $testRun->count_complete_good ?>, <strong>Fail</strong>: <?= $testRun->count_complete_bad ?></small>
+        <small><strong>Pass or N/A</strong>: <?= $testRun->count_complete_good ?><br> <strong>Fail</strong>: <?= $testRun->count_complete_bad ?></small>
         <div class="progress">
           <div class="progress-bar progress-bar-success" style="width: <?= $this->Number->toPercentage($cg) ?>">
             <?= $this->Number->toPercentage($cg,0) ?>
@@ -68,7 +68,7 @@
       </dd>
       <dt>Reasonable</dt>
       <dd>
-        <small><strong>Pass, N/A or N/R</strong>: <?= $testRun->count_reasonable_good ?>, <strong>Fail/Suspect/Software</strong>: <?= $testRun->count_reasonable_bad ?></small>
+        <small><strong>Pass, N/A or N/R</strong>: <?= $testRun->count_reasonable_good ?><br> <strong>Fail, Suspect or Software</strong>: <?= $testRun->count_reasonable_bad ?></small>
         <div class="progress">
           <div class="progress-bar progress-bar-success" style="width: <?= $this->Number->toPercentage($rg) ?>">
             <?= $this->Number->toPercentage($rg,0) ?>
@@ -139,13 +139,17 @@ $(function () {
 
 $(document).ready(function() {
   var table = $('#parameterTests').DataTable( {
-    pageLength: 10,
+    pageLength: 25,
     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
     stateSave: false,
     buttons: [
-      'selectNone',
+      {
+        extend: 'selectNone',
+        className: 'btn-warning'
+      },
       {
         extend: 'selected',
+        className: 'btn-primary',
         text: 'Edit Selected',
         action: function () {
           var itemCount = table.rows( { selected: true } ).count();
@@ -161,7 +165,7 @@ $(document).ready(function() {
       }
     ],
     columnDefs: [ { "targets": [ 0 ], "visible": false }],
-    select: {style: 'multi'},
+    select: {style: 'os'},
     initComplete: function () {
       this.api().columns().every( function () {
         var column = this;
@@ -197,6 +201,12 @@ $(document).ready(function() {
 <?php $this->Html->scriptEnd(); ?>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/b-1.2.2/se-1.2.0/datatables.min.css"/>
+<style>
+  #parameterTests_length.dataTables_length {
+    display: inline;
+    padding-right: 10px;
+  }
+</style>
  
 <?php else: ?>
 <p>No test items.</p>

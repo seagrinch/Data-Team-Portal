@@ -18,6 +18,7 @@
             <th><?= $this->Paginator->sort('deployment') ?></th>
             <th><?= $this->Paginator->sort('status') ?></th>
             <th><?= $this->Paginator->sort('modified') ?></th>
+            <th><?= $this->Paginator->sort('count_items','Count') ?></th>
             <th>Complete</th>
         </tr>
     </thead>
@@ -25,16 +26,17 @@
         <?php foreach ($testRuns as $testRun): ?>
         <tr>
             <td><?= $this->Number->format($testRun->id) ?></td>
-            <td><?= $testRun->has('user') ? h($testRun->user->full_name) : '' ?></td>
+            <td><?= $testRun->has('user') ? h($testRun->user->first_name) : '' ?></td>
             <td><?= $this->Html->link($testRun->name, ['action' => 'view', $testRun->id]) ?></td>
             <td><?= $this->Html->link($testRun->reference_designator,['controller'=>'instruments','action'=>'view',$testRun->reference_designator, '#'=>'tests']) ?></td>
             <td><?= h($testRun->deployment) ?></td>
             <td><?= h($testRun->status) ?></td>
             <td><?= h($testRun->modified) ?></td>
+            <td><?= h($testRun->count_items) ?></td>
             <td>
               <?php
                 if ($testRun->count_items) {
-                  echo $this->Number->toPercentage( ($testRun->count_complete_good + $testRun->count_complete_bad + $testRun->count_reasonable_good + $testRun->count_reasonable_bad) / (2 * $testRun->count_items), 1);
+                  echo $this->Number->toPercentage( ($testRun->count_complete_good + $testRun->count_complete_bad + $testRun->count_reasonable_good + $testRun->count_reasonable_bad) / (2 * $testRun->count_items), 1, ['multiply'=>true]);
                 }
               ?> 
             </td>
