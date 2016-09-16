@@ -18,7 +18,7 @@ class TestRunsController extends AppController
     public function isAuthorized($user)
     {
         // All registered users can add or export
-        if (in_array($this->request->action, ['add','export','exportall','update-test-items'])) {
+        if (in_array($this->request->action, ['export','exportall','updateTestItems','add'])) {
             return true;
         }
         // Only the owner of an item can edit and delete it
