@@ -19,6 +19,7 @@
 <div clas="row">
   <div class="col-md-6">
 
+<h4>Test Information</h4>
 <dl class="dl-horizontal">
   <dt>Reference Designator</dt>
   <dd><?= $this->Html->link($testRun->reference_designator,['controller'=>'instruments','action'=>'view',$testRun->reference_designator, '#'=>'tests']) ?></dd>
@@ -42,7 +43,7 @@
   </div>
   <div class="col-md-6">
 
-    <h3>Test Statistics</h3>
+    <h4>Test Statistics</h4>
     <?php
       if ($testRun->count_items) {
         $cg = $testRun->count_complete_good / $testRun->count_items * 100;

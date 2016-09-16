@@ -43,12 +43,12 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
-            <li><?php echo $this->Html->link('Arrays',['controller'=>'regions'])?></li>
-            <li><?php echo $this->Html->link('Classes',['controller'=>'instrumentClasses'])?></li>
-            <li><?php echo $this->Html->link('Instruments',['controller'=>'instruments','action'=>'all'])?></li>
-            <li><?php echo $this->Html->link('Reference',['controller'=>'pages', 'action'=>'reference'])?></li>
-            <li><?php echo $this->Html->link('Notes',['controller'=>'notes'])?></li>
-            <li><?php echo $this->Html->link('Test Runs',['controller'=>'test-runs'])?></li>						
+            <li><?php echo $this->Html->link('Arrays', '/regions')?></li>
+            <li><?php echo $this->Html->link('Classes', '/instrumentClasses')?></li>
+            <li><?php echo $this->Html->link('Instruments', '/instruments/all')?></li>
+            <li><?php echo $this->Html->link('Reference', '/pages/reference')?></li>
+            <li><?php echo $this->Html->link('Notes', '/notes')?></li>
+            <li><?php echo $this->Html->link('Test Runs', '/test-runs')?></li>						
             <?php 
               $session = $this->request->session();
               if ($session->check('Auth.User')) { ?>
@@ -56,7 +56,6 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
               <ul class="dropdown-menu" role="menu">
                 <li><?php echo $this->Html->link('My Profile','/users/profile')?></li>
                 <?php if ($session->read('Auth.User.role')=='admin') { ?>
-                <li><?php echo $this->Html->link('Test Questions','/admin/test-questions')?></li>
                 <li><?php echo $this->Html->link('User Admin','/admin/users')?></li>
                 <?php } ?>
                 <li class="divider"></li>
