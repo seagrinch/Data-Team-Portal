@@ -235,6 +235,7 @@ $(document).ready(function() {
                   'options' => [
                     'Pass'=>'Pass',
                     'Fail'=>'Fail',
+                    'Suspect'=>'Suspect',
                     'N/A'=>'Not Available'
                   ],
                   'empty' => true]);

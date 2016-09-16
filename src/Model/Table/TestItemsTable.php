@@ -53,7 +53,10 @@ class TestItemsTable extends Table
                     ]]
                 ],
                 'count_complete_bad' => [
-                    'conditions' => ['TestItems.status_complete' => 'Fail']
+                    'conditions' => ['OR'=>[
+                      ['TestItems.status_complete' => 'Fail'],
+                      ['TestItems.status_complete' => 'Suspect'],
+                    ]]
                 ],
                 'count_reasonable_good' => [
                     'conditions' => ['OR'=>[
