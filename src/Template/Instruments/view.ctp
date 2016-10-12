@@ -14,7 +14,7 @@
     }
   ?>
   <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'http://oceanobservatories.org/site/' . substr($instrument->reference_designator,0,8), ['class'=>'btn btn-default', 'escape'=>false]); ?>
-  <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooiui.oceanobservatories.org/plot/#' . $instrument->reference_designator, ['class'=>'btn btn-default', 'escape'=>false]); ?>
+  <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooinet.oceanobservatories.org/plot/#' . $instrument->reference_designator, ['class'=>'btn btn-default', 'escape'=>false]); ?>
 </div>
 
 <h3><?= h($instrument->name) ?></h3>
@@ -192,21 +192,83 @@
     <div role="tabpanel" class="tab-pane" id="stats">
 
       <?php if (count($instrument->monthly_stats)>0): ?>
+
+
+<?php $this->Html->css('https://fonts.googleapis.com/css?family=Muli',['block'=>true]); ?>
+<?php $this->Html->css('/visavail/css/visavail.css',['block'=>true]); ?>
+<?php $this->Html->css('/font-awesome/css/font-awesome.min.css',['block'=>true]); ?>
+<?php $this->Html->script('/moment/moment-with-locales.min.js',['block'=>true]); ?>
+<?php $this->Html->script('/d3/d3.min.js',['block'=>true]); ?>
+<?php $this->Html->script('/visavail/js/visavail.js',['block'=>true]); ?>
+
+<?php 
+  $months=[];
+  foreach ($instrument->monthly_stats as $s) {
+    if (in_array(strtolower($s->operational_status), array_map('strtolower', ['Operational','Pending','Failed']))) {
+      $months['operational_status'][] = [
+        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
+        (in_array(strtolower($s->operational_status), array_map('strtolower', ['Operational','Pending'])) ? 1 : 0),
+        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
+      ];
+      $months['cassandra_ts'][] = [
+        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
+        (($s->cassandra_ts>=10) ? 1 : 0), 
+        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
+      ];
+      $months['cassandra_rec'][] = [
+        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
+        (($s->cassandra_rec>=10) ? 1 : 0), 
+        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
+      ];
+    }
+  }
+/*
+  echo '<pre>';
+  print_r($months);
+  echo '</pre>';
+*/
+?>
+
+<?php $this->Html->scriptStart(['block' => true]); ?>
+  moment.locale("en");
+    var dataset = [{
+        "measure": "Op. Status",
+        "interval_s": 30 * 24 * 60 * 60,
+        "data": <?php echo json_encode($months['operational_status']);?>,
+    },{
+        "measure": "Cass. Tel/Stream",
+        "interval_s": 30 * 24 * 60 * 60,
+        "data": <?php echo json_encode($months['cassandra_ts']);?>,
+    },{
+        "measure": "Cass. Recovered",
+        "interval_s": 30 * 24 * 60 * 60,
+        "data": <?php echo json_encode($months['cassandra_rec']);?>,
+    }];
+    var chart = visavailChart().width(800); // define width of chart in px
+    d3.select("#example")
+            .datum(dataset)
+            .call(chart);
+<?php $this->Html->scriptEnd(); ?>
+
+<p id="example"><!-- Visavail.js chart will be inserted here --></p>
+
         <table class="table table-striped">
           <tr>
             <th>Month</th>
-            <th>Deployment Status</th>
-            <th>Cassandra Status</th>
-            <th>Operational Status</th>
-            <th>Reviewed Status</th>
+<!--             <th>Deployment Status</th> -->
+            <th>Cass. Tel/Stream</th>
+            <th>Cass. Recovered</th>
+            <th>Op. Status</th>
+<!--             <th>Reviewed Status</th> -->
           </tr>
           <?php foreach ($instrument->monthly_stats as $s): ?>
           <tr>
             <td><?= $this->Time->i18nFormat($s->month,'MMMM, yyyy') ?></td>
-            <td><?= h($s->deployment_status) ?></td>
-            <td><?= h($s->cassandra_status) ?></td>
+<!--             <td><?= h($s->deployment_status) ?></td> -->
+            <td><?= h($s->cassandra_ts) ?></td>
+            <td><?= h($s->cassandra_rec) ?></td>
             <td><?= h($s->operational_status) ?></td>
-            <td><?= h($s->reviewed_status) ?></td>
+<!--             <td><?= h($s->reviewed_status) ?></td> -->
           </tr>
           <?php endforeach; ?>
         </table>
