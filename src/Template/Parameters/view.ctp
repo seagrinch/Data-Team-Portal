@@ -7,7 +7,7 @@
 
 <dl class="dl-horizontal">
   <dt><?= __('Id') ?></dt>
-  <dd>PD<?= $this->Number->format($parameter->id) ?></dd>
+  <dd>PD<?= $this->Number->format($parameter->id,['pattern'=>'#']) ?></dd>
   <dt><?= __('Display Name') ?></dt>
   <dd><?= h($parameter->display_name) ?></dd>
   <dt><?= __('Standard Name') ?></dt>

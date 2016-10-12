@@ -7,7 +7,7 @@
 
 <dl class="dl-horizontal">
   <dt><?= __('Id') ?></dt>
-  <dd><?= $this->Number->format($stream->id) ?></dd>
+  <dd><?= $this->Number->format($stream->id,['pattern'=>'#']) ?></dd>
   <dt><?= __('Display Name') ?></dt>
   <dd><?= h($stream->display_name) ?></dd>
   <dt><?= __('Description') ?></dt>
