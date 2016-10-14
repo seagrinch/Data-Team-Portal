@@ -199,24 +199,38 @@
 ?>
 
 <?php $this->Html->scriptStart(['block' => true]); ?>
+  var stats_data = <?php echo json_encode($months);?>;
+  
   moment.locale("en");
-    var dataset = [{
+    var dataset=[];
+    if (stats_data['operational_status'].length>0) {
+      dataset.push({
         "measure": "Op. Status",
         "interval_s": 30 * 24 * 60 * 60,
-        "data": <?php echo json_encode($months['operational_status']);?>,
-    },{
+        "data": stats_data['operational_status'],
+      })
+    };
+    if (stats_data['cassandra_ts'].length>0) {
+      dataset.push({
         "measure": "Cass. Tel/Stream",
         "interval_s": 30 * 24 * 60 * 60,
-        "data": <?php echo json_encode($months['cassandra_ts']);?>,
-    },{
+        "data": stats_data['cassandra_ts'],
+      })
+    };
+    if (stats_data['cassandra_rec'].length>0) {
+      dataset.push({
         "measure": "Cass. Recovered",
         "interval_s": 30 * 24 * 60 * 60,
-        "data": <?php echo json_encode($months['cassandra_rec']);?>,
-    }];
+        "data": stats_data['cassandra_rec'],
+      })
+    };
+
     var chart = visavailChart().width(800); // define width of chart in px
+
     d3.select("#example")
             .datum(dataset)
             .call(chart);
+
 <?php $this->Html->scriptEnd(); ?>
 
 <p id="example"><!-- Visavail.js chart will be inserted here --></p>
