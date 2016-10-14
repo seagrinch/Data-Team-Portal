@@ -1,7 +1,6 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Deployment;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -10,6 +9,13 @@ use Cake\Validation\Validator;
 /**
  * Deployments Model
  *
+ * @method \App\Model\Entity\Deployment get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Deployment newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Deployment[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Deployment|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Deployment patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Deployment[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Deployment findOrCreate($search, callable $callback = null)
  */
 class DeploymentsTable extends Table
 {
@@ -42,29 +48,43 @@ class DeploymentsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->allowEmpty('deploy_cuid');
+
+        $validator
+            ->allowEmpty('deployed_by');
+
+        $validator
+            ->allowEmpty('recover_cuid');
+
+        $validator
+            ->allowEmpty('recovered_by');
+
+        $validator
             ->allowEmpty('reference_designator');
-
-        $validator
-            ->allowEmpty('mooring_barcode');
-
-        $validator
-            ->allowEmpty('mooring_serial_number');
 
         $validator
             ->integer('deployment_number')
             ->allowEmpty('deployment_number');
 
         $validator
-            ->date('anchor_launch_date')
-            ->allowEmpty('anchor_launch_date');
+            ->allowEmpty('version_number');
 
         $validator
-            ->time('anchor_launch_time')
-            ->allowEmpty('anchor_launch_time');
+            ->dateTime('start_date')
+            ->allowEmpty('start_date');
 
         $validator
-            ->date('recover_date')
-            ->allowEmpty('recover_date');
+            ->dateTime('stop_date')
+            ->allowEmpty('stop_date');
+
+        $validator
+            ->allowEmpty('mooring_uid');
+
+        $validator
+            ->allowEmpty('node_uid');
+
+        $validator
+            ->allowEmpty('sensor_uid');
 
         $validator
             ->numeric('latitude')
@@ -75,11 +95,15 @@ class DeploymentsTable extends Table
             ->allowEmpty('longitude');
 
         $validator
-            ->numeric('water_depth')
-            ->allowEmpty('water_depth');
+            ->allowEmpty('orbit');
 
         $validator
-            ->allowEmpty('cruise_number');
+            ->numeric('deployment_depth')
+            ->allowEmpty('deployment_depth');
+
+        $validator
+            ->numeric('water_depth')
+            ->allowEmpty('water_depth');
 
         $validator
             ->allowEmpty('notes');

@@ -53,7 +53,6 @@
     <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams/Parameters</a></li>
     <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
     <li role="presentation" class="active"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
-    <li role="presentation"><a href="#calibrations" aria-controls="calibrations" role="tab" data-toggle="tab">Calibrations</a></li>
     <li role="presentation"><a href="#instrument" aria-controls="instrument" role="tab" data-toggle="tab">Instrument Info</a></li>
     <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats</a></li>
     <li role="presentation"><a href="#tests" aria-controls="stats" role="tab" data-toggle="tab">Tests</a></li>
@@ -79,7 +78,7 @@
               <?php if (count($instrument->data_streams)>0): ?>
                 <ul>
                 <?php foreach ($s->stream->parameters as $p): ?>
-                   <li><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->name]) ?></li>
+                   <li><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?></li>
                 <?php endforeach; ?>
                 </ul>
               <?php endif; ?>
@@ -101,30 +100,30 @@
         <table class="table table-striped">
           <tr>
             <th>Deployment Number</th>
-            <th>Mooring Barcode</th>
-            <th>Mooring Serial Number</th>
-            <th>Anchor Launch Date</th>
-            <th>Anchor Launch Time</th>
-            <th>Recover Date</th>
+            <th>Deployment Cruise</th>
+            <th>Start Date</th>
+            <th>Stop Date</th>
+            <th>Mooring Asset</th>
+            <th>Node Asset</th>
+            <th>Sensor Asset</th>
             <th>Latitude</th>
             <th>Longitude</th>
+            <th>Deployment Depth</th>
             <th>Water Depth</th>
-            <th>Cruise Number</th>
-            <th>Notes</th>
           </tr>
           <?php foreach ($instrument->deployments as $d): ?>
           <tr>
             <td><?= h($d->deployment_number) ?></td>
-            <td><?= $this->Html->link($d->mooring_barcode, ['controller'=>'assets', 'action' => 'view', $d->mooring_barcode]) ?></td>
-            <td><?= h($d->mooring_serial_number) ?></td>
-            <td><?= $this->Time->format($d->anchor_launch_date, 'MM/dd/yyyy') ?></td>
-            <td><?= $this->Time->format($d->anchor_launch_time, 'HH:mm') ?></td>
-            <td><?= $d->recover_date ?></td>
+            <td><?= $this->Html->link($d->deploy_cuid, ['controller'=>'cruises', 'action' => 'view', $d->deploy_cuid]) ?></td>
+            <td><?= $this->Time->format($d->start_date, 'MM/dd/yyyy') ?></td>
+            <td><?= $this->Time->format($d->stop_date, 'MM/dd/yyyy') ?></td>
+            <td><?= $this->Html->link($d->mooring_uid, ['controller'=>'assets', 'action' => 'view', $d->mooring_uid]) ?></td>
+            <td><?= $this->Html->link($d->node_uid, ['controller'=>'assets', 'action' => 'view', $d->node_uid]) ?></td>
+            <td><?= $this->Html->link($d->sensor_uid, ['controller'=>'assets', 'action' => 'view', $d->sensor_uid]) ?></td>
             <td><?= h($d->latitude) ?></td>
             <td><?= h($d->longitude) ?></td>
+            <td><?= h($d->deployment_depth) ?></td>
             <td><?= h($d->water_depth) ?></td>
-            <td><?= h($d->cruise_number) ?></td>
-            <td><?= h($d->notes) ?></td>
           </tr>
           <?php endforeach; ?>
         </table>
@@ -137,36 +136,6 @@
 
       <?php echo $this->element('notes', ['notes'=>$instrument->notes]); ?>
       <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','instruments',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?></p>
-
-    </div>
-    <div role="tabpanel" class="tab-pane" id="calibrations">
-
-      <?php if (count($instrument->calibrations)>0): ?>
-        <table class="table table-striped">
-          <tr>
-            <th>Deployment Number</th>
-            <th>Mooring Barcode</th>
-            <th>Mooring Serial Number</th>
-            <th>Sensor Barcode</th>
-            <th>Sensor Serial Number</th>
-            <th>CC Name</th>
-            <th>CC Value</th>
-          </tr>
-          <?php foreach ($instrument->calibrations as $c): ?>
-          <tr>
-            <td><?= h($c->deployment_number) ?></td>
-            <td><?= $this->Html->link($c->mooring_barcode, ['controller'=>'assets', 'action' => 'view', $c->mooring_barcode]) ?></td>
-            <td><?= h($c->mooring_serial_number) ?></td>
-            <td><?= $this->Html->link($c->sensor_barcode, ['controller'=>'assets', 'action' => 'view', $c->sensor_barcode]) ?></td>
-            <td><?= h($c->sensor_serial_number) ?></td>
-            <td><?= h($c->cc_name) ?></td>
-            <td><?= h($c->cc_value) ?></td>
-          </tr>
-          <?php endforeach; ?>
-        </table>
-      <?php else: ?>
-        <p>No calibrations found</p>
-      <?php endif; ?>
 
     </div>
     <div role="tabpanel" class="tab-pane" id="instrument">

@@ -21,9 +21,10 @@
     
     <h3>Deployment Sheets</h3>
     <ul>
-      <li>Deployments - See Instrument pages</li>
-      <li>Calibrations - See Instrument pages</li>
-      <li><?php echo $this->Html->link('Assets',['controller'=>'Assets'])?></li>
+      <li><?php echo $this->Html->link('Assets',['controller'=>'assets'])?></li>
+      <li>Calibrations - See Asset pages</li>
+      <li><?php echo $this->Html->link('Cruises',['controller'=>'cruises'])?></li>
+      <li>Deployments - See Instrument, Asset or Cruise pages</li>
     </ul>  
     
   </div>

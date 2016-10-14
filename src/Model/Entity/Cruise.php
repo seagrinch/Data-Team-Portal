@@ -4,22 +4,16 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Asset Entity
+ * Cruise Entity
  *
  * @property int $id
- * @property string $asset_uid
- * @property string $type
- * @property int $mobile
- * @property string $description_of_equipment
- * @property string $manufacturer
- * @property string $model
- * @property string $manufacturer_serial_no
- * @property string $firmware_version
- * @property \Cake\I18n\Time $acquisition_date
- * @property float $original_cost
- * @property string $comments
+ * @property string $cuid
+ * @property string $ship_name
+ * @property \Cake\I18n\Time $cruise_start_date
+ * @property \Cake\I18n\Time $cruise_end_date
+ * @property string $notes
  */
-class Asset extends Entity
+class Cruise extends Entity
 {
 
     /**

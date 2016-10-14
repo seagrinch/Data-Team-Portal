@@ -33,13 +33,8 @@ class AssetsController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
-/*
-        $asset = $this->Assets->get($id, [
-            'contain' => []
-        ]);
-*/
       $query = $this->Assets->find()
-        ->where(['ooi_barcode'=>$id])
+        ->where(['asset_uid'=>$id])
         ->contain([]);
       $asset = $query->first();
       

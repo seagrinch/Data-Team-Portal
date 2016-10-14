@@ -22,6 +22,10 @@
   <dd><?= $parameter->has('parameter_function') ? $this->Html->link($parameter->parameter_function->name, ['controller' => 'ParameterFunctions', 'action' => 'view', $parameter->parameter_function->id]) : '' ?></dd>
   <dt><?= __('Data Product Identifier') ?></dt>
   <dd><?= h($parameter->data_product_identifier) ?></dd>
+  <dt><?= __('Data Product Type') ?></dt>
+  <dd><?= h($parameter->data_product_type) ?></dd>
+  <dt><?= __('Data Level') ?></dt>
+  <dd><?= h($parameter->data_level) ?></dd>
   <dt><?= __('Parameter Function Map') ?></dt>
   <dd><?= $this->Text->autoParagraph(h($parameter->parameter_function_map)); ?></dd>
   <dt><?= __('Description') ?></dt>

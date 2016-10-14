@@ -1,7 +1,6 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Asset;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -10,6 +9,13 @@ use Cake\Validation\Validator;
 /**
  * Assets Model
  *
+ * @method \App\Model\Entity\Asset get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Asset newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Asset[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Asset|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Asset patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Asset[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Asset findOrCreate($search, callable $callback = null)
  */
 class AssetsTable extends Table
 {
@@ -42,15 +48,18 @@ class AssetsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('ooi_barcode')
-            ->add('ooi_barcode', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->allowEmpty('asset_uid')
+            ->add('asset_uid', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+
+        $validator
+            ->allowEmpty('type');
+
+        $validator
+            ->integer('mobile')
+            ->allowEmpty('mobile');
 
         $validator
             ->allowEmpty('description_of_equipment');
-
-        $validator
-            ->numeric('quant')
-            ->allowEmpty('quant');
 
         $validator
             ->allowEmpty('manufacturer');
@@ -65,58 +74,15 @@ class AssetsTable extends Table
             ->allowEmpty('firmware_version');
 
         $validator
-            ->allowEmpty('source_of_the_equipment');
-
-        $validator
-            ->allowEmpty('whether_title');
-
-        $validator
-            ->allowEmpty('location');
-
-        $validator
-            ->allowEmpty('room_number');
-
-        $validator
-            ->allowEmpty('condition');
-
-        $validator
+            ->date('acquisition_date')
             ->allowEmpty('acquisition_date');
 
         $validator
+            ->decimal('original_cost')
             ->allowEmpty('original_cost');
 
         $validator
-            ->allowEmpty('federal_participation');
-
-        $validator
             ->allowEmpty('comments');
-
-        $validator
-            ->allowEmpty('primary_tag_date');
-
-        $validator
-            ->allowEmpty('primary_tag_organization');
-
-        $validator
-            ->allowEmpty('primary_institute_asset_tag');
-
-        $validator
-            ->allowEmpty('secondary_tag_date');
-
-        $validator
-            ->allowEmpty('second_tag_organization');
-
-        $validator
-            ->allowEmpty('institute_asset_tag');
-
-        $validator
-            ->allowEmpty('doi_tag_date');
-
-        $validator
-            ->allowEmpty('doi_tag_organization');
-
-        $validator
-            ->allowEmpty('doi_institute_asset_tag');
 
         return $validator;
     }

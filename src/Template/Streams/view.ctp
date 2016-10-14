@@ -9,7 +9,7 @@
   <dt><?= __('Id') ?></dt>
   <dd><?= $this->Number->format($stream->id,['pattern'=>'#']) ?></dd>
   <dt><?= __('Display Name') ?></dt>
-  <dd><?= h($stream->display_name) ?></dd>
+  <dd><?= h($stream->stream_content) ?></dd>
   <dt><?= __('Description') ?></dt>
   <dd><?= h($stream->description) ?></dd>
   <dt><?= __('Stream Type') ?></dt>
@@ -54,7 +54,7 @@
             <?php foreach ($stream->parameters as $parameters): ?>
                 <tr>
                     <td>PD<?= h($parameters->id) ?></td>
-                    <td><?= $this->Html->link($parameters->name,['controller'=>'parameters','action'=>'view',$parameters->name]) ?></td>
+                    <td><?= $this->Html->link($parameters->name,['controller'=>'parameters','action'=>'view',$parameters->id]) ?></td>
                     <td><?= h($parameters->unit) ?></td>
                     <td><?= h($parameters->fill_value) ?></td>
                     <td><?= h($parameters->display_name) ?></td>

@@ -4,20 +4,26 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Deployment Entity.
+ * Deployment Entity
  *
  * @property int $id
+ * @property string $deploy_cuid
+ * @property string $deployed_by
+ * @property string $recover_cuid
+ * @property string $recovered_by
  * @property string $reference_designator
- * @property string $mooring_barcode
- * @property string $mooring_serial_number
  * @property int $deployment_number
- * @property \Cake\I18n\Time $anchor_launch_date
- * @property \Cake\I18n\Time $anchor_launch_time
- * @property \Cake\I18n\Time $recover_date
+ * @property string $version_number
+ * @property \Cake\I18n\Time $start_date
+ * @property \Cake\I18n\Time $stop_date
+ * @property string $mooring_uid
+ * @property string $node_uid
+ * @property string $sensor_uid
  * @property float $latitude
  * @property float $longitude
+ * @property string $orbit
+ * @property float $deployment_depth
  * @property float $water_depth
- * @property string $cruise_number
  * @property string $notes
  */
 class Deployment extends Entity
@@ -34,6 +40,6 @@ class Deployment extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
+        'id' => false
     ];
 }

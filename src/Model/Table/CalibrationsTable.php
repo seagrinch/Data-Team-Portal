@@ -1,7 +1,6 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Calibration;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -10,6 +9,13 @@ use Cake\Validation\Validator;
 /**
  * Calibrations Model
  *
+ * @method \App\Model\Entity\Calibration get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Calibration newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Calibration[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Calibration|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Calibration patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Calibration[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Calibration findOrCreate($search, callable $callback = null)
  */
 class CalibrationsTable extends Table
 {
@@ -42,29 +48,26 @@ class CalibrationsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('reference_designator');
+            ->allowEmpty('class');
 
         $validator
-            ->allowEmpty('mooring_barcode');
+            ->allowEmpty('asset_uid');
 
         $validator
-            ->allowEmpty('mooring_serial_number');
+            ->date('start_date')
+            ->allowEmpty('start_date');
 
         $validator
-            ->integer('deployment_number')
-            ->allowEmpty('deployment_number');
+            ->allowEmpty('serial');
 
         $validator
-            ->allowEmpty('sensor_barcode');
+            ->allowEmpty('name');
 
         $validator
-            ->allowEmpty('sensor_serial_number');
+            ->allowEmpty('value');
 
         $validator
-            ->allowEmpty('cc_name');
-
-        $validator
-            ->allowEmpty('cc_value');
+            ->allowEmpty('notes');
 
         return $validator;
     }

@@ -4,17 +4,16 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Calibration Entity.
+ * Calibration Entity
  *
  * @property int $id
- * @property string $reference_designator
- * @property string $mooring_barcode
- * @property string $mooring_serial_number
- * @property int $deployment_number
- * @property string $sensor_barcode
- * @property string $sensor_serial_number
- * @property string $cc_name
- * @property string $cc_value
+ * @property string $class
+ * @property string $asset_uid
+ * @property \Cake\I18n\Time $start_date
+ * @property string $serial
+ * @property string $name
+ * @property string $value
+ * @property string $notes
  */
 class Calibration extends Entity
 {
@@ -30,6 +29,6 @@ class Calibration extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
+        'id' => false
     ];
 }
