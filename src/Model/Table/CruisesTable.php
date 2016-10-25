@@ -33,6 +33,11 @@ class CruisesTable extends Table
         $this->table('cruises');
         $this->displayField('id');
         $this->primaryKey('id');
+
+        $this->hasMany('Deployments', [
+            'foreignKey' => 'deploy_cuid',
+            'bindingKey' => 'cuid'
+        ]);
     }
 
     /**

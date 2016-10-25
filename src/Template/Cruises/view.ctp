@@ -15,3 +15,40 @@
   <dt><?= __('Notes') ?></dt>
   <dd><?= $this->Text->autoParagraph(h($cruise->notes)); ?></dd>
 </dl>
+
+<h4>Instrument deployments during this cruise</h4>
+
+<?php if (count($cruise->deployments)>0): ?>
+  <table class="table table-striped">
+    <tr>
+      <th>Reference Designator</th>
+      <th>Deployment Number</th>
+      <th>Start Date</th>
+      <th>Stop Date</th>
+      <th>Mooring Asset</th>
+      <th>Node Asset</th>
+      <th>Sensor Asset</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Deployment Depth</th>
+      <th>Water Depth</th>
+    </tr>
+    <?php foreach ($cruise->deployments as $d): ?>
+    <tr>
+      <td><?= $this->Html->link($d->reference_designator, ['controller'=>'instruments', 'action' => 'view', $d->reference_designator]) ?></td>
+      <td><?= h($d->deployment_number) ?></td>
+      <td><?= $this->Time->format($d->start_date, 'MM/dd/yyyy') ?></td>
+      <td><?= $this->Time->format($d->stop_date, 'MM/dd/yyyy') ?></td>
+      <td><?= $this->Html->link($d->mooring_uid, ['controller'=>'assets', 'action' => 'view', $d->mooring_uid]) ?></td>
+      <td><?= $this->Html->link($d->node_uid, ['controller'=>'assets', 'action' => 'view', $d->node_uid]) ?></td>
+      <td><?= $this->Html->link($d->sensor_uid, ['controller'=>'assets', 'action' => 'view', $d->sensor_uid]) ?></td>
+      <td><?= h($d->latitude) ?></td>
+      <td><?= h($d->longitude) ?></td>
+      <td><?= h($d->deployment_depth) ?></td>
+      <td><?= h($d->water_depth) ?></td>
+    </tr>
+    <?php endforeach; ?>
+  </table>
+<?php else: ?>
+  <p>No deployments found</p>
+<?php endif; ?>

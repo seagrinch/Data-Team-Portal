@@ -35,7 +35,7 @@ class CruisesController extends AppController
     {
         $query = $this->Cruises->find()
           ->where(['Cruises.cuid'=>$cuid])
-          ->contain([]);
+          ->contain(['Deployments']);
         $cruise = $query->first();
 
         $this->set('cruise', $cruise);
