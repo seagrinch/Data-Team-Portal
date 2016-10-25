@@ -30,7 +30,7 @@
     <?php foreach ($parameterFunction->parameters as $parameters): ?>
     <tr>
         <td><?= h($parameters->id) ?></td>
-        <td><?= $this->Html->link($parameters->name, ['controller' => 'Parameters', 'action' => 'view', $parameters->name]) ?>
+        <td><?= $this->Html->link($parameters->name, ['controller' => 'Parameters', 'action' => 'view', $parameters->id]) ?>
     </tr>
     <?php endforeach; ?>
 </table>
