@@ -59,27 +59,6 @@ class SitesController extends AppController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
-    public function admin_add()
-    {
-        $site = $this->Sites->newEntity();
-        if ($this->request->is('post')) {
-            $site = $this->Sites->patchEntity($site, $this->request->data);
-            if ($this->Sites->save($site)) {
-                $this->Flash->success(__('The site has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The site could not be saved. Please, try again.'));
-            }
-        }
-        $this->set(compact('site'));
-        $this->set('_serialize', ['site']);
-    }
-
-    /**
      * Edit method
      *
      * @param string|null $id Site id.
@@ -112,22 +91,4 @@ class SitesController extends AppController
         $this->set('_serialize', ['site']);
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Site id.
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function admin_delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $site = $this->Sites->get($id);
-        if ($this->Sites->delete($site)) {
-            $this->Flash->success(__('The site has been deleted.'));
-        } else {
-            $this->Flash->error(__('The site could not be deleted. Please, try again.'));
-        }
-        return $this->redirect(['action' => 'index']);
-    }
 }

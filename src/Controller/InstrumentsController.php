@@ -91,28 +91,6 @@ class InstrumentsController extends AppController
       $this->set('_serialize', ['instrument']);
     }
     
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
-    public function admin_add()
-    {
-        $instrument = $this->Instruments->newEntity();
-        if ($this->request->is('post')) {
-            $instrument = $this->Instruments->patchEntity($instrument, $this->request->data);
-            if ($this->Instruments->save($instrument)) {
-                $this->Flash->success(__('The instrument has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The instrument could not be saved. Please, try again.'));
-            }
-        }
-        $this->set(compact('instrument'));
-        $this->set('_serialize', ['instrument']);
-    }
-
     /**
      * Edit method
      *
@@ -146,22 +124,4 @@ class InstrumentsController extends AppController
         $this->set('_serialize', ['instrument']);
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Instrument id.
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function admin_delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $instrument = $this->Instruments->get($id);
-        if ($this->Instruments->delete($instrument)) {
-            $this->Flash->success(__('The instrument has been deleted.'));
-        } else {
-            $this->Flash->error(__('The instrument could not be deleted. Please, try again.'));
-        }
-        return $this->redirect(['action' => 'index']);
-    }
 }
