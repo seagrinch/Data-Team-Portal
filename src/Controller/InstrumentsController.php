@@ -57,6 +57,7 @@ class InstrumentsController extends AppController
      * @return \Cake\Network\Response|null
      */
     public function all($site=null) {
+      //Simple view to render DataTables.js
     }
 
     /**

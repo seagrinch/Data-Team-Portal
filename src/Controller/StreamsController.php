@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Event\Event;
 
 /**
  * Streams Controller
@@ -13,16 +14,37 @@ class StreamsController extends AppController
 {
 
     /**
+     * beforeFilter method
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['all']);
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Network\Response|null
      */
     public function index()
     {
-        $streams = $this->paginate($this->Streams);
+      $query = $this->Streams->find('all');
+      if ($this->request->is('json') ) { //Formerly ajax
+        $this->paginate['limit'] = 1000;
+        $query->contain();
+        $this->set('_serialize', false);
+      }
+      $this->set('streams',$this->paginate($query));
+    }
 
-        $this->set(compact('streams'));
-        $this->set('_serialize', ['streams']);
+    /**
+     * All method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function all($site=null) {
+      //Simple view to render DataTables.js
     }
 
     /**
