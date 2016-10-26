@@ -62,6 +62,38 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane" id="streams">
       <?php if (count($instrument->data_streams)>0): ?>
+
+        <div class="well">
+          <strong>Display Parameters:</strong>
+          <label class="radio-inline">
+            <input type="radio" name="dpselector" id="dpselector1" value="All" checked> All
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="dpselector" id="dpselector2" value="Auxiliary"> Auxiliary
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="dpselector" id="dpselector3" value="Engineering"> Engineering
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="dpselector" id="dpselector4" value="Science"> Science
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="dpselector" id="dpselector5" value="Unprocessed"> Unprocessed
+          </label>
+        </div>
+        <?php $this->Html->scriptStart(['block' => true]); ?>
+        $(function() {
+          $("[name=dpselector]").click(function(){
+            if ($(this).val()=='All') {
+              $('.dptype').show();
+            } else {
+              $('.dptype').hide();
+              $(".dptype."+$(this).val()).show();  
+            }  
+          });
+        }); 
+        <?php $this->Html->scriptEnd(); ?>
+
         <table class="table table-striped">
           <tr>
             <th>Method</th>
@@ -78,7 +110,11 @@
               <?php if (count($instrument->data_streams)>0): ?>
                 <ul>
                 <?php foreach ($s->stream->parameters as $p): ?>
-                   <li><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?></li>
+                  <li class="dptype <?= explode(' ',trim($p->data_product_type))[0]?>">
+                    <?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?> 
+                    <?= ($p->data_product_type ? $p->data_product_type : "") ?>
+                    <?= ($p->data_level>-1 ? "L".$p->data_level : "") ?>
+                  </li>
                 <?php endforeach; ?>
                 </ul>
               <?php endif; ?>
