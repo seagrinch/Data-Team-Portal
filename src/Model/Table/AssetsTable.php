@@ -33,6 +33,17 @@ class AssetsTable extends Table
         $this->table('assets');
         $this->displayField('id');
         $this->primaryKey('id');
+
+        $this->hasMany('Calibrations', [
+            'foreignKey' => 'asset_uid',
+            'bindingKey' => 'asset_uid'
+        ]);
+        $this->hasMany('SensorDeployments', [
+            'className' => 'Deployments',
+            'foreignKey' => 'sensor_uid',
+            'bindingKey' => 'asset_uid',
+            'sort' => 'start_date'
+        ]);
     }
 
     /**

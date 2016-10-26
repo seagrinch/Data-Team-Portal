@@ -35,7 +35,7 @@ class AssetsController extends AppController
     public function view($id = null) {
       $query = $this->Assets->find()
         ->where(['asset_uid'=>$id])
-        ->contain([]);
+        ->contain(['Calibrations','SensorDeployments']);
       $asset = $query->first();
       
       if (empty($asset)) {

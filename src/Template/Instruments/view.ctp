@@ -46,8 +46,8 @@
   </dd>
 </dl>
 
-<div><!-- Tabbed Navigation -->
-
+<!-- Tabbed Navigation -->
+<div>
   <!-- Nav Tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams/Parameters</a></li>
