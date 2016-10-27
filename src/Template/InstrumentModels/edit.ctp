@@ -14,7 +14,7 @@
         <?php
             echo $this->Form->input('name');
             echo $this->Form->input('description');
-            echo $this->Form->input('website_info');
+            echo $this->Form->input('website_info',['rows'=>10,'help'=>'This field accepts <a href="https://txstyle.org">Textile markup</a>']);
         ?>
     </fieldset>
 		<?= $this->Html->link('Cancel', ['action' => 'view', $instrument_model->class,$instrument_model->series], ['class'=>'btn btn-default']); ?>

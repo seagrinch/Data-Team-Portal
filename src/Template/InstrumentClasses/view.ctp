@@ -30,7 +30,10 @@
   </div>
   <div class="col-md-6">
     <p><strong>Website Info</strong></p>
-    <?= $this->Text->autoParagraph(h($instrument_class->website_info)); ?></dd>
+    <?php
+      $parser = new \Netcarver\Textile\Parser();
+      echo $parser->textileThis($instrument_class->website_info);
+    ?>
   </div>
 </div>
 
