@@ -13,41 +13,76 @@ class InstrumentModelsController extends AppController
 {
 
     /**
+     * isAuthorized method
+     */
+    public function isAuthorized($user)
+    {
+        if (in_array($this->request->action, ['edit'])) {
+            return true;
+        }        
+        return parent::isAuthorized($user);
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Network\Response|null
      */
     public function index() {
-        $instrumentModels = $this->paginate($this->InstrumentModels);
+        $instrument_models = $this->paginate($this->InstrumentModels);
 
-        $this->set(compact('instrumentModels'));
-        $this->set('_serialize', ['instrumentModels']);
+        $this->set(compact('instrument_models'));
+        $this->set('_serialize', ['instrument_models']);
     }
 
     /**
      * View method
-     *
-     * @param string|null $id Instrument Model id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($iclass = null,$iseries = null) {
       $query = $this->InstrumentModels->find()
-        ->where(['InstrumentModels.class'=>$iclass,'series'=>$iseries])
+        ->where(['InstrumentModels.class'=>$iclass,'InstrumentModels.series'=>$iseries])
         ->contain('InstrumentClasses');
-      $instrumentModel = $query->first();
+      $instrument_model = $query->first();
       
-      if (empty($instrumentModel)) {
+      if (empty($instrument_model)) {
           throw new NotFoundException(__('Instrument Model not found'));
       }
 
       $this->loadModel('Instruments');
       $instruments = $this->Instruments->find('all')
-        ->where(['Instruments.reference_designator LIKE' => '%' . $instrumentModel->class . $instrumentModel->series . '%'])
+        ->where(['Instruments.reference_designator LIKE' => '%' . $instrument_model->class . $instrument_model->series . '%'])
         ->contain('Nodes.Sites.Regions');
 
-      $this->set(compact(['instrumentModel','instruments']));
-      $this->set('_serialize', ['instrumentModel']);
+      $this->set(compact(['instrument_model','instruments']));
+      $this->set('_serialize', ['instrument_model']);
+    }
+
+    /**
+     * Edit method
+     */
+    public function edit($iclass = null,$iseries = null)
+    {
+      $query = $this->InstrumentModels->find()
+        ->where(['InstrumentModels.class'=>$iclass,'InstrumentModels.series'=>$iseries]);
+      $instrument_model = $query->first();
+        
+        if (empty($instrument_model)) {
+            throw new NotFoundException(__('Instrument Model not found'));
+        }
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $instrument_model = $this->InstrumentModels->patchEntity($instrument_model, $this->request->data, [
+                'fieldList'=>['name','description','website_info']
+            ]);
+            if ($this->InstrumentModels->save($instrument_model)) {
+                $this->Flash->success(__('The Instrument Model has been updated.'));
+                return $this->redirect(['action' => 'view', $instrument_model->class, $instrument_model->series]);
+            } else {
+                $this->Flash->error(__('The Instrument Model could not be updated. Please, try again.'));
+            }
+        }
+        $this->set(compact('instrument_model'));
+        $this->set('_serialize', ['instrument_model']);
     }
 
 }

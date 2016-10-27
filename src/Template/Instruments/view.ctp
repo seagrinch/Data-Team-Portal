@@ -178,9 +178,9 @@
 
       <dl class="dl-horizontal">
         <dt><?= __('Class') ?></dt>
-        <dd><?= h($instrument_class->class) ?></dd>
+        <dd><?= $this->Html->link($instrument_class->class, ['controller'=>'instrument_classes', 'action'=>'view', $instrument_class->class]) ?></dd>
         <dt><?= __('Series') ?></dt>
-        <dd><?= h($instrument_model->series) ?></dd>
+        <dd><?= $this->html->link($instrument_model->class . '-' .$instrument_model->series, ['controller'=>'instrument_models', 'action'=>'view', $instrument_model->class, $instrument_model->series]) ?></dd>
         <dt><?= __('Instrument Name') ?></dt>
         <dd><?= h($instrument_class->name) ?></dd>
         <dt><?= __('Science Discipline') ?></dt>

@@ -11,15 +11,15 @@
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($instrumentModels as $instrumentModel): ?>
+    <?php foreach ($instrument_models as $instrument_model): ?>
     <tr>
-      <td><?= $this->html->link($instrumentModel->class . '-' .$instrumentModel->series,
-          ['action'=>'view',$instrumentModel->class, $instrumentModel->series]) ?> 
-      <td><?= h($instrumentModel->class) ?></td>
-      <td><?= h($instrumentModel->series) ?></td>
-      <td><?= h($instrumentModel->name) ?></td>
-      <td><?= h($instrumentModel->make) ?></td>
-      <td><?= h($instrumentModel->model) ?></td>
+      <td><?= $this->html->link($instrument_model->class . '-' .$instrument_model->series,
+          ['action'=>'view',$instrument_model->class, $instrument_model->series]) ?> 
+      <td><?= h($instrument_model->class) ?></td>
+      <td><?= h($instrument_model->series) ?></td>
+      <td><?= h($instrument_model->name) ?></td>
+      <td><?= h($instrument_model->make) ?></td>
+      <td><?= h($instrument_model->model) ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>

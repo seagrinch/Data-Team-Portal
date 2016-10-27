@@ -8,11 +8,11 @@
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($instrumentClasses as $instrumentClass): ?>
+    <?php foreach ($instrument_classes as $instrument_class): ?>
     <tr>
-      <td><?= $this->html->link($instrumentClass->class,['action'=>'view',$instrumentClass->class]) ?> 
-      <td><?= h($instrumentClass->name) ?></td>
-      <td><?= h($instrumentClass->primary_science_dicipline) ?></td>
+      <td><?= $this->html->link($instrument_class->class,['action'=>'view',$instrument_class->class]) ?> 
+      <td><?= h($instrument_class->name) ?></td>
+      <td><?= h($instrument_class->primary_science_dicipline) ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>

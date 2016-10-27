@@ -1,26 +1,50 @@
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Instrument Classes'), ['controller'=>'instrument_classes','action' => 'index']) ?></li>
-  <li><?= $this->Html->link($instrumentModel->class, ['controller'=>'instrument_classes','action' => 'view', $instrumentModel->class]) ?></li>
-  <li class="active"><?= h($instrumentModel->class) ?>-<?= h($instrumentModel->series) ?></li>
+  <li><?= $this->Html->link($instrument_model->class, ['controller'=>'instrument_classes','action' => 'view', $instrument_model->class]) ?></li>
+  <li class="active"><?= h($instrument_model->class) ?>-<?= h($instrument_model->series) ?></li>
 </ol>
 
-<h3>Instrument Model: <?= h($instrumentModel->class) ?>-<?= h($instrumentModel->series) ?></h3>
+<div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
+  <?php 
+    $session = $this->request->session();
+    if ($session->check('Auth.User')) { 
+      echo $this->Html->link('Edit', ['action'=>'edit', $instrument_model->class, $instrument_model->series], ['class'=>'btn btn-info']);
+    }
+  ?>
+  <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'http://oceanobservatories.org/instrument-series/' . $instrument_model->class . $instrument_model->series, ['class'=>'btn btn-default', 'escape'=>false]); ?>
+  <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooinet.oceanobservatories.org/data_access/?search=' . $instrument_model->class . $instrument_model->series, ['class'=>'btn btn-default', 'escape'=>false]); ?>
+</div>
 
-<dl class="dl-horizontal">
-  <dt><?= __('Instrument Name') ?></dt>
-  <dd><?= h($instrumentModel->name) ?></dd>
-  <dt><?= __('Science Discipline') ?></dt>
-  <dd><?= h($instrumentModel->instrument_class->primary_science_dicipline) ?></dd>
-  <dt><?= __('Description') ?></dt>
-  <dd><?= $this->Text->autoParagraph(h($instrumentModel->instrument_class->description)); ?></dd>
-  <dt><?= __('Make') ?></dt>
-  <dd><?= h($instrumentModel->make) ?></dd>
-  <dt><?= __('Model') ?></dt>
-  <dd><?= h($instrumentModel->model) ?></dd>
-</dl>
+<h3>Instrument Series: <?= h($instrument_model->class) . '-' . $instrument_model->series ?></h3>
 
+<div class="row">
+  <div class="col-md-6">
 
-<h3>Deployed Instruments</h3>
+    <dl class="dl-horizontal">
+      <dt><?= __('Instrument Name') ?></dt>
+      <dd><?= h($instrument_model->name) ?></dd>
+      <dt><?= __('Science Discipline') ?></dt>
+      <dd><?= h($instrument_model->instrument_class->primary_science_dicipline) ?></dd>
+      <dt><?= __('Class Description') ?></dt>
+      <dd><?= $this->Text->autoParagraph(h($instrument_model->instrument_class->description)); ?></dd>
+      <dt><?= __('Series Description') ?></dt>
+      <dd><?= $this->Text->autoParagraph(h($instrument_model->description)); ?></dd>
+      <dt><?= __('Make') ?></dt>
+      <dd><?= h($instrument_model->make) ?></dd>
+      <dt><?= __('Model') ?></dt>
+      <dd><?= h($instrument_model->model) ?></dd>
+    </dl>
+
+  </div>
+  <div class="col-md-6">
+    <p><strong>Website Info</strong></p>
+    <?= $this->Text->autoParagraph(h($instrument_model->website_info)); ?></dd>
+  </div>
+</div>
+
+<hr>
+
+<h4>Deployed Instruments</h4>
 <table class="table table-striped" cellpadding="0" cellspacing="0">
   <thead>
     <tr>
