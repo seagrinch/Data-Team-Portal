@@ -19,6 +19,9 @@
 
 <h3><?= h($instrument->name) ?></h3>
 
+<div class="row">
+  <div class="col-md-5">
+
 <dl class="dl-horizontal">
   <dt><?= __('Reference Designator') ?></dt>
   <dd><?= h($instrument->reference_designator) ?></dd>
@@ -46,16 +49,105 @@
   </dd>
 </dl>
 
+  </div>
+  <div class="col-md-7">
+
+    <dl class="dl-horizontal">
+      <dt><?= __('Class') ?></dt>
+      <dd><?= $this->Html->link($instrument_class->class, ['controller'=>'instrument_classes', 'action'=>'view', $instrument_class->class]) ?></dd>
+      <dt><?= __('Series') ?></dt>
+      <dd><?= $this->html->link($instrument_model->class . '-' .$instrument_model->series, ['controller'=>'instrument_models', 'action'=>'view', $instrument_model->class, $instrument_model->series]) ?></dd>
+      <dt><?= __('Instrument Name') ?></dt>
+      <dd><?= h($instrument_class->name) ?></dd>
+      <dt><?= __('Science Discipline') ?></dt>
+      <dd><?= h($instrument_class->primary_science_dicipline) ?></dd>
+      <dt><?= __('Description') ?></dt>
+      <dd><?= h($instrument_class->description) ?></dd>
+      <dt><?= __('Make') ?></dt>
+      <dd><?= h($instrument_model->make) ?></dd>
+      <dt><?= __('Model') ?></dt>
+      <dd><?= h($instrument_model->model) ?></dd>
+    </dl>
+
+  </div>
+</div>
+
+
+<!-- Stats Graph -->
+<?php if (count($instrument->monthly_stats)>0): ?>
+<?php $this->Html->css('https://fonts.googleapis.com/css?family=Muli',['block'=>true]); ?>
+<?php $this->Html->css('/visavail/css/visavail.css',['block'=>true]); ?>
+<?php $this->Html->css('/font-awesome/css/font-awesome.min.css',['block'=>true]); ?>
+<?php $this->Html->script('/moment/moment-with-locales.min.js',['block'=>true]); ?>
+<?php $this->Html->script('/d3/d3.min.js',['block'=>true]); ?>
+<?php $this->Html->script('/visavail/js/visavail.js',['block'=>true]); ?>
+<?php 
+  $months=[];
+  foreach ($instrument->monthly_stats as $s) {
+    if (in_array(strtolower($s->operational_status), array_map('strtolower', ['Operational','Pending','Failed']))) {
+      $months['operational_status'][] = [
+        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
+        (in_array(strtolower($s->operational_status), array_map('strtolower', ['Operational','Pending'])) ? 1 : 0),
+        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
+      ];
+      $months['cassandra_ts'][] = [
+        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
+        (($s->cassandra_ts>=10) ? 1 : 0), 
+        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
+      ];
+      $months['cassandra_rec'][] = [
+        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
+        (($s->cassandra_rec>=10) ? 1 : 0), 
+        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
+      ];
+    }
+  }
+?>
+<?php $this->Html->scriptStart(['block' => true]); ?>
+  var stats_data = <?php echo json_encode($months);?>;
+  
+  moment.locale("en");
+    var dataset=[];
+    if (stats_data['operational_status'].length>0) {
+      dataset.push({
+        "measure": "Op. Status",
+        "interval_s": 30 * 24 * 60 * 60,
+        "data": stats_data['operational_status'],
+      })
+    };
+    if (stats_data['cassandra_ts'].length>0) {
+      dataset.push({
+        "measure": "Cass. Tel/Stream",
+        "interval_s": 30 * 24 * 60 * 60,
+        "data": stats_data['cassandra_ts'],
+      })
+    };
+    if (stats_data['cassandra_rec'].length>0) {
+      dataset.push({
+        "measure": "Cass. Recovered",
+        "interval_s": 30 * 24 * 60 * 60,
+        "data": stats_data['cassandra_rec'],
+      })
+    };
+
+    var chart = visavailChart().width(800); // define width of chart in px
+
+    d3.select("#example")
+            .datum(dataset)
+            .call(chart);
+<?php $this->Html->scriptEnd(); ?>
+<div id="example" class="well"><!-- Visavail.js chart will be inserted here --></div>
+<?php endif; ?>
+
 <!-- Tabbed Navigation -->
 <div>
   <!-- Nav Tabs -->
   <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
     <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams/Parameters</a></li>
-    <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
-    <li role="presentation" class="active"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
-    <li role="presentation"><a href="#instrument" aria-controls="instrument" role="tab" data-toggle="tab">Instrument Info</a></li>
-    <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats</a></li>
-    <li role="presentation"><a href="#tests" aria-controls="stats" role="tab" data-toggle="tab">Tests</a></li>
+    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+    <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats (old?)</a></li>
+    <li role="presentation"><a href="#tests" aria-controls="stats" role="tab" data-toggle="tab">Tests (old?)</a></li>
   </ul>
 
   <!-- Tab Content -->
@@ -130,7 +222,7 @@
       <?php endif; ?>
 
     </div>
-    <div role="tabpanel" class="tab-pane" id="deployments">
+    <div role="tabpanel" class="tab-pane active" id="deployments">
 
       <?php if (count($instrument->deployments)>0): ?>
         <table class="table table-striped">
@@ -168,109 +260,15 @@
       <?php endif; ?>
 
     </div>
-    <div role="tabpanel" class="tab-pane active" id="notes">
+    <div role="tabpanel" class="tab-pane" id="notes">
 
       <?php echo $this->element('notes', ['notes'=>$instrument->notes]); ?>
       <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','instruments',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?></p>
 
     </div>
-    <div role="tabpanel" class="tab-pane" id="instrument">
-
-      <dl class="dl-horizontal">
-        <dt><?= __('Class') ?></dt>
-        <dd><?= $this->Html->link($instrument_class->class, ['controller'=>'instrument_classes', 'action'=>'view', $instrument_class->class]) ?></dd>
-        <dt><?= __('Series') ?></dt>
-        <dd><?= $this->html->link($instrument_model->class . '-' .$instrument_model->series, ['controller'=>'instrument_models', 'action'=>'view', $instrument_model->class, $instrument_model->series]) ?></dd>
-        <dt><?= __('Instrument Name') ?></dt>
-        <dd><?= h($instrument_class->name) ?></dd>
-        <dt><?= __('Science Discipline') ?></dt>
-        <dd><?= h($instrument_class->primary_science_dicipline) ?></dd>
-        <dt><?= __('Description') ?></dt>
-        <dd><?= h($instrument_class->description) ?></dd>
-        <dt><?= __('Make') ?></dt>
-        <dd><?= h($instrument_model->make) ?></dd>
-        <dt><?= __('Model') ?></dt>
-        <dd><?= h($instrument_model->model) ?></dd>
-      </dl>      
-
-    </div>
     <div role="tabpanel" class="tab-pane" id="stats">
 
       <?php if (count($instrument->monthly_stats)>0): ?>
-
-
-<?php $this->Html->css('https://fonts.googleapis.com/css?family=Muli',['block'=>true]); ?>
-<?php $this->Html->css('/visavail/css/visavail.css',['block'=>true]); ?>
-<?php $this->Html->css('/font-awesome/css/font-awesome.min.css',['block'=>true]); ?>
-<?php $this->Html->script('/moment/moment-with-locales.min.js',['block'=>true]); ?>
-<?php $this->Html->script('/d3/d3.min.js',['block'=>true]); ?>
-<?php $this->Html->script('/visavail/js/visavail.js',['block'=>true]); ?>
-
-<?php 
-  $months=[];
-  foreach ($instrument->monthly_stats as $s) {
-    if (in_array(strtolower($s->operational_status), array_map('strtolower', ['Operational','Pending','Failed']))) {
-      $months['operational_status'][] = [
-        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
-        (in_array(strtolower($s->operational_status), array_map('strtolower', ['Operational','Pending'])) ? 1 : 0),
-        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
-      ];
-      $months['cassandra_ts'][] = [
-        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
-        (($s->cassandra_ts>=10) ? 1 : 0), 
-        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
-      ];
-      $months['cassandra_rec'][] = [
-        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
-        (($s->cassandra_rec>=10) ? 1 : 0), 
-        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
-      ];
-    }
-  }
-/*
-  echo '<pre>';
-  print_r($months);
-  echo '</pre>';
-*/
-?>
-
-<?php $this->Html->scriptStart(['block' => true]); ?>
-  var stats_data = <?php echo json_encode($months);?>;
-  
-  moment.locale("en");
-    var dataset=[];
-    if (stats_data['operational_status'].length>0) {
-      dataset.push({
-        "measure": "Op. Status",
-        "interval_s": 30 * 24 * 60 * 60,
-        "data": stats_data['operational_status'],
-      })
-    };
-    if (stats_data['cassandra_ts'].length>0) {
-      dataset.push({
-        "measure": "Cass. Tel/Stream",
-        "interval_s": 30 * 24 * 60 * 60,
-        "data": stats_data['cassandra_ts'],
-      })
-    };
-    if (stats_data['cassandra_rec'].length>0) {
-      dataset.push({
-        "measure": "Cass. Recovered",
-        "interval_s": 30 * 24 * 60 * 60,
-        "data": stats_data['cassandra_rec'],
-      })
-    };
-
-    var chart = visavailChart().width(800); // define width of chart in px
-
-    d3.select("#example")
-            .datum(dataset)
-            .call(chart);
-
-<?php $this->Html->scriptEnd(); ?>
-
-<p id="example"><!-- Visavail.js chart will be inserted here --></p>
-
         <table class="table table-striped">
           <tr>
             <th>Month</th>
