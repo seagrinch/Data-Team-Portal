@@ -36,7 +36,8 @@ class CruisesTable extends Table
 
         $this->hasMany('Deployments', [
             'foreignKey' => 'deploy_cuid',
-            'bindingKey' => 'cuid'
+            'bindingKey' => 'cuid',
+            'sort' => 'start_date'
         ]);
     }
 

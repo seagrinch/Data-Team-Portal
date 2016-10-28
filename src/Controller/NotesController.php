@@ -74,35 +74,26 @@ class NotesController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add($model=null,$reference_designator=null)
+    public function add($type=null,$reference_designator=null,$deployment=null)
     {
-        if ($model=='sites') {
-          $this->loadModel('Sites');
-          $query = $this->Sites->find()
-            ->where(['Sites.reference_designator'=>$reference_designator]);
-          $rd = $query->first();
-        } elseif ($model=='nodes') {
-          $this->loadModel('Nodes');
-          $query = $this->Nodes->find()
-            ->where(['Nodes.reference_designator'=>$reference_designator]);
-          $rd = $query->first();
-        } elseif ($model=='instruments') {
-          $this->loadModel('Instruments');
-          $query = $this->Instruments->find()
-            ->where(['Instruments.reference_designator'=>$reference_designator]);
-          $rd = $query->first();
-        } elseif ($model=='streams') {
-          $this->loadModel('Streams');
-          $query = $this->Streams->find()
-            ->where(['Streams.name'=>$reference_designator]);
-          $rd = $query->first();
-          $rd->reference_designator = $rd->name;
-        } elseif ($model=='parameters') {
-          $this->loadModel('Parameters');
-          $query = $this->Parameters->find()
-            ->where(['Parameters.name'=>$reference_designator]);
-          $rd = $query->first();
-          $rd->reference_designator = $rd->name;
+        if (strlen($reference_designator)==8) {
+            $this->loadModel('Sites');
+            $query = $this->Sites->find()
+              ->where(['Sites.reference_designator'=>$reference_designator]);
+            $rd = $query->first();
+            $model='sites';
+        } elseif (strlen($reference_designator)==14) {
+            $this->loadModel('Nodes');
+            $query = $this->Nodes->find()
+              ->where(['Nodes.reference_designator'=>$reference_designator]);
+            $rd = $query->first();
+            $model='nodes';
+        } elseif (strlen($reference_designator)==27) {
+            $this->loadModel('Instruments');
+            $query = $this->Instruments->find()
+              ->where(['Instruments.reference_designator'=>$reference_designator]);
+            $rd = $query->first();
+            $model='instruments';
         }
 
         if (empty($rd)) {
@@ -111,21 +102,26 @@ class NotesController extends AppController
 
         $note = $this->Notes->newEntity();
         $note->model = $model;
+        $note->type = $type;
         $note->reference_designator = $rd->reference_designator;
+        $note->deployment = $deployment;
+        $note->method = $this->request->query('method');
+        $note->stream = $this->request->query('stream');
+        $note->parameter = $this->request->query('parameter');
+        
         if ($this->request->is('post')) {
             $note = $this->Notes->patchEntity($note, $this->request->data, [
-              'fieldList'=>['comment','type','deployment','start_date','end_date','redmine_issue']
+              'fieldList'=>['type','comment','deployment','start_date','end_date','redmine_issue','exclusion_flag']
             ]);
             $note->user_id = $this->Auth->user('id');
             if ($this->Notes->save($note)) {
                 $this->Flash->success(__('The note has been saved.'));
-                return $this->redirect(['controller'=>$model, 'action'=>'view', $rd->reference_designator, '#'=>'notes']);
+                return $this->redirect(['controller'=>$note->model, 'action'=>'view', $rd->reference_designator, '#'=>'notes']);
             } else {
                 $this->Flash->error(__('The note could not be saved. Please, try again.'));
             }
         }
-        //$users = $this->Notes->Users->find('list', ['limit' => 200]);
-        $this->set(compact('note', 'users'));
+        $this->set(compact('note'));
         $this->set('_serialize', ['note']);
     }
 
@@ -141,19 +137,19 @@ class NotesController extends AppController
         $note = $this->Notes->get($id, [
             'contain' => []
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $note = $this->Notes->patchEntity($note, $this->request->data, [
-              'fieldList'=>['comment','type','deployment','start_date','end_date','redmine_issue','resolved_date','resolved_comment']
+              'fieldList'=>['type','comment','deployment','start_date','end_date','redmine_issue','resolved_date','exclusion_flag']
             ]);
             if ($this->Notes->save($note)) {
-                $this->Flash->success(__('The note has been saved.'));
+                $this->Flash->success(__('The note has been updated.'));
                 return $this->redirect(['controller'=>$note->model, 'action'=>'view', $note->reference_designator, '#'=>'notes']);
             } else {
-                $this->Flash->error(__('The note could not be saved. Please, try again.'));
+                $this->Flash->error(__('The note could not be updated. Please, try again.'));
             }
         }
-        //$users = $this->Notes->Users->find('list', ['limit' => 200]);
-        $this->set(compact('note', 'users'));
+        $this->set(compact('note'));
         $this->set('_serialize', ['note']);
     }
 

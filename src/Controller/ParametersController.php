@@ -57,7 +57,7 @@ class ParametersController extends AppController
     public function view($id = null)
     {
         $parameter = $this->Parameters->get($id, [
-          'contain' => ['ParameterFunctions', 'Streams', 'Notes.Users']
+          'contain' => ['ParameterFunctions', 'Streams']
         ]);
 
         $this->set('parameter', $parameter);

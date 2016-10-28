@@ -1,8 +1,8 @@
 <?php 
   $icons = [
     'note' => ['icon'=>'glyphicon-tag', 'title'=>'Operational Note', 'color'=>'black'],
-    'data' => ['icon'=>'glyphicon-globe', 'title'=>'Data Quality Note', 'color'=>'green'],
-    'flag' => ['icon'=>'glyphicon-question-sign', 'title'=>'Flag/Issue', 'color'=>'red'],
+    'annotation' => ['icon'=>'glyphicon-globe', 'title'=>'Annotation', 'color'=>'green'],
+    'issue' => ['icon'=>'glyphicon-question-sign', 'title'=>'Issue', 'color'=>'red'],
     'resolved' => ['icon'=>'glyphicon-ok-sign', 'title'=>'Resolved Flag', 'color'=>'black'],
   ];
 ?>

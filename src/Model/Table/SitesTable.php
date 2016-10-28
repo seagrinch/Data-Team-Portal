@@ -41,11 +41,12 @@ class SitesTable extends Table
         $this->hasMany('Notes', [
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator',
-            'conditions' => ['model' => 'sites']
+            'sort' => 'start_date'
         ]);
         $this->hasMany('Deployments', [
             'foreignKey' => 'reference_designator',
-            'bindingKey' => 'reference_designator'
+            'bindingKey' => 'reference_designator',
+            'sort' => 'start_date'
         ]);
     }
 

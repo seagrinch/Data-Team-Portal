@@ -109,9 +109,13 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="notes">
 
-      <?php echo $this->element('notes', ['notes'=>$site->notes]); ?>
+      <?php echo $this->element('notes_table', ['notes'=>$site->notes]); ?>
       
-      <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','sites',$site->reference_designator], ['class'=>'btn btn-primary']); ?></p>
+      <p class="text-left">
+        <?php echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add','note',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Issue'), ['controller'=>'notes','action'=>'add','issue',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'notes','action'=>'add','annotation',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
+      </p>
 
     </div>
   </div><!-- End Tab Content -->

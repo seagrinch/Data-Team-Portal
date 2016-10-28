@@ -58,7 +58,7 @@ class StreamsController extends AppController
     {
         $query = $this->Streams->find()
           ->where(['Streams.name'=>$name])
-          ->contain(['Parameters','DataStreams.Instruments','Notes.Users']);
+          ->contain(['Parameters','DataStreams.Instruments']);
         $stream = $query->first();
 
         $this->set('stream', $stream);

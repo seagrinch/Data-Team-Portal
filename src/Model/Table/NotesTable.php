@@ -65,6 +65,13 @@ class NotesTable extends Table
 
         $validator
             ->allowEmpty('deployment');
+        $validator
+            ->allowEmpty('stream');
+        $validator
+            ->allowEmpty('method');
+        $validator
+            ->integer('parameter','Please enter just a Parameter ID')
+            ->allowEmpty('parameter');
 
         $validator
             ->allowEmpty('start_date')
@@ -83,7 +90,12 @@ class NotesTable extends Table
             ->date('resolved_date','mdy');
 
         $validator
-            ->allowEmpty('resolved_comment');
+            ->integer('uframe_id','Must be an integer')
+            ->allowEmpty('uframe_id');
+
+        $validator
+            ->boolean('exclusion_flag','Must be boolean')
+            ->allowEmpty('exclusion_flag');
 
         return $validator;
     }

@@ -262,8 +262,12 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="notes">
 
-      <?php echo $this->element('notes', ['notes'=>$instrument->notes]); ?>
-      <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','instruments',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?></p>
+      <?php echo $this->element('notes_table', ['notes'=>$instrument->notes]); ?>
+      <p class="text-left">
+        <?php echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add','note',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Issue'), ['controller'=>'notes','action'=>'add','issue',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'notes','action'=>'add','annotation',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
+      </p>
 
     </div>
     <div role="tabpanel" class="tab-pane" id="stats">

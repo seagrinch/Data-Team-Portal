@@ -40,12 +40,13 @@ class InstrumentsTable extends Table
         ]);
         $this->hasMany('Deployments', [
             'foreignKey' => 'reference_designator',
-            'bindingKey' => 'reference_designator'
+            'bindingKey' => 'reference_designator',
+            'sort' => 'start_date'
         ]);
         $this->hasMany('Notes', [
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator',
-            'conditions' => ['model' => 'instruments']
+            'sort' => 'start_date'
         ]);
         $this->hasMany('MonthlyStats', [
             'foreignKey' => 'reference_designator',

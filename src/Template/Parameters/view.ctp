@@ -37,13 +37,12 @@
 
   <!-- Nav Tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Related Streams</a></li>
-    <li role="presentation" class="active"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+    <li role="presentation" class="active"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Related Streams</a></li>
   </ul>
 
   <!-- Tab Content -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane" id="streams">
+    <div role="tabpanel" class="tab-pane active" id="streams">
 
       <?php if (!empty($parameter->streams)): ?>
       <table class="table table-striped">
@@ -65,13 +64,6 @@
       <?php else: ?>
         <p class="panel-body">No related Streams found</p>
       <?php endif; ?>
-
-    </div>
-    <div role="tabpanel" class="tab-pane active" id="notes">
-
-      <h4>Notes</h4>
-      <?php echo $this->element('notes', ['notes'=>$parameter->notes]); ?>      
-      <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','parameters',$parameter->name], ['class'=>'btn btn-primary']); ?></p>
 
     </div>
   </div><!-- End Tab Content -->

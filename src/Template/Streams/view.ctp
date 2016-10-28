@@ -27,14 +27,13 @@
 
   <!-- Nav Tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation"><a href="#parameters" aria-controls="streams" role="tab" data-toggle="tab">Related Parameters</a></li>
+    <li role="presentation" class="active"><a href="#parameters" aria-controls="streams" role="tab" data-toggle="tab">Related Parameters</a></li>
     <li role="presentation"><a href="#instruments" aria-controls="instruments" role="tab" data-toggle="tab">Related Instruments</a></li>
-    <li role="presentation" class="active"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
   </ul>
 
   <!-- Tab Content -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane" id="parameters">
+    <div role="tabpanel" class="tab-pane active" id="parameters">
       
     <?php if (!empty($stream->parameters)): ?>
         <table class="table table-striped">
@@ -99,13 +98,6 @@
       <?php else: ?>
           <p class="panel-body">No related Instruments</p>
       <?php endif; ?>
-
-    </div>
-    <div role="tabpanel" class="tab-pane active" id="notes">
-
-      <h4>Notes</h4>
-      <?php echo $this->element('notes', ['notes'=>$stream->notes]); ?>      
-      <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','streams',$stream->name], ['class'=>'btn btn-primary']); ?></p>
 
     </div>
   </div><!-- End Tab Content -->

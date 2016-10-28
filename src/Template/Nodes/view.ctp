@@ -84,8 +84,12 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="notes">
 
-      <?php echo $this->element('notes', ['notes'=>$node->notes]); ?>
-      <p class="text-left"><?php echo $this->Html->link(__('Add a New Note'), ['controller'=>'notes','action'=>'add','nodes',$node->reference_designator], ['class'=>'btn btn-primary']); ?></p>
+      <?php echo $this->element('notes_table', ['notes'=>$node->notes]); ?>
+      <p class="text-left">
+        <?php echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add','note',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Issue'), ['controller'=>'notes','action'=>'add','issue',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'notes','action'=>'add','annotation',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
+      </p>
 
     </div>
   </div><!-- End Tab Content -->

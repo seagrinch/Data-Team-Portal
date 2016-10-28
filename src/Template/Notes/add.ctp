@@ -5,24 +5,22 @@
 
 <?= $this->Form->create($note) ?>
 <fieldset>
-  <legend><?= __('Add Note') ?></legend>
+  <legend>New <?=$note->type?></legend>
 
   <div class="row">
     <div class='col-md-6'>
-      <strong>Note Type</strong> <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="A Flag is an issue that can be resolved. An Operational or Data Quality note is a permanent known problem that cannot be resolved until the instrument is redeployed or replaced."></span>
+      <dl class="dl-horizontal">
+        <dt><?= __('Reference Designator') ?></dt>
+        <dd><?= h($note->reference_designator) ?></dd>
+        <dt><?= __('Method') ?></dt>
+        <dd><?= h($note->method) ?></dd>
+        <dt><?= __('Stream') ?></dt>
+        <dd><?= h($note->stream) ?></dd>
+        <dt><?= __('Parameter') ?></dt>
+        <dd><?= h($note->parameter) ?></dd>
+      </dl>
+      
       <?php
-      echo $this->Form->input('type',[
-        'type'=>'radio',
-        'options'=>['note'=>'Operational Note','data'=>'Data Quality','flag'=>'Flag/Issue'],
-        'inline'=>true,
-        'label'=>false
-      ]);
-      echo $this->Form->input('comment',['type'=>'textarea', 'rows'=>12]);
-      ?>
-    </div>
-    <div class='col-md-6'>
-      <?php
-      echo $this->Form->input('reference_designator',['disabled'=>true]);
       echo $this->Form->input('deployment',['label'=>[
         'text'=>'Deployment <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the deployment number."></span>', 
         'escape'=>false] ] );
@@ -34,16 +32,28 @@
         'type'=>'text',
         'append' => '<span class="glyphicon glyphicon-th" id="end-date-dp"></span>',
         ]);
-      echo $this->Form->input('redmine_issue',['label'=>[
-        'text'=>'Redmine Issue <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Redmine issue number."></span>', 
-        'escape'=>false] ]);
       ?>
+    </div>
+    <div class='col-md-6'>
+      <?php
+      echo $this->Form->input('comment',['type'=>'textarea', 'rows'=>12]);
+      if ($note->type=='issue') {
+        echo $this->Form->input('redmine_issue',['label'=>[
+          'text'=>'Redmine Issue <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Redmine issue number."></span>', 
+          'escape'=>false] ]);
+      }
+      if ($note->type=='annotation') {
+        echo $this->Form->input('exclusion_flag',['label'=>'Exclude Data?']);
+      }
+      ?>
+
+      <?= $this->Html->link('Cancel', ['controller'=>$note->model, 'action' => 'view', $note->reference_designator, '#'=>'notes'], ['class'=>'btn btn-default']); ?> 
+      <?= $this->Form->button(__('Save'),['class'=>'btn btn-primary']) ?> 
+
     </div>
   </div>
 </fieldset>
     
-<?= $this->Html->link('Cancel', ['controller'=>$note->model, 'action' => 'view', $note->reference_designator], ['class'=>'btn btn-default']); ?> 
-<?= $this->Form->button(__('Save'),['class'=>'btn btn-primary']) ?> 
 <?= $this->Form->end() ?>
 
 <?php $this->Html->css('datepicker/bootstrap-datepicker3',['block'=>true]); ?>
