@@ -59,10 +59,12 @@
       <dd><?= $this->html->link($instrument_model->class . '-' .$instrument_model->series, ['controller'=>'instrument_models', 'action'=>'view', $instrument_model->class, $instrument_model->series]) ?></dd>
       <dt><?= __('Instrument Name') ?></dt>
       <dd><?= h($instrument_class->name) ?></dd>
+<!--
       <dt><?= __('Science Discipline') ?></dt>
       <dd><?= h($instrument_class->primary_science_dicipline) ?></dd>
       <dt><?= __('Description') ?></dt>
       <dd><?= h($instrument_class->description) ?></dd>
+-->
       <dt><?= __('Make') ?></dt>
       <dd><?= h($instrument_model->make) ?></dd>
       <dt><?= __('Model') ?></dt>
@@ -198,7 +200,23 @@
           <tr>
             <td><?= h($s->method) ?></td>
             <td>
-              <?= $this->Html->link($s->stream->name, ['controller'=>'streams', 'action' => 'view', $s->stream->name]) ?>
+              <div class="stream">
+                <?= $this->Html->link($s->stream->name, ['controller'=>'streams', 'action' => 'view', $s->stream->name]) ?>
+                    <span class="actions"> - Add:
+                    <?php echo $this->Html->link(
+                      '<span class="glyphicon glyphicon-tag" style="color:black" aria-hidden="true"></span>', 
+                      ['controller'=>'notes','action'=>'add','note',$instrument->reference_designator, 
+                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name]], ['escape'=>false ]); ?>
+                    <?php echo $this->Html->link(
+                      '<span class="glyphicon glyphicon-question-sign" style="color:red" aria-hidden="true"></span>', 
+                      ['controller'=>'notes','action'=>'add','issue',$instrument->reference_designator,
+                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name]], ['escape'=>false ]); ?>
+                    <?php echo $this->Html->link(
+                      '<span class="glyphicon glyphicon-globe" style="color:green" aria-hidden="true"></span>', 
+                      ['controller'=>'notes','action'=>'add','annotation',$instrument->reference_designator,
+                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name]], ['escape'=>false ]); ?>
+                      </span> 
+              </div>
               <?php if (count($instrument->data_streams)>0): ?>
                 <ul>
                 <?php foreach ($s->stream->parameters as $p): ?>
@@ -206,6 +224,25 @@
                     <?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?> 
                     <?= ($p->data_product_type ? $p->data_product_type : "") ?>
                     <?= ($p->data_level>-1 ? "L".$p->data_level : "") ?>
+                    <span class="actions"> - Add:
+                    <?php echo $this->Html->link(
+                      '<span class="glyphicon glyphicon-tag" style="color:black" aria-hidden="true"></span>', 
+                      ['controller'=>'notes','action'=>'add','note',$instrument->reference_designator, 
+                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name, 'parameter'=>$p->id]], ['escape'=>false ]); ?>
+                    <?php echo $this->Html->link(
+                      '<span class="glyphicon glyphicon-question-sign" style="color:red" aria-hidden="true"></span>', 
+                      ['controller'=>'notes','action'=>'add','issue',$instrument->reference_designator,
+                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name, 'parameter'=>$p->id]], ['escape'=>false ]); ?>
+                    <?php echo $this->Html->link(
+                      '<span class="glyphicon glyphicon-globe" style="color:green" aria-hidden="true"></span>', 
+                      ['controller'=>'notes','action'=>'add','annotation',$instrument->reference_designator,
+                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name, 'parameter'=>$p->id]], ['escape'=>false ]); ?>
+                      </span> 
+                      <style>
+                        .actions { display:none; }
+                        .dptype:hover .actions{ display:inline }
+                        .stream:hover .actions{ display:inline }
+                      </style>
                   </li>
                 <?php endforeach; ?>
                 </ul>
