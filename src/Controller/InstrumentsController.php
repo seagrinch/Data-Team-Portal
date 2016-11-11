@@ -71,7 +71,7 @@ class InstrumentsController extends AppController
       $query = $this->Instruments->find()
         ->where(['Instruments.reference_designator'=>$id])
         ->contain(['Nodes.Sites.Regions','Deployments',
-          'DataStreams.Streams.Parameters','Notes.Users','MonthlyStats','TestRuns']);
+          'DataStreams.Streams.Parameters','MonthlyStats','TestRuns']);
       $instrument = $query->first();
       
       if (empty($instrument)) {
@@ -88,6 +88,14 @@ class InstrumentsController extends AppController
         ->where(['class'=> substr($instrument->reference_designator,18,5), 'series'=>substr($instrument->reference_designator,23,1)]);
       $instrument_model = $query->first();
 
+      $notes = $this->Instruments->Notes->find('all')
+        ->where(['reference_designator'=> $instrument->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
+        ->contain(['Users'])
+        ->order(['start_date'=>'ASC']);
+      $instrument->notes = $notes;
+      
       $this->set(compact(['instrument','instrument_class','instrument_model']));
       $this->set('_serialize', ['instrument']);
     }

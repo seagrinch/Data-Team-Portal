@@ -35,12 +35,19 @@ class NodesController extends AppController
     public function view($id = null) {
       $query = $this->Nodes->find()
         ->where(['Nodes.reference_designator'=>$id])
-        ->contain(['Sites.Regions','Instruments','Notes.Users','Deployments']);
+        ->contain(['Sites.Regions','Instruments','Deployments']);
       $node = $query->first();
       
       if (empty($node)) {
           throw new NotFoundException(__('Node not found'));
       }
+
+      $notes = $this->Nodes->Notes->find('all')
+        ->where(['reference_designator'=> $node->reference_designator])
+        ->orWhere(['reference_designator'=> $node->site->reference_designator])
+        ->contain(['Users'])
+        ->order(['start_date'=>'ASC']);
+      $node->notes = $notes;
 
       $this->set('node', $node);
       $this->set('_serialize', ['node']);

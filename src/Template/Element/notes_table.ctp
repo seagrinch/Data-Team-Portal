@@ -18,27 +18,29 @@
   <tbody>
   <?php foreach ($notes as $note): ?>
   <tr>
-    <td><span class="glyphicon <?= $icons[$note->type]['icon']?>" style="font-size: 1.0em; color:<?= $icons[$note->type]['color']?>;" aria-hidden="true"></span> <?= $icons[$note->type]['title']?></td>
+    <td class="col-md-2"><span class="glyphicon <?= $icons[$note->type]['icon']?>" style="font-size: 1.0em; color:<?= $icons[$note->type]['color']?>;" aria-hidden="true"></span> <?= $icons[$note->type]['title']?></td>
 
-    <td>
+    <td class="col-md-3">
+      <small><?=$note->reference_designator?><br>
+      <?php if ($note->deployment): ?>
+        <strong>Deployment:</strong> <?= h($note->deployment) ?> <br>
+      <?php endif; ?> 
       <?php if ($note->method): ?>
-        Method: <?= h($note->method)?> <br>
+        <strong>Method:</strong> <?= h($note->method)?> <br>
       <?php endif; ?>
       <?php if ($note->stream): ?>
-        Stream: <?= h($note->stream)?> <br>
+        <strong>Stream:</strong> <?= h($note->stream)?> <br>
       <?php endif; ?>
       <?php if ($note->parameter): ?>
-        Parameter: <?= h($note->parameter)?> <br>
+        <strong>Parameter:</strong> <?= h($note->parameter)?> <br>
       <?php endif; ?>
-      <?php if ($note->deployment): ?>
-        Deployment: <?= h($note->deployment) ?> <br>
-      <?php endif; ?> 
       <?php if ($note->start_date): ?>
         <?= h($note->start_date) ?> 
       <?php endif; ?> 
       <?php if ($note->end_date): ?>
         to <?= h($note->end_date) ?> 
       <?php endif; ?> 
+      </small>
     </td>
     <td>
       <?= $this->Text->autoParagraph(h($note->comment)); ?>
