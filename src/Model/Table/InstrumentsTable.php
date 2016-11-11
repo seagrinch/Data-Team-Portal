@@ -36,7 +36,8 @@ class InstrumentsTable extends Table
             'bindingKey' => 'reference_designator'
         ]);
         $this->hasMany('DataStreams', [
-            'foreignKey' => 'instrument_id'
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator',
         ]);
         $this->hasMany('Deployments', [
             'foreignKey' => 'reference_designator',

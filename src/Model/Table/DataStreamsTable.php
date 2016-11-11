@@ -33,7 +33,8 @@ class DataStreamsTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Instruments', [
-            'foreignKey' => 'instrument_id'
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator',
         ]);
         $this->belongsTo('Streams', [
             'foreignKey' => 'stream_id'
