@@ -4,6 +4,9 @@
   <li class="active">Edit</li>
 </ol>
 
+<div class="pull-right"><?= $this->Form->postLink(__('Delete Note'), ['action' => 'delete', $note->id], ['confirm' => __('Are you sure you want to delete the note for {0}?', $note->reference_designator), 'class'=>'btn btn-danger']) ?></div>
+<div class="clearfix"></div>
+
 <?= $this->Form->create($note) ?>
 <fieldset>
   <legend>Edit <?=$note->type?></legend>
