@@ -55,7 +55,11 @@ class NotesTable extends Table
             ->notEmpty('comment', 'A comment is required');
 
         $validator
-            ->notEmpty('type', 'A type is required');
+            ->notEmpty('type', 'A type is required')
+            ->add('type', 'inList', [
+              'rule' => ['inList', ['note','issue','annotation']],
+              'message' => 'Not a valid note type',
+              ]);
 
         $validator
             ->notEmpty('model', 'A model is required');

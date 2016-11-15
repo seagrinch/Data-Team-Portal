@@ -37,7 +37,7 @@
     <div class='col-md-6'>
       <?php
       echo $this->Form->input('comment',['type'=>'textarea', 'rows'=>12]);
-      if ($note->type=='issue') {
+      if (in_array($note->type, ['issue', 'note'])) {
         echo $this->Form->input('redmine_issue',['label'=>[
           'text'=>'Redmine Issue <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Redmine issue number."></span>', 
           'escape'=>false] ]);
