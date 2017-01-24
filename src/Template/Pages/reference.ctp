@@ -35,7 +35,7 @@
   
     <h3>Data Team Reviews</h3>
     <ul>
-      <li><?php echo $this->Html->link('Notes',['controller'=>'Notes'])?></li>
+      <li><?php echo $this->Html->link('Annotations',['controller'=>'Annotations'])?></li>
       <li><?php echo $this->Html->link('Test Runs',['controller'=>'TestRuns'])?></li>
       <li>Monthly Status Reports (coming soon)</li>
       <li>Data Review Reports (coming soon)</li>

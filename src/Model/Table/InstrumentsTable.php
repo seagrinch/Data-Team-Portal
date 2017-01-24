@@ -44,7 +44,7 @@ class InstrumentsTable extends Table
             'bindingKey' => 'reference_designator',
             'sort' => 'start_date'
         ]);
-        $this->hasMany('Notes', [
+        $this->hasMany('Annotations', [
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator',
             'sort' => 'start_date'

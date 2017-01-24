@@ -31,7 +31,7 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#instruments" aria-controls="instruments" role="tab" data-toggle="tab">Instruments</a></li>
     <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
-    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+    <li role="presentation"><a href="#annotations" aria-controls="annotations" role="tab" data-toggle="tab">Annotations</a></li>
   </ul>
 
   <!-- Tab Content -->
@@ -82,13 +82,13 @@
       <?php endif; ?>
 
     </div>
-    <div role="tabpanel" class="tab-pane" id="notes">
+    <div role="tabpanel" class="tab-pane" id="annotations">
 
-      <?php echo $this->element('notes_table', ['notes'=>$node->notes]); ?>
+      <?php echo $this->element('annotations_table', ['annotations'=>$node->annotations]); ?>
       <p class="text-left">
-        <?php echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add','note',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
-        <?php echo $this->Html->link(__('New Issue'), ['controller'=>'notes','action'=>'add','issue',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
-        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'notes','action'=>'add','annotation',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Note'), ['controller'=>'annotations','action'=>'add','note',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Issue'), ['controller'=>'annotations','action'=>'add','issue',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'annotations','action'=>'add','annotation',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
       </p>
 
     </div>

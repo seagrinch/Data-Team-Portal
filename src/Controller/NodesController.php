@@ -42,12 +42,12 @@ class NodesController extends AppController
           throw new NotFoundException(__('Node not found'));
       }
 
-      $notes = $this->Nodes->Notes->find('all')
+      $annotations = $this->Nodes->Annotations->find('all')
         ->where(['reference_designator'=> $node->reference_designator])
         ->orWhere(['reference_designator'=> $node->site->reference_designator])
         ->contain(['Users'])
         ->order(['start_date'=>'ASC']);
-      $node->notes = $notes;
+      $node->annotations = $annotations;
 
       $this->set('node', $node);
       $this->set('_serialize', ['node']);

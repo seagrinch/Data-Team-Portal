@@ -147,7 +147,7 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
     <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams/Parameters</a></li>
-    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+    <li role="presentation"><a href="#annotations" aria-controls="annotations" role="tab" data-toggle="tab">Annotations</a></li>
     <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats (old?)</a></li>
     <li role="presentation"><a href="#tests" aria-controls="stats" role="tab" data-toggle="tab">Tests (old?)</a></li>
   </ul>
@@ -205,15 +205,15 @@
                     <span class="actions"> - Add:
                     <?php echo $this->Html->link(
                       '<span class="glyphicon glyphicon-tag" style="color:black" aria-hidden="true"></span>', 
-                      ['controller'=>'notes','action'=>'add','note',$instrument->reference_designator, 
+                      ['controller'=>'annotations','action'=>'add','note',$instrument->reference_designator, 
                       '?'=>['method'=>$s->method, 'stream'=>$s->stream_name]], ['escape'=>false ]); ?>
                     <?php echo $this->Html->link(
                       '<span class="glyphicon glyphicon-question-sign" style="color:red" aria-hidden="true"></span>', 
-                      ['controller'=>'notes','action'=>'add','issue',$instrument->reference_designator,
+                      ['controller'=>'annotations','action'=>'add','issue',$instrument->reference_designator,
                       '?'=>['method'=>$s->method, 'stream'=>$s->stream_name]], ['escape'=>false ]); ?>
                     <?php echo $this->Html->link(
                       '<span class="glyphicon glyphicon-globe" style="color:green" aria-hidden="true"></span>', 
-                      ['controller'=>'notes','action'=>'add','annotation',$instrument->reference_designator,
+                      ['controller'=>'annotations','action'=>'add','annotation',$instrument->reference_designator,
                       '?'=>['method'=>$s->method, 'stream'=>$s->stream_name]], ['escape'=>false ]); ?>
                       </span> 
               </div>
@@ -227,15 +227,15 @@
                     <span class="actions"> - Add:
                     <?php echo $this->Html->link(
                       '<span class="glyphicon glyphicon-tag" style="color:black" aria-hidden="true"></span>', 
-                      ['controller'=>'notes','action'=>'add','note',$instrument->reference_designator, 
+                      ['controller'=>'annotations','action'=>'add','note',$instrument->reference_designator, 
                       '?'=>['method'=>$s->method, 'stream'=>$s->stream_name, 'parameter'=>$p->id]], ['escape'=>false ]); ?>
                     <?php echo $this->Html->link(
                       '<span class="glyphicon glyphicon-question-sign" style="color:red" aria-hidden="true"></span>', 
-                      ['controller'=>'notes','action'=>'add','issue',$instrument->reference_designator,
+                      ['controller'=>'annotations','action'=>'add','issue',$instrument->reference_designator,
                       '?'=>['method'=>$s->method, 'stream'=>$s->stream_name, 'parameter'=>$p->id]], ['escape'=>false ]); ?>
                     <?php echo $this->Html->link(
                       '<span class="glyphicon glyphicon-globe" style="color:green" aria-hidden="true"></span>', 
-                      ['controller'=>'notes','action'=>'add','annotation',$instrument->reference_designator,
+                      ['controller'=>'annotations','action'=>'add','annotation',$instrument->reference_designator,
                       '?'=>['method'=>$s->method, 'stream'=>$s->stream_name, 'parameter'=>$p->id]], ['escape'=>false ]); ?>
                       </span> 
                       <style>
@@ -297,13 +297,13 @@
       <?php endif; ?>
 
     </div>
-    <div role="tabpanel" class="tab-pane" id="notes">
+    <div role="tabpanel" class="tab-pane" id="annotations">
 
-      <?php echo $this->element('notes_table', ['notes'=>$instrument->notes]); ?>
+      <?php echo $this->element('annotations_table', ['annotations'=>$instrument->annotations]); ?>
       <p class="text-left">
-        <?php echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add','note',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
-        <?php echo $this->Html->link(__('New Issue'), ['controller'=>'notes','action'=>'add','issue',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
-        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'notes','action'=>'add','annotation',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Note'), ['controller'=>'annotations','action'=>'add','note',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Issue'), ['controller'=>'annotations','action'=>'add','issue',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'annotations','action'=>'add','annotation',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
       </p>
 
     </div>

@@ -50,7 +50,7 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#instruments" aria-controls="instruments" role="tab" data-toggle="tab">Nodes & Instruments</a></li>
     <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
-    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+    <li role="presentation"><a href="#annotations" aria-controls="annotations" role="tab" data-toggle="tab">Annotations</a></li>
   </ul>
 
   <!-- Tab Content -->
@@ -107,14 +107,14 @@
     <?php endif; ?>
 
     </div>
-    <div role="tabpanel" class="tab-pane" id="notes">
+    <div role="tabpanel" class="tab-pane" id="annotations">
 
-      <?php echo $this->element('notes_table', ['notes'=>$site->notes]); ?>
+      <?php echo $this->element('annotations_table', ['annotations'=>$site->annotations]); ?>
       
       <p class="text-left">
-        <?php echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add','note',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
-        <?php echo $this->Html->link(__('New Issue'), ['controller'=>'notes','action'=>'add','issue',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
-        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'notes','action'=>'add','annotation',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Note'), ['controller'=>'annotations','action'=>'add','note',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Issue'), ['controller'=>'annotations','action'=>'add','issue',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'annotations','action'=>'add','annotation',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
       </p>
 
     </div>

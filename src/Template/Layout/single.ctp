@@ -47,7 +47,7 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
             <li><?php echo $this->Html->link('Classes', '/instrumentClasses')?></li>
             <li><?php echo $this->Html->link('Instruments', '/instruments/all')?></li>
             <li><?php echo $this->Html->link('Reference', '/pages/reference')?></li>
-            <li><?php echo $this->Html->link('Notes', '/notes')?></li>
+            <li><?php echo $this->Html->link('Annotations', '/annotations')?></li>
             <li><?php echo $this->Html->link('Test Runs', '/test-runs')?></li>						
             <?php 
               $session = $this->request->session();

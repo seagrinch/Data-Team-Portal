@@ -88,13 +88,13 @@ class InstrumentsController extends AppController
         ->where(['class'=> substr($instrument->reference_designator,18,5), 'series'=>substr($instrument->reference_designator,23,1)]);
       $instrument_model = $query->first();
 
-      $notes = $this->Instruments->Notes->find('all')
+      $annotations = $this->Instruments->Annotations->find('all')
         ->where(['reference_designator'=> $instrument->reference_designator])
         ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
         ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
         ->contain(['Users'])
         ->order(['start_date'=>'ASC']);
-      $instrument->notes = $notes;
+      $instrument->annotations = $annotations;
       
       $this->set(compact(['instrument','instrument_class','instrument_model']));
       $this->set('_serialize', ['instrument']);

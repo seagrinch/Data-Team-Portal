@@ -1,23 +1,23 @@
 <ol class="breadcrumb">
-  <li><?= $this->Html->link(__('Notes'), ['controller'=>'notes', 'action' => 'index']) ?></li>
-  <li class="active">Create a new Note</li>
+  <li><?= $this->Html->link(__('Annotations'), ['controller'=>'annotations', 'action' => 'index']) ?></li>
+  <li class="active">Create a new Annotation</li>
 </ol>
 
-<?= $this->Form->create($note) ?>
+<?= $this->Form->create($annotation) ?>
 <fieldset>
-  <legend>New <?=$note->type?></legend>
+  <legend>New <?=$annotation->type?></legend>
 
   <div class="row">
     <div class='col-md-6'>
       <dl class="dl-horizontal">
         <dt><?= __('Reference Designator') ?></dt>
-        <dd><?= h($note->reference_designator) ?></dd>
+        <dd><?= h($annotation->reference_designator) ?></dd>
         <dt><?= __('Method') ?></dt>
-        <dd><?= h($note->method) ?></dd>
+        <dd><?= h($annotation->method) ?></dd>
         <dt><?= __('Stream') ?></dt>
-        <dd><?= h($note->stream) ?></dd>
+        <dd><?= h($annotation->stream) ?></dd>
         <dt><?= __('Parameter') ?></dt>
-        <dd><?= h($note->parameter) ?></dd>
+        <dd><?= h($annotation->parameter) ?></dd>
       </dl>
       
       <?php
@@ -37,17 +37,17 @@
     <div class='col-md-6'>
       <?php
       echo $this->Form->input('comment',['type'=>'textarea', 'rows'=>12]);
-      if (in_array($note->type, ['issue', 'note'])) {
+      if (in_array($annotation->type, ['issue', 'note'])) {
         echo $this->Form->input('redmine_issue',['label'=>[
           'text'=>'Redmine Issue <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Redmine issue number."></span>', 
           'escape'=>false] ]);
       }
-      if ($note->type=='annotation') {
+      if ($annotation->type=='annotation') {
         echo $this->Form->input('exclusion_flag',['label'=>'Exclude Data?']);
       }
       ?>
 
-      <?= $this->Html->link('Cancel', ['controller'=>$note->model, 'action' => 'view', $note->reference_designator, '#'=>'notes'], ['class'=>'btn btn-default']); ?> 
+      <?= $this->Html->link('Cancel', ['controller'=>$annotation->model, 'action' => 'view', $annotation->reference_designator, '#'=>'annotations'], ['class'=>'btn btn-default']); ?> 
       <?= $this->Form->button(__('Save'),['class'=>'btn btn-primary']) ?> 
 
     </div>
