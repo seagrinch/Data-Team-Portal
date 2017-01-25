@@ -1,7 +1,6 @@
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Cruise Reviews'), ['controller'=>'cruise_reviews', 'action' => 'index']) ?></li>
-  <li><?= $this->html->link($cruiseReview->cruise_cuid,['action'=>'view',$cruiseReview->cruise_cuid]) ?></li>
-  <li class="active">Edit</li>
+  <li class="active">Add New</li>
 </ol>
 
 <div class="row">
@@ -14,7 +13,7 @@
             echo $this->Form->input('cruise_cuid');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Create')) ?>
+    <?= $this->Form->button(__('Create'),['class'=>'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
   </div>
 </div>

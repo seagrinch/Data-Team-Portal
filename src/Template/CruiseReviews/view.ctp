@@ -23,6 +23,11 @@
   <dd><?= h($cruiseReview->cruise->cruise_end_date) ?></dd>
   <dt><?= __('Notes') ?></dt>
   <dd><?= h($cruiseReview->cruise->notes) ?></dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><?= __('Reviewer') ?></th></dt>
+  <dd><?= $cruiseReview->has('user') ? $this->Html->link($cruiseReview->user->username, ['controller' => 'Users', 'action' => 'view', $cruiseReview->user->id]) : '' ?></dd>
   <dt><?= __('Review Status') ?></dt>
   <dd><?= h($cruiseReview->status) ?></dd>
 </dl>
@@ -109,13 +114,14 @@
         <td>&mdash;</td>
         <td><?= h($cruiseReview->water_sampling_data_url) ?></td>
     </tr>
-    </table>
-    <div class="row">
-        <h4><?= __('Summary') ?></h4>
-        <?= $this->Text->autoParagraph(h($cruiseReview->summary)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('Notes') ?></h4>
-        <?= $this->Text->autoParagraph(h($cruiseReview->notes)); ?>
-    </div>
+  </tbody>
+</table>
+
+<div class="row">
+    <h4><?= __('Summary') ?></h4>
+    <?= $this->Text->autoParagraph(h($cruiseReview->summary)); ?>
+</div>
+<div class="row">
+    <h4><?= __('Notes') ?></h4>
+    <?= $this->Text->autoParagraph(h($cruiseReview->notes)); ?>
 </div>

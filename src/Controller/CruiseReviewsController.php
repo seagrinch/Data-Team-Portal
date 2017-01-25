@@ -12,14 +12,6 @@ use Cake\Event\Event;
  */
 class CruiseReviewsController extends AppController
 {
-    /**
-     * beforeFilter method
-     */
-    public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-        $this->Auth->allow(['all']);
-    }
 
     /**
      * isAuthorized method
@@ -40,7 +32,11 @@ class CruiseReviewsController extends AppController
     public function index()
     {
         $this->paginate = [
-          'contain' => ['Cruises']
+          'contain' => ['Cruises','Users'],
+          'sortWhitelist' => [
+            'cruise_cuid', 'status', 'Users.username', 'Cruises.ship_name', 
+            'Cruises.notes', 'Cruises.cruise_start_date', 'Cruises.cruise_end_date', 'modified'
+          ]
         ];
         $cruiseReviews = $this->paginate($this->CruiseReviews);
 
@@ -59,7 +55,7 @@ class CruiseReviewsController extends AppController
     {
         $query = $this->CruiseReviews->find()
           ->where(['cruise_cuid'=>$cuid])
-          ->contain(['Cruises']);
+          ->contain(['Cruises','Users']);
         $cruiseReview = $query->first();
 
         if (empty($cruiseReview)) {
@@ -80,6 +76,8 @@ class CruiseReviewsController extends AppController
         $cruiseReview = $this->CruiseReviews->newEntity();
         if ($this->request->is('post')) {
             $cruiseReview = $this->CruiseReviews->patchEntity($cruiseReview, $this->request->data);
+            $cruiseReview->user_id = $this->Auth->user('id');
+            $cruiseReview->status = 'Not Started';
             if ($this->CruiseReviews->save($cruiseReview)) {
                 $this->Flash->success(__('The cruise review has been saved.'));
                 return $this->redirect(['action' => 'view', $cruiseReview->cruise_cuid]);
@@ -102,7 +100,7 @@ class CruiseReviewsController extends AppController
     {
         $query = $this->CruiseReviews->find()
           ->where(['cruise_cuid'=>$cuid])
-          ->contain(['Cruises']);
+          ->contain(['Cruises','Users']);
         $cruiseReview = $query->first();
         
         if (empty($cruiseReview)) {

@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * CruiseReviews Model
  *
+ * @property \Cake\ORM\Association\BelongsTo $Users
+ *
  * @method \App\Model\Entity\CruiseReview get($primaryKey, $options = [])
  * @method \App\Model\Entity\CruiseReview newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\CruiseReview[] newEntities(array $data, array $options = [])
@@ -42,6 +44,10 @@ class CruiseReviewsTable extends Table
             'foreignKey' => 'cruise_cuid',
             'bindingKey' => 'cuid',
         ]);
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            //'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -68,6 +74,7 @@ class CruiseReviewsTable extends Table
             ->allowEmpty('cruise_plan');
 
         $validator
+            ->url('cruise_plan_url')
             ->allowEmpty('cruise_plan_url');
 
         $validator
@@ -75,6 +82,7 @@ class CruiseReviewsTable extends Table
             ->allowEmpty('quick_look');
 
         $validator
+            ->url('quick_look_url')
             ->allowEmpty('quick_look_url');
 
         $validator
@@ -110,6 +118,7 @@ class CruiseReviewsTable extends Table
             ->allowEmpty('raw_data');
 
         $validator
+            ->url('raw_data_url')
             ->allowEmpty('raw_data_url');
 
         $validator
@@ -121,6 +130,7 @@ class CruiseReviewsTable extends Table
             ->allowEmpty('cruise_report');
 
         $validator
+            ->url('cruise_report_url')
             ->allowEmpty('cruise_report_url');
 
         $validator
@@ -128,6 +138,7 @@ class CruiseReviewsTable extends Table
             ->allowEmpty('cruise_photos');
 
         $validator
+            ->url('cruise_photos_url')
             ->allowEmpty('cruise_photos_url');
 
         $validator
@@ -135,6 +146,7 @@ class CruiseReviewsTable extends Table
             ->allowEmpty('shipboard_data');
 
         $validator
+            ->url('shipboard_data_url')
             ->allowEmpty('shipboard_data_url');
 
         $validator
@@ -142,6 +154,7 @@ class CruiseReviewsTable extends Table
             ->allowEmpty('water_sampling_data');
 
         $validator
+            ->url('water_sampling_data_url')
             ->allowEmpty('water_sampling_data_url');
 
         $validator
@@ -163,7 +176,7 @@ class CruiseReviewsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['cruise_cuid']));
-
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
         return $rules;
     }
 }
