@@ -49,8 +49,9 @@
   <!-- Nav Tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#instruments" aria-controls="instruments" role="tab" data-toggle="tab">Nodes & Instruments</a></li>
-    <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
-    <li role="presentation"><a href="#annotations" aria-controls="annotations" role="tab" data-toggle="tab">Annotations</a></li>
+    <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments <?php if (count($site->deployments)) { ?><span class="badge"><?= count($site->deployments)?></span><?php } ?></a></li>
+    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes <?php if (count($site->notes)) { ?><span class="badge"><?= count($site->notes)?></span><?php } ?></a></li>
+    <li role="presentation"><a href="#issues" aria-controls="issues" role="tab" data-toggle="tab">Issues <?php if (count($site->issues)) { ?><span class="badge"><?= count($site->issues)?></span><?php } ?></a></li>
   </ul>
 
   <!-- Tab Content -->
@@ -107,14 +108,21 @@
     <?php endif; ?>
 
     </div>
-    <div role="tabpanel" class="tab-pane" id="annotations">
+    <div role="tabpanel" class="tab-pane" id="notes">
 
-      <?php echo $this->element('annotations_table', ['annotations'=>$site->annotations]); ?>
+      <?php echo $this->element('annotations_table', ['annotations'=>$site->notes]); ?>
       
       <p class="text-left">
         <?php echo $this->Html->link(__('New Note'), ['controller'=>'annotations','action'=>'add','note',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
+      </p>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="issues">
+
+      <?php echo $this->element('annotations_table', ['annotations'=>$site->issues]); ?>
+      
+      <p class="text-left">
         <?php echo $this->Html->link(__('New Issue'), ['controller'=>'annotations','action'=>'add','issue',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
-        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'annotations','action'=>'add','annotation',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
       </p>
 
     </div>

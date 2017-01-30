@@ -38,15 +38,24 @@ class SitesTable extends Table
             'foreignKey' => 'parent_site',
             'bindingKey' => 'reference_designator'
         ]);
-        $this->hasMany('Annotations', [
-            'foreignKey' => 'reference_designator',
-            'bindingKey' => 'reference_designator',
-            'sort' => 'start_date'
-        ]);
         $this->hasMany('Deployments', [
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator',
             'sort' => 'start_date'
+        ]);
+        $this->hasMany('Notes', [
+            'className' => 'Annotations',
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator',
+            'sort' => 'start_date',
+            'conditions' => ['type'=>'note']
+        ]);
+        $this->hasMany('Issues', [
+            'className' => 'Annotations',
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator',
+            'sort' => 'start_date',
+            'conditions' => ['type'=>'issue']
         ]);
     }
 

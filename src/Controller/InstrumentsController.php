@@ -70,8 +70,7 @@ class InstrumentsController extends AppController
     public function view($id = null) {
       $query = $this->Instruments->find()
         ->where(['Instruments.reference_designator'=>$id])
-        ->contain(['Nodes.Sites.Regions','Deployments',
-          'DataStreams.Streams.Parameters','MonthlyStats','TestRuns']);
+        ->contain(['Nodes.Sites.Regions','DataStreams.Streams.Parameters','Deployments']);
       $instrument = $query->first();
       
       if (empty($instrument)) {
@@ -88,13 +87,21 @@ class InstrumentsController extends AppController
         ->where(['class'=> substr($instrument->reference_designator,18,5), 'series'=>substr($instrument->reference_designator,23,1)]);
       $instrument_model = $query->first();
 
-      $annotations = $this->Instruments->Annotations->find('all')
-        ->where(['reference_designator'=> $instrument->reference_designator])
-        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
-        ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
+      $notes = $this->Instruments->Annotations->find('all')
+        ->where(['reference_designator'=> $instrument->reference_designator, 'type'=>'note'])
+        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator, 'type'=>'note'])
+        ->orWhere(['reference_designator'=> $instrument->node->reference_designator, 'type'=>'note'])
         ->contain(['Users'])
         ->order(['start_date'=>'ASC']);
-      $instrument->annotations = $annotations;
+      $instrument->notes = $notes;
+
+      $issues = $this->Instruments->Annotations->find('all')
+        ->where(['reference_designator'=> $instrument->reference_designator, 'type'=>'issue'])
+        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator, 'type'=>'issue'])
+        ->orWhere(['reference_designator'=> $instrument->node->reference_designator, 'type'=>'issue'])
+        ->contain(['Users'])
+        ->order(['start_date'=>'ASC']);
+      $instrument->issues = $issues;
       
       $this->set(compact(['instrument','instrument_class','instrument_model']));
       $this->set('_serialize', ['instrument']);
