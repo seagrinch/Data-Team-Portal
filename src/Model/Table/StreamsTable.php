@@ -31,7 +31,8 @@ class StreamsTable extends Table
         $this->primaryKey('id');
 
         $this->hasMany('DataStreams', [
-            'foreignKey' => 'stream_id'
+            'foreignKey' => 'stream_name',
+            'bindingKey' => 'name'
         ]);
         $this->belongsToMany('Parameters', [
             'foreignKey' => 'stream_id',
