@@ -43,15 +43,17 @@ class NodesController extends AppController
       }
 
       $notes = $this->Nodes->Annotations->find('all')
-        ->where(['reference_designator'=> $node->reference_designator, 'type'=>'note'])
-        ->orWhere(['reference_designator'=> $node->site->reference_designator, 'type'=>'note'])
+        ->where(['reference_designator'=> $node->reference_designator])
+        ->orWhere(['reference_designator'=> $node->site->reference_designator])
+        ->andWhere(['type'=>'note'])
         ->contain(['Users'])
         ->order(['start_date'=>'ASC']);
       $node->notes = $notes;
 
       $issues = $this->Nodes->Annotations->find('all')
-        ->where(['reference_designator'=> $node->reference_designator, 'type'=>'issue'])
-        ->orWhere(['reference_designator'=> $node->site->reference_designator, 'type'=>'issue'])
+        ->where(['reference_designator'=> $node->reference_designator])
+        ->orWhere(['reference_designator'=> $node->site->reference_designator])
+        ->andWhere(['type'=>'issue'])
         ->contain(['Users'])
         ->order(['start_date'=>'ASC']);
       $node->issues = $issues;

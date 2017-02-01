@@ -111,12 +111,12 @@ class AnnotationsController extends AppController
         
         if ($this->request->is('post')) {
             $annotation = $this->Annotations->patchEntity($annotation, $this->request->data, [
-              'fieldList'=>['type','comment','deployment','start_date','end_date','redmine_issue','exclusion_flag']
+              'fieldList'=>['type','comment','deployment','start_date','end_date','redmine_issue','status','exclusion_flag']
             ]);
             $annotation->user_id = $this->Auth->user('id');
             if ($this->Annotations->save($annotation)) {
                 $this->Flash->success(__('The annotation has been saved.'));
-                return $this->redirect(['controller'=>$annotation->model, 'action'=>'view', $rd->reference_designator, '#'=>'annotations']);
+                return $this->redirect(['controller'=>$annotation->model, 'action'=>'view', $rd->reference_designator, '#'=>$annotation->type . 's']);
             } else {
                 $this->Flash->error(__('The annotation could not be saved. Please, try again.'));
             }
@@ -140,7 +140,7 @@ class AnnotationsController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $annotation = $this->Annotations->patchEntity($annotation, $this->request->data, [
-              'fieldList'=>['type','comment','deployment','start_date','end_date','redmine_issue','resolved_date','exclusion_flag']
+              'fieldList'=>['type','comment','deployment','start_date','end_date','redmine_issue','resolved_date','status','exclusion_flag']
             ]);
             if ($this->Annotations->save($annotation)) {
                 $this->Flash->success(__('The annotation has been updated.'));

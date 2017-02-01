@@ -57,7 +57,15 @@
           ]);
       }
       if ($annotation->type=='annotation') {
-        echo $this->Form->input('exclusion_flag',['label'=>'Exclude Data?']);
+        echo $this->Form->input('status',['label'=>'Status',
+          'options'=>[
+            'Not Operational'=>'Not Operational',
+            'Unavailable'=>'Unavailable',
+            'Pending'=>'Pending',
+            'Suspect'=>'Suspect',
+            'Available'=>'Available'
+          ],'empty'=>true]);
+        //echo $this->Form->input('exclusion_flag',['type'=>'checkbox','label'=>'Exclude Data?']);
       }
       ?>
 

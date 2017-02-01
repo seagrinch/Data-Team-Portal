@@ -88,21 +88,32 @@ class InstrumentsController extends AppController
       $instrument_model = $query->first();
 
       $notes = $this->Instruments->Annotations->find('all')
-        ->where(['reference_designator'=> $instrument->reference_designator, 'type'=>'note'])
-        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator, 'type'=>'note'])
-        ->orWhere(['reference_designator'=> $instrument->node->reference_designator, 'type'=>'note'])
+        ->where(['reference_designator'=> $instrument->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
+        ->andWhere(['type'=>'note'])
         ->contain(['Users'])
         ->order(['start_date'=>'ASC']);
       $instrument->notes = $notes;
 
       $issues = $this->Instruments->Annotations->find('all')
-        ->where(['reference_designator'=> $instrument->reference_designator, 'type'=>'issue'])
-        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator, 'type'=>'issue'])
-        ->orWhere(['reference_designator'=> $instrument->node->reference_designator, 'type'=>'issue'])
+        ->where(['reference_designator'=> $instrument->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
+        ->andWhere(['type'=>'issue'])
         ->contain(['Users'])
         ->order(['start_date'=>'ASC']);
       $instrument->issues = $issues;
       
+      $annotations = $this->Instruments->Annotations->find('all')
+        ->where(['reference_designator'=> $instrument->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
+        ->andWhere(['type'=>'annotation'])
+        ->contain(['Users'])
+        ->order(['start_date'=>'ASC']);
+      $instrument->annotations = $annotations;
+
       $this->set(compact(['instrument','instrument_class','instrument_model']));
       $this->set('_serialize', ['instrument']);
     }

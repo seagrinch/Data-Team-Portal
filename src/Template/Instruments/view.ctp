@@ -31,18 +31,13 @@
   <dd><?= $this->Number->format($instrument->end_depth) ?></dd>
   <dt><?= __('Location') ?></dt>
   <dd><?= h($instrument->location) ?></dd>
-  <dt><?= __('uFrame Status') ?></dt>
-  <dd><?php if ($instrument->uframe_status=='1') { ?>
-      <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green;"></span> OK
-    <?php } else { ?>
-      <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Unknown
-    <?php } ?>
-  </dd>
   <dt><?= __('Current Status') ?></dt>
   <dd><?php if ($instrument->current_status=='deployed') { ?>
-      <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green;"></span> Deployed
+      <span class="glyphicon glyphicon-ok-circle" aria-hidden="true" style="color:green;"></span> Deployed
     <?php } elseif ($instrument->current_status=='recovered') { ?>
-      <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red;"></span> Recovered
+      <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" style="color:gray;"></span> Recovered
+    <?php } elseif ($instrument->current_status=='lost') { ?>
+      <span class="glyphicon glyphicon-ban-circle" aria-hidden="true" style="color:red;"></span> Lost
     <?php } else { ?>
       <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Unknown
     <?php } ?>
@@ -59,9 +54,9 @@
       <dd><?= $this->html->link($instrument_model->class . '-' .$instrument_model->series, ['controller'=>'instrument_models', 'action'=>'view', $instrument_model->class, $instrument_model->series]) ?></dd>
       <dt><?= __('Instrument Name') ?></dt>
       <dd><?= h($instrument_class->name) ?></dd>
-<!--
       <dt><?= __('Science Discipline') ?></dt>
       <dd><?= h($instrument_class->primary_science_dicipline) ?></dd>
+<!--
       <dt><?= __('Description') ?></dt>
       <dd><?= h($instrument_class->description) ?></dd>
 -->
@@ -76,7 +71,6 @@
 
 
 <!-- Stats Graph -->
-<?php if (count($instrument->monthly_stats)>0): ?>
 <?php $this->Html->css('https://fonts.googleapis.com/css?family=Muli',['block'=>true]); ?>
 <?php $this->Html->css('/visavail/css/visavail.css',['block'=>true]); ?>
 <?php $this->Html->css('/font-awesome/css/font-awesome.min.css',['block'=>true]); ?>
@@ -84,62 +78,51 @@
 <?php $this->Html->script('/d3/d3.min.js',['block'=>true]); ?>
 <?php $this->Html->script('/visavail/js/visavail.js',['block'=>true]); ?>
 <?php 
-  $months=[];
-  foreach ($instrument->monthly_stats as $s) {
-    if (in_array(strtolower($s->operational_status), array_map('strtolower', ['Operational','Pending','Failed']))) {
-      $months['operational_status'][] = [
-        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
-        (in_array(strtolower($s->operational_status), array_map('strtolower', ['Operational','Pending'])) ? 1 : 0),
-        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
-      ];
-      $months['cassandra_ts'][] = [
-        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
-        (($s->cassandra_ts>=10) ? 1 : 0), 
-        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
-      ];
-      $months['cassandra_rec'][] = [
-        $this->Time->i18nFormat($s->month,'yyyy-MM-dd'), 
-        (($s->cassandra_rec>=10) ? 1 : 0), 
-        $this->Time->i18nFormat($s->month->addMonth(1),'yyyy-MM-dd')
-      ];
+  $data=[];
+  if (count($instrument->deployments)>0) {
+    $data_deployments = [
+      'measure'=>'Deployments',
+      'categories'=>[
+        'Deployed'=>['color'=>'#00be70']
+      ]
+    ];
+    foreach ($instrument->deployments as $d) {
+      $data_deployments['data'][] = [
+        $this->Time->i18nFormat($d->start_date,'yyyy-MM-dd HH:mm:ss'), 
+        'Deployed', 
+        ($d->stop_date) ? $this->Time->i18nFormat($d->stop_date,'yyyy-MM-dd HH:mm:ss') : date("Y-m-d H:i:s")];
     }
+    array_push($data,$data_deployments);
+  }
+  if ($instrument->annotations->count()>0) {
+    $data_annotations = [
+      'measure'=>'Annotations',
+      'categories'=>[
+        'Not Operational'=>['color'=>'gray'],
+        'Unavailable'=>['color'=>'#295ea4'],
+        'Pending'=>['color'=>'#ffcb4f'],
+        'Suspect'=>['color'=>'#fa5a5a'],
+        'Available'=>['color'=>'#00be70']
+      ]
+    ];
+    foreach ($instrument->annotations as $a) {
+      $data_annotations['data'][] = [
+        $this->Time->i18nFormat($a->start_date,'yyyy-MM-dd HH:mm:ss'), 
+        $a->status, 
+        ($a->end_date) ? $this->Time->i18nFormat($a->end_date,'yyyy-MM-dd HH:mm:ss') : date("Y-m-d H:i:s")];
+    }
+    array_push($data,$data_annotations);
   }
 ?>
 <?php $this->Html->scriptStart(['block' => true]); ?>
-  var stats_data = <?php echo json_encode($months);?>;
-  
+  var dataset = <?php echo json_encode($data);?>;
   moment.locale("en");
-    var dataset=[];
-    if (stats_data['operational_status'].length>0) {
-      dataset.push({
-        "measure": "Op. Status",
-        "interval_s": 30 * 24 * 60 * 60,
-        "data": stats_data['operational_status'],
-      })
-    };
-    if (stats_data['cassandra_ts'].length>0) {
-      dataset.push({
-        "measure": "Cass. Tel/Stream",
-        "interval_s": 30 * 24 * 60 * 60,
-        "data": stats_data['cassandra_ts'],
-      })
-    };
-    if (stats_data['cassandra_rec'].length>0) {
-      dataset.push({
-        "measure": "Cass. Recovered",
-        "interval_s": 30 * 24 * 60 * 60,
-        "data": stats_data['cassandra_rec'],
-      })
-    };
-
-    var chart = visavailChart().width(800); // define width of chart in px
-
-    d3.select("#example")
-            .datum(dataset)
-            .call(chart);
+  var chart = visavailChart().width(800); // define width of chart in px
+  d3.select("#example")
+    .datum(dataset)
+    .call(chart);
 <?php $this->Html->scriptEnd(); ?>
 <div id="example" class="well"><!-- Visavail.js chart will be inserted here --></div>
-<?php endif; ?>
 
 <!-- Tabbed Navigation -->
 <div>
@@ -149,7 +132,7 @@
     <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams/Parameters</a></li>
     <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes <?php if ($instrument->notes->count()) { ?><span class="badge"><?= $instrument->notes->count()?></span><?php } ?></a></li>
     <li role="presentation"><a href="#issues" aria-controls="issues" role="tab" data-toggle="tab">Issues <?php if ($instrument->issues->count()) { ?><span class="badge"><?= $instrument->issues->count()?></span><?php } ?></a></li>
-    <li role="presentation"><a href="#annotations" aria-controls="annotations" role="tab" data-toggle="tab">Annotations</a></li>
+    <li role="presentation"><a href="#annotations" aria-controls="annotations" role="tab" data-toggle="tab">Annotations <?php if ($instrument->annotations->count()) { ?><span class="badge"><?= $instrument->annotations->count()?></span><?php } ?></a></li>
   </ul>
 
   <!-- Tab Content -->
@@ -264,8 +247,8 @@
       <?php if (count($instrument->deployments)>0): ?>
         <table class="table table-striped">
           <tr>
-            <th>Deployment Number</th>
-            <th>Deployment Cruise</th>
+            <th>Deployment</th>
+            <th>Cruise</th>
             <th>Start Date</th>
             <th>Stop Date</th>
             <th>Mooring Asset</th>
@@ -278,7 +261,12 @@
           </tr>
           <?php foreach ($instrument->deployments as $d): ?>
           <tr>
-            <td><?= h($d->deployment_number) ?></td>
+            <td>
+              <?= h($d->deployment_number) ?> 
+              <?= $this->Html->link('Review <span class="glyphicon glyphicon-check" aria-hidden="true">', 
+                ['controller'=>'deployment-reviews', 'action' => 'view', $d->reference_designator, $d->deployment_number],
+                ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
+            </td>
             <td><?= $this->Html->link($d->deploy_cuid, ['controller'=>'cruises', 'action' => 'view', $d->deploy_cuid]) ?></td>
             <td><?= $this->Time->format($d->start_date, 'MM/dd/yyyy') ?></td>
             <td><?= $this->Time->format($d->stop_date, 'MM/dd/yyyy') ?></td>
@@ -314,81 +302,32 @@
 
     </div>
     <div role="tabpanel" class="tab-pane" id="annotations">
-      <p>Coming soon! </p>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="stats">
 
-      <?php if (count($instrument->monthly_stats)>0): ?>
-        <table class="table table-striped">
-          <tr>
-            <th>Month</th>
-<!--             <th>Deployment Status</th> -->
-            <th>Cass. Tel/Stream</th>
-            <th>Cass. Recovered</th>
-            <th>Op. Status</th>
-<!--             <th>Reviewed Status</th> -->
-          </tr>
-          <?php foreach ($instrument->monthly_stats as $s): ?>
-          <tr>
-            <td><?= $this->Time->i18nFormat($s->month,'MMMM, yyyy') ?></td>
-<!--             <td><?= h($s->deployment_status) ?></td> -->
-            <td><?= h($s->cassandra_ts) ?></td>
-            <td><?= h($s->cassandra_rec) ?></td>
-            <td><?= h($s->operational_status) ?></td>
-<!--             <td><?= h($s->reviewed_status) ?></td> -->
-          </tr>
-          <?php endforeach; ?>
-        </table>
-      <?php else: ?>
-        <p>No stats found</p>
-      <?php endif; ?>
+      <?php echo $this->element('annotations_table', ['annotations'=>$instrument->annotations]); ?>
+      <p class="text-left">
+        <?php echo $this->Html->link(__('New Annotation'), ['controller'=>'annotations','action'=>'add','annotation',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
+      </p>
 
     </div>
-    <div role="tabpanel" class="tab-pane" id="tests">
 
-      <?php if (count($instrument->test_runs)>0): ?>
-        <table class="table table-striped">
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Deployment</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Status</th>
-            <th>Created</th>
-          </tr>
-          <?php foreach ($instrument->test_runs as $testRun): ?>
-          <tr>
-            <td><?= h($testRun->id) ?></td>
-            <td><?= $this->Html->link($testRun->name, ['controller'=>'test-runs', 'action' => 'view', $testRun->id]) ?></td>
-            <td><?= h($testRun->deployment) ?></td>
-            <td><?= h($testRun->start_date) ?></td>
-            <td><?= h($testRun->end_date) ?></td>
-            <td><?= h($testRun->status) ?></td>
-            <td><?= $this->Time->timeAgoInWords($testRun->created) ?></td>
-          </tr>
-          <?php endforeach; ?>
-        </table>
-      <?php else: ?>
-        <p>No tests found</p>
-      <?php endif; ?>
-      <p class="text-left"><?php echo $this->Html->link(__('Add a Test Run'), ['controller'=>'test-runs', 'action'=>'add', $instrument->reference_designator], ['class'=>'btn btn-primary']); ?></p>
-
-    </div>
   </div><!-- End Tab Content -->
 
 </div><!-- End Tabbed Navigation -->
 
-<?php $this->Html->scriptStart(['block' => true]); ?>
+<?php $this->Html->scriptStart(['block' => true]); ?>  
+  // Javascript to enable link to tab
   var url = document.location.toString();
   if (url.match('#')) {
-      $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+      $('.nav-tabs a[href="#'+url.split('#')[1]+'"]').tab('show') ;
   } 
   
-  // Change hash for page-reload
+  // With HTML5 history API, we can easily prevent scrolling!
   $('.nav-tabs a').on('shown.bs.tab', function (e) {
-      window.location.hash = e.target.hash;
-     window.scrollTo(0, 0);
+      if(history.pushState) {
+          history.pushState(null, null, e.target.hash); 
+      } else {
+          window.location.hash = e.target.hash; //Polyfill for old browsers
+      }
   })
 <?php $this->Html->scriptEnd(); ?>
 

@@ -58,7 +58,8 @@ class DeploymentReviewsController extends AppController
         $deploymentReview = $query->first();
 
         if (empty($deploymentReview)) {
-            throw new NotFoundException(__('Deployment Review not found'));
+          //throw new NotFoundException(__('Deployment Review not found'));
+          return $this->redirect(['action' => 'add', $rd, $dn]);
         }
 
         $this->set('deploymentReview', $deploymentReview);
@@ -70,9 +71,11 @@ class DeploymentReviewsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($rd = null, $dn = null)
     {
         $deploymentReview = $this->DeploymentReviews->newEntity();
+        $deploymentReview->reference_designator = $rd;
+        $deploymentReview->deployment_number = $dn;
         if ($this->request->is('post')) {
             $deploymentReview = $this->DeploymentReviews->patchEntity($deploymentReview, $this->request->data);
             $deploymentReview->user_id = $this->Auth->user('id');

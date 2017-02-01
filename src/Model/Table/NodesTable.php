@@ -38,12 +38,12 @@ class NodesTable extends Table
             'foreignKey' => 'parent_node',
             'bindingKey' => 'reference_designator'
         ]);
-        $this->hasMany('Annotations', [
+        $this->hasMany('Deployments', [
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator',
             'sort' => 'start_date'
         ]);
-        $this->hasMany('Deployments', [
+        $this->hasMany('Annotations', [
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator',
             'sort' => 'start_date'

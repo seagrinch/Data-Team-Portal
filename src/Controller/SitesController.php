@@ -47,12 +47,26 @@ class SitesController extends AppController
     public function view($id = null) {
       $query = $this->Sites->find()
         ->where(['Sites.reference_designator'=>$id])
-        ->contain(['Regions','Nodes','Nodes.Instruments','Deployments','Notes.Users','Issues.Users']);
+        ->contain(['Regions','Nodes','Nodes.Instruments','Deployments']);
       $site = $query->first();
       
       if (empty($site)) {
           throw new NotFoundException(__('Site not found'));
       }
+
+      $notes = $this->Sites->Annotations->find('all')
+        ->where(['reference_designator'=> $site->reference_designator])
+        ->andWhere(['type'=>'note'])
+        ->contain(['Users'])
+        ->order(['start_date'=>'ASC']);
+      $site->notes = $notes;
+
+      $issues = $this->Sites->Annotations->find('all')
+        ->where(['reference_designator'=> $site->reference_designator])
+        ->andWhere(['type'=>'issue'])
+        ->contain(['Users'])
+        ->order(['start_date'=>'ASC']);
+      $site->issues = $issues;
 
       $this->set('site', $site);
       $this->set('_serialize', ['site']);

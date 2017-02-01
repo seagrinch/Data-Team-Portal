@@ -34,9 +34,11 @@
   <dd><?= $this->Number->format($site->max_depth) ?></dd>
   <dt><?= __('Current Status') ?></dt>
   <dd><?php if ($site->current_status=='deployed') { ?>
-      <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color:green;"></span> Deployed
+      <span class="glyphicon glyphicon-ok-circle" aria-hidden="true" style="color:green;"></span> Deployed
     <?php } elseif ($site->current_status=='recovered') { ?>
-      <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" style="color:red;"></span> Recovered
+      <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" style="color:gray;"></span> Recovered
+    <?php } elseif ($site->current_status=='lost') { ?>
+      <span class="glyphicon glyphicon-ban-circle" aria-hidden="true" style="color:red;"></span> Lost
     <?php } else { ?>
       <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Unknown
     <?php } ?>
@@ -50,8 +52,8 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#instruments" aria-controls="instruments" role="tab" data-toggle="tab">Nodes & Instruments</a></li>
     <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments <?php if (count($site->deployments)) { ?><span class="badge"><?= count($site->deployments)?></span><?php } ?></a></li>
-    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes <?php if (count($site->notes)) { ?><span class="badge"><?= count($site->notes)?></span><?php } ?></a></li>
-    <li role="presentation"><a href="#issues" aria-controls="issues" role="tab" data-toggle="tab">Issues <?php if (count($site->issues)) { ?><span class="badge"><?= count($site->issues)?></span><?php } ?></a></li>
+    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes <?php if ($site->notes->count()) { ?><span class="badge"><?= $site->notes->count()?></span><?php } ?></a></li>
+    <li role="presentation"><a href="#issues" aria-controls="issues" role="tab" data-toggle="tab">Issues <?php if ($site->issues->count()) { ?><span class="badge"><?= $site->issues->count()?></span><?php } ?></a></li>
   </ul>
 
   <!-- Tab Content -->
