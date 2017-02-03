@@ -1,6 +1,7 @@
 <ol class="breadcrumb">
-  <li><?= $this->Html->link(__('Cruise Reviews'), ['controller'=>'cruise_reviews', 'action' => 'index']) ?></li>
-  <li><?= h($cruiseReview->cruise_cuid); ?></li>
+  <li><?= $this->Html->link(__('Cruises'), ['controller'=>'cruises', 'action' => 'index']) ?></li>
+  <li><?= $this->Html->link($cruiseReview->cruise_cuid, ['controller'=>'cruises', 'action' => 'view', $cruiseReview->cruise_cuid]) ?></li>
+  <li>Review</li>
 </ol>
 
 <div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
@@ -12,7 +13,7 @@
   ?>
 </div>
 
-<h2>Cruise: <?= h($cruiseReview->cruise_cuid) ?></h2>
+<h2>Cruise Review for <?= h($cruiseReview->cruise_cuid) ?></h2>
 
 <dl class="dl-horizontal">
   <dt><?= __('Ship Name') ?></dt>
@@ -22,7 +23,7 @@
   <dt><?= __('Cruise End Date') ?></dt>
   <dd><?= h($cruiseReview->cruise->cruise_end_date) ?></dd>
   <dt><?= __('Notes') ?></dt>
-  <dd><?= h($cruiseReview->cruise->notes) ?></dd>
+  <dd><?= $this->Text->autoParagraph(h($cruiseReview->cruise->notes)) ?></dd>
 </dl>
 
 <dl class="dl-horizontal">

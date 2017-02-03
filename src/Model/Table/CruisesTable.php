@@ -39,6 +39,10 @@ class CruisesTable extends Table
             'bindingKey' => 'cuid',
             'sort' => 'start_date'
         ]);
+        $this->hasOne('CruiseReviews', [
+            'foreignKey' => 'cruise_cuid',
+            'bindingKey' => 'cuid',
+        ]);
     }
 
     /**

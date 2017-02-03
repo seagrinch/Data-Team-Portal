@@ -3,6 +3,16 @@
   <li class="active"><?= h($cruise->cuid) ?></li>
 </ol>
 
+<div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
+  <?= $this->Html->link('View Review', ['controller'=>'cruise-reviews', 'action'=>'view', $cruise->cuid], ['class'=>'btn btn-default']);?>
+  <?php 
+    $session = $this->request->session();
+    if ($session->check('Auth.User')) { 
+      echo $this->Html->link('Edit Review', ['controller'=>'cruise-reviews', 'action'=>'edit', $cruise->cuid], ['class'=>'btn btn-info']);
+    }
+  ?>
+</div>
+
 <h2>Cruise: <?= h($cruise->cuid) ?></h2>
 
 <dl class="dl-horizontal">
@@ -14,6 +24,13 @@
   <dd><?= h($cruise->cruise_end_date) ?></dd>
   <dt><?= __('Notes') ?></dt>
   <dd><?= $this->Text->autoParagraph(h($cruise->notes)); ?></dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><?= __('Reviewer') ?></th></dt>
+  <dd><?= $cruise->cruise_review->has('user') ? $this->Html->link($cruise->cruise_review->user->username, ['controller' => 'Users', 'action' => 'view', $cruise->cruise_review->user->id]) : '' ?></dd>
+  <dt><?= __('Review Status') ?></dt>
+  <dd><?= h($cruise->cruise_review->status) ?></dd>
 </dl>
 
 <h4>Instrument deployments during this cruise</h4>

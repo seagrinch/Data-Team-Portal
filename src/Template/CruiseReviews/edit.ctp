@@ -1,7 +1,8 @@
 <ol class="breadcrumb">
-  <li><?= $this->Html->link(__('Cruise Reviews'), ['controller'=>'cruise_reviews', 'action' => 'index']) ?></li>
-  <li><?= $this->html->link($cruiseReview->cruise_cuid,['action'=>'view',$cruiseReview->cruise_cuid]) ?></li>
-  <li class="active">Edit</li>
+  <li><?= $this->Html->link(__('Cruises'), ['controller'=>'cruises', 'action' => 'index']) ?></li>
+  <li><?= $this->Html->link($cruiseReview->cruise_cuid, ['controller'=>'cruises', 'action' => 'view', $cruiseReview->cruise_cuid]) ?></li>
+  <li><?= $this->Html->link('Review', ['controller'=>'cruise-reviews', 'action' => 'view', $cruiseReview->cruise_cuid]) ?></li>
+  <li>Edit</li>
 </ol>
 
 <?= $this->Form->create($cruiseReview) ?>
@@ -11,7 +12,8 @@
 
 <div class="row">
   <div class="col-md-4">
-<?= $this->Form->input('status',['options'=>[''=>'Not Started','Pending'=>'Pending','Complete'=>'Complete']]) ?>
+    <?= $this->Form->input('status',['options'=>['Not Started'=>'Not Started','In Progress'=>'In Progress','Complete'=>'Complete']]) ?>
+    <?= $this->Form->input('user_id',['type'=>'text']) ?>
   </div>
 </div>
 

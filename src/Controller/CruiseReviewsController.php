@@ -32,6 +32,8 @@ class CruiseReviewsController extends AppController
     public function index()
     {
         $this->paginate = [
+          'limit' => 25,
+          'order' => ['Cruises.cruise_start_date' => 'desc'],
           'contain' => ['Cruises','Users'],
           'sortWhitelist' => [
             'cruise_cuid', 'status', 'Users.username', 'Cruises.ship_name', 
@@ -59,7 +61,8 @@ class CruiseReviewsController extends AppController
         $cruiseReview = $query->first();
 
         if (empty($cruiseReview)) {
-            throw new NotFoundException(__('Cruise Review not found'));
+          //throw new NotFoundException(__('Cruise Review not found'));
+          return $this->redirect(['action' => 'add', $cuid]);
         }
 
         $this->set('cruiseReview', $cruiseReview);
@@ -71,9 +74,10 @@ class CruiseReviewsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($cuid)
     {
         $cruiseReview = $this->CruiseReviews->newEntity();
+        $cruiseReview->cruise_cuid = $cuid;
         if ($this->request->is('post')) {
             $cruiseReview = $this->CruiseReviews->patchEntity($cruiseReview, $this->request->data);
             $cruiseReview->user_id = $this->Auth->user('id');

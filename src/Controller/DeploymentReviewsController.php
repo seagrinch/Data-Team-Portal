@@ -32,7 +32,7 @@ class DeploymentReviewsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users'],
+          'contain' => ['Users'],
           'sortWhitelist' => [
             'reference_designator', 'deployment', 'status', 'Users.username', 'percent_good', 'modified'
           ]
