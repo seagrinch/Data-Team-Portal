@@ -31,9 +31,11 @@
   <dd><?= $cruiseReview->has('user') ? $this->Html->link($cruiseReview->user->username, ['controller' => 'Users', 'action' => 'view', $cruiseReview->user->id]) : '' ?></dd>
   <dt><?= __('Review Status') ?></dt>
   <dd><?= h($cruiseReview->status) ?></dd>
+  <dt><?= __('Modified') ?></dt>
+  <dd><?= $this->Time->timeAgoInWords($cruiseReview->modified) ?></dd>
 </dl>
 
-<table class="table table-striped">
+<table class="table table-striped table-hover">
   <thead>
     <tr>
       <th>Item</th>
@@ -120,9 +122,21 @@
 
 <div class="row">
     <h4><?= __('Summary') ?></h4>
-    <?= $this->Text->autoParagraph(h($cruiseReview->summary)); ?>
+    <?php 
+      if ($cruiseReview->summary) {
+        echo $this->Text->autoParagraph(h($cruiseReview->summary));
+      } else {
+        echo 'None';
+      } 
+    ?>
 </div>
 <div class="row">
     <h4><?= __('Notes') ?></h4>
-    <?= $this->Text->autoParagraph(h($cruiseReview->notes)); ?>
+    <?php 
+      if ($cruiseReview->notes) {
+        echo $this->Text->autoParagraph(h($cruiseReview->notes)); 
+      } else {
+        echo 'None';  
+      }
+    ?>
 </div>

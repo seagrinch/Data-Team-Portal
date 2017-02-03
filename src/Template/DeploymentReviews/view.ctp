@@ -43,11 +43,17 @@
   <dt><?= __('Percent Good') ?></dt>
   <dd><?= $this->Number->format($deploymentReview->percent_good) ?></dd>
   <dt><?= __('Modified') ?></dt>
-  <dd><?= h($deploymentReview->modified) ?></dd>
+  <dd><?= $this->Time->timeAgoInWords($deploymentReview->modified) ?></dd>
 </dl>
 
 <div class="row">
     <h4><?= __('Notes') ?></h4>
-    <?= $this->Text->autoParagraph(h($deploymentReview->notes)); ?>
+    <?php 
+      if ($deploymentReview->notes) {
+        echo $this->Text->autoParagraph(h($deploymentReview->notes)); 
+      } else {
+        echo 'None';  
+      }
+    ?>
 </div>
 

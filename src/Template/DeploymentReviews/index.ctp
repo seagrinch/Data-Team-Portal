@@ -22,7 +22,7 @@
         <td><?= h($deploymentReview->status) ?></td>
         <td><?= $deploymentReview->has('user') ? $this->Html->link($deploymentReview->user->username, ['controller' => 'Users', 'action' => 'view', $deploymentReview->user->id]) : '' ?></td>
         <td><?= $this->Number->format($deploymentReview->percent_good) ?></td>
-        <td><?= h($deploymentReview->modified) ?></td>
+        <td><?= $this->Time->timeAgoInWords($deploymentReview->modified) ?></td>
         <td><?= $this->Html->link('Review', ['action' => 'view', $deploymentReview->reference_designator, $deploymentReview->deployment_number],['class'=>'btn btn-default btn-sm']) ?></td>
       </tr>
       <?php endforeach; ?>

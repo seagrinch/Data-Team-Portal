@@ -71,47 +71,47 @@ class DeploymentReviewsTable extends Table
             ->allowEmpty('status');
 
         $validator
-            ->date('asset_sheet_reviewed','mdy')
+            ->date('asset_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('asset_sheet_reviewed');
 
         $validator
-            ->date('calibration_sheet_reviewed','mdy')
+            ->date('calibration_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('calibration_sheet_reviewed');
 
         $validator
-            ->date('deployment_sheet_reviewed','mdy')
+            ->date('deployment_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('deployment_sheet_reviewed');
 
         $validator
-            ->date('ingest_sheet_reviewed','mdy')
+            ->date('ingest_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('ingest_sheet_reviewed');
 
         $validator
-            ->date('raw_data_reviewed','mdy')
+            ->date('raw_data_reviewed','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('raw_data_reviewed');
 
         $validator
-            ->url('raw_data_url')
+            ->url('raw_data_url','Please enter a valid URL')
             ->allowEmpty('raw_data_url');
 
         $validator
-            ->date('parameter_check','mdy')
+            ->date('parameter_check','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('parameter_check');
 
         $validator
-            ->date('availability_check','mdy')
+            ->date('availability_check','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('availability_check');
 
         $validator
-            ->date('quality_check','mdy')
+            ->date('quality_check','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('quality_check');
 
         $validator
-            ->date('environment_check','mdy')
+            ->date('environment_check','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('environment_check');
 
         $validator
-            ->decimal('percent_good')
+            ->decimal('percent_good', 'Please enter a decimal number')
             ->allowEmpty('percent_good');
 
         $validator

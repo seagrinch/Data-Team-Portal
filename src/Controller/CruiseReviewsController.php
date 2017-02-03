@@ -121,7 +121,8 @@ class CruiseReviewsController extends AppController
                 $this->Flash->error(__('The cruise review could not be saved. Please, try again.'));
             }
         }
-        $this->set(compact('cruiseReview'));
+        $users = $this->CruiseReviews->Users->find('list', ['limit' => 200, 'valueField'=>'full_name']);
+        $this->set(compact('cruiseReview','users'));
         $this->set('_serialize', ['cruiseReview']);
     }
 

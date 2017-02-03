@@ -120,7 +120,8 @@ class DeploymentReviewsController extends AppController
                 $this->Flash->error(__('The deployment review could not be saved. Please, try again.'));
             }
         }
-        $this->set(compact('deploymentReview'));
+        $users = $this->DeploymentReviews->Users->find('list', ['limit' => 200, 'valueField'=>'full_name']);
+        $this->set(compact('deploymentReview','users'));
         $this->set('_serialize', ['deploymentReview']);
     }
 

@@ -31,7 +31,7 @@
           ?>
         </td>
         <td><?= $cruiseReview->has('user') ? $this->Html->link($cruiseReview->user->username, ['controller' => 'Users', 'action' => 'view', $cruiseReview->user->id]) : '' ?></td>
-        <td><?= h($cruiseReview->modified) ?></td>
+        <td><?= $this->Time->timeAgoInWords($cruiseReview->modified) ?></td>
 
       </tr>
       <?php endforeach; ?>

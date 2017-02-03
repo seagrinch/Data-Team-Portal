@@ -21,6 +21,7 @@
     <legend>Edit Review for <?= h($deploymentReview->reference_designator); ?> &mdash; Deployment <?= h($deploymentReview->deployment_number); ?></legend>
     <?php
         echo $this->Form->input('status',['options'=>['Not Started'=>'Not Started','Pending'=>'Pending','Complete'=>'Complete']]);
+        echo $this->Form->input('user_id', ['options' => $users, 'empty' => true, 'label'=>'Reviewer']);        
         echo $this->Form->input('asset_sheet_reviewed', ['type'=>'text', 'empty' => true]);
         echo $this->Form->input('calibration_sheet_reviewed', ['type'=>'text', 'empty' => true]);
         echo $this->Form->input('deployment_sheet_reviewed', ['type'=>'text', 'empty' => true]);

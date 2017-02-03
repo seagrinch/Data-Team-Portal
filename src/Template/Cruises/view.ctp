@@ -31,6 +31,8 @@
   <dd><?= $cruise->cruise_review->has('user') ? $this->Html->link($cruise->cruise_review->user->username, ['controller' => 'Users', 'action' => 'view', $cruise->cruise_review->user->id]) : '' ?></dd>
   <dt><?= __('Review Status') ?></dt>
   <dd><?= h($cruise->cruise_review->status) ?></dd>
+  <dt><?= __('Modified') ?></dt>
+  <dd><?= $this->Time->timeAgoInWords($cruise->cruise_review->modified) ?></dd>
 </dl>
 
 <h4>Instrument deployments during this cruise</h4>

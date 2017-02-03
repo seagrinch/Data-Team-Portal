@@ -13,14 +13,16 @@
 <div class="row">
   <div class="col-md-4">
     <?= $this->Form->input('status',['options'=>['Not Started'=>'Not Started','In Progress'=>'In Progress','Complete'=>'Complete']]) ?>
-    <?= $this->Form->input('user_id',['type'=>'text']) ?>
+  </div>
+  <div class="col-md-4">
+      <?= $this->Form->input('user_id', ['options' => $users, 'empty' => true, 'label'=>'Reviewer']); ?>
   </div>
 </div>
 
 <div class="row">
   <div class="col-md-12">
 
-  <table class="table table-striped">
+  <table class="table table-striped table-condensed">
     <thead>
       <tr>
         <th>Item</th>

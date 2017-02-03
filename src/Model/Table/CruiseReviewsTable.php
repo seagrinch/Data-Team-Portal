@@ -70,91 +70,91 @@ class CruiseReviewsTable extends Table
             ->allowEmpty('status');
 
         $validator
-            ->date('cruise_plan','mdy')
+            ->date('cruise_plan','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('cruise_plan');
 
         $validator
-            ->url('cruise_plan_url')
+            ->url('cruise_plan_url','Please enter a valid URL')
             ->allowEmpty('cruise_plan_url');
 
         $validator
-            ->date('quick_look','mdy')
+            ->date('quick_look','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('quick_look');
 
         $validator
-            ->url('quick_look_url')
+            ->url('quick_look_url','Please enter a valid URL')
             ->allowEmpty('quick_look_url');
 
         $validator
-            ->date('asset_sheet_submitted','mdy')
+            ->date('asset_sheet_submitted','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('asset_sheet_submitted');
 
         $validator
-            ->date('asset_sheet_reviewed','mdy')
+            ->date('asset_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('asset_sheet_reviewed');
 
         $validator
-            ->date('calibration_sheet_submitted','mdy')
+            ->date('calibration_sheet_submitted','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('calibration_sheet_submitted');
 
         $validator
-            ->date('calibration_sheet_reviewed','mdy')
+            ->date('calibration_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('calibration_sheet_reviewed');
 
         $validator
-            ->date('deployment_sheet_submitted','mdy')
+            ->date('deployment_sheet_submitted','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('deployment_sheet_submitted');
 
         $validator
-            ->date('deployment_sheet_reviewed','mdy')
+            ->date('deployment_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('deployment_sheet_reviewed');
 
         $validator
-            ->date('ingest_sheet_reviewed','mdy')
+            ->date('ingest_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('ingest_sheet_reviewed');
 
         $validator
-            ->date('raw_data','mdy')
+            ->date('raw_data','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('raw_data');
 
         $validator
-            ->url('raw_data_url')
+            ->url('raw_data_url','Please enter a valid URL')
             ->allowEmpty('raw_data_url');
 
         $validator
-            ->date('live_ingestion_started','mdy')
+            ->date('live_ingestion_started','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('live_ingestion_started');
 
         $validator
-            ->date('cruise_report','mdy')
+            ->date('cruise_report','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('cruise_report');
 
         $validator
-            ->url('cruise_report_url')
+            ->url('cruise_report_url','Please enter a valid URL')
             ->allowEmpty('cruise_report_url');
 
         $validator
-            ->date('cruise_photos','mdy')
+            ->date('cruise_photos','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('cruise_photos');
 
         $validator
-            ->url('cruise_photos_url')
+            ->url('cruise_photos_url','Please enter a valid URL')
             ->allowEmpty('cruise_photos_url');
 
         $validator
-            ->date('shipboard_data','mdy')
+            ->date('shipboard_data','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('shipboard_data');
 
         $validator
-            ->url('shipboard_data_url')
+            ->url('shipboard_data_url','Please enter a valid URL')
             ->allowEmpty('shipboard_data_url');
 
         $validator
-            ->date('water_sampling_data','mdy')
+            ->date('water_sampling_data','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('water_sampling_data');
 
         $validator
-            ->url('water_sampling_data_url')
+            ->url('water_sampling_data_url','Please enter a valid URL')
             ->allowEmpty('water_sampling_data_url');
 
         $validator
