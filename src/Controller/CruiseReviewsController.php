@@ -74,7 +74,7 @@ class CruiseReviewsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add($cuid)
+    public function add($cuid=null)
     {
         $cruiseReview = $this->CruiseReviews->newEntity();
         $cruiseReview->cruise_cuid = $cuid;
