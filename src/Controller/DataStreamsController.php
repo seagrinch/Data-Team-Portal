@@ -12,6 +12,12 @@ use Cake\Network\Exception\NotFoundException;
 class DataStreamsController extends AppController
 {
 
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Uframe');
+    }
+    
     /**
      * Index method
      *
@@ -37,12 +43,31 @@ class DataStreamsController extends AppController
      */
     public function view($id = null)
     {
-        $dataStream = $this->DataStreams->get($id, [
-            'contain' => ['Instruments', 'Streams']
-        ]);
+      $dataStream = $this->DataStreams->get($id, [
+        'contain' => ['Instruments.Deployments', 'Streams.Parameters']
+      ]);
 
-        $this->set('dataStream', $dataStream);
-        $this->set('_serialize', ['dataStream']);
+      $annotations = $this->DataStreams->Instruments->Annotations->find('all')
+        ->where(['reference_designator'=> $dataStream->reference_designator])
+        ->andWhere(['method'=>$dataStream->method])
+        ->andWhere(['stream'=>$dataStream->stream_name])
+        ->andWhere(['type'=>'annotation'])
+        ->andWhere(['model'=>'data_streams'])
+        ->contain(['Users'])
+        ->order(['start_date'=>'ASC']);
+      $dataStream->annotations = $annotations;
+
+      $cassandra = $this->Uframe->cassandra_times(
+        substr($dataStream->reference_designator,0,8),
+        substr($dataStream->reference_designator,9,5),
+        substr($dataStream->reference_designator,15,12),
+        $dataStream->method,
+        $dataStream->stream_name);
+
+      $dataStream->cassandra = $cassandra;
+
+      $this->set('dataStream', $dataStream);
+      $this->set('_serialize', ['dataStream']);
     }
 
 

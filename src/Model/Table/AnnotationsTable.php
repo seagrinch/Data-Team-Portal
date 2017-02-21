@@ -1,18 +1,18 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Note;
+use App\Model\Entity\Annotation;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Notes Model
+ * Annotation Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Users
  */
-class NotesTable extends Table
+class AnnotationsTable extends Table
 {
 
     /**
@@ -25,7 +25,7 @@ class NotesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('notes');
+        $this->table('annotations');
         $this->displayField('id');
         $this->primaryKey('id');
 
@@ -58,7 +58,7 @@ class NotesTable extends Table
             ->notEmpty('type', 'A type is required')
             ->add('type', 'inList', [
               'rule' => ['inList', ['note','issue','annotation']],
-              'message' => 'Not a valid note type',
+              'message' => 'Not a valid annotation type',
               ]);
 
         $validator

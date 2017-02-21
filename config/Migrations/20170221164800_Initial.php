@@ -9,6 +9,107 @@ class Initial extends AbstractMigration
     public function up()
     {
 
+        $this->table('annotations')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+                'signed' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('user_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('type', 'string', [
+                'default' => null,
+                'limit' => 10,
+                'null' => true,
+            ])
+            ->addColumn('comment', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('model', 'string', [
+                'default' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('reference_designator', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('deployment', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('method', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('stream', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('parameter', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('start_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('end_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('status', 'string', [
+                'default' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('redmine_issue', 'string', [
+                'default' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('resolved_date', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('uframe_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('exclusion_flag', 'boolean', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->create();
+
         $this->table('assets')
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
@@ -18,17 +119,22 @@ class Initial extends AbstractMigration
                 'signed' => false,
             ])
             ->addPrimaryKey(['id'])
-            ->addColumn('ooi_barcode', 'string', [
+            ->addColumn('asset_uid', 'string', [
                 'default' => null,
                 'limit' => 20,
                 'null' => true,
             ])
-            ->addColumn('description_of_equipment', 'text', [
+            ->addColumn('type', 'string', [
                 'default' => null,
-                'limit' => null,
+                'limit' => 20,
                 'null' => true,
             ])
-            ->addColumn('quant', 'float', [
+            ->addColumn('mobile', 'integer', [
+                'default' => null,
+                'limit' => 4,
+                'null' => true,
+            ])
+            ->addColumn('description_of_equipment', 'text', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
@@ -53,99 +159,25 @@ class Initial extends AbstractMigration
                 'limit' => 20,
                 'null' => true,
             ])
-            ->addColumn('source_of_the_equipment', 'string', [
+            ->addColumn('acquisition_date', 'date', [
                 'default' => null,
-                'limit' => 20,
+                'limit' => null,
                 'null' => true,
             ])
-            ->addColumn('whether_title', 'string', [
+            ->addColumn('original_cost', 'decimal', [
                 'default' => null,
-                'limit' => 20,
                 'null' => true,
-            ])
-            ->addColumn('location', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('room_number', 'string', [
-                'default' => null,
-                'limit' => 30,
-                'null' => true,
-            ])
-            ->addColumn('condition', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('acquisition_date', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('original_cost', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('federal_participation', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
+                'precision' => 12,
+                'scale' => 2,
             ])
             ->addColumn('comments', 'text', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
-            ->addColumn('primary_tag_date', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('primary_tag_organization', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('primary_institute_asset_tag', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('secondary_tag_date', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('second_tag_organization', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('institute_asset_tag', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('doi_tag_date', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('doi_tag_organization', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('doi_institute_asset_tag', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
             ->addIndex(
                 [
-                    'ooi_barcode',
+                    'asset_uid',
                 ],
                 ['unique' => true]
             )
@@ -160,46 +192,245 @@ class Initial extends AbstractMigration
                 'signed' => false,
             ])
             ->addPrimaryKey(['id'])
-            ->addColumn('reference_designator', 'string', [
+            ->addColumn('class', 'string', [
                 'default' => null,
-                'limit' => 27,
+                'limit' => 10,
                 'null' => true,
             ])
-            ->addColumn('mooring_barcode', 'string', [
+            ->addColumn('asset_uid', 'string', [
                 'default' => null,
-                'limit' => 25,
+                'limit' => 20,
                 'null' => true,
             ])
-            ->addColumn('mooring_serial_number', 'string', [
-                'default' => null,
-                'limit' => 25,
-                'null' => true,
-            ])
-            ->addColumn('deployment_number', 'integer', [
-                'default' => null,
-                'limit' => 11,
-                'null' => true,
-            ])
-            ->addColumn('sensor_barcode', 'string', [
-                'default' => null,
-                'limit' => 25,
-                'null' => true,
-            ])
-            ->addColumn('sensor_serial_number', 'string', [
-                'default' => null,
-                'limit' => 25,
-                'null' => true,
-            ])
-            ->addColumn('cc_name', 'string', [
-                'default' => null,
-                'limit' => 75,
-                'null' => true,
-            ])
-            ->addColumn('cc_value', 'text', [
+            ->addColumn('start_date', 'date', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
+            ->addColumn('serial', 'string', [
+                'default' => null,
+                'limit' => 25,
+                'null' => true,
+            ])
+            ->addColumn('name', 'string', [
+                'default' => null,
+                'limit' => 75,
+                'null' => true,
+            ])
+            ->addColumn('value', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('notes', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->create();
+
+        $this->table('cruise_reviews')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+                'signed' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('cruise_cuid', 'string', [
+                'default' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('status', 'string', [
+                'default' => null,
+                'limit' => 15,
+                'null' => true,
+            ])
+            ->addColumn('user_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('cruise_plan', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('cruise_plan_url', 'string', [
+                'default' => null,
+                'limit' => 1028,
+                'null' => true,
+            ])
+            ->addColumn('quick_look', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('quick_look_url', 'string', [
+                'default' => null,
+                'limit' => 1028,
+                'null' => true,
+            ])
+            ->addColumn('asset_sheet_submitted', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('asset_sheet_reviewed', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('calibration_sheet_submitted', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('calibration_sheet_reviewed', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('deployment_sheet_submitted', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('deployment_sheet_reviewed', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('ingest_sheet_reviewed', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('raw_data', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('raw_data_url', 'string', [
+                'default' => null,
+                'limit' => 1028,
+                'null' => true,
+            ])
+            ->addColumn('live_ingestion_started', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('cruise_report', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('cruise_report_url', 'string', [
+                'default' => null,
+                'limit' => 1028,
+                'null' => true,
+            ])
+            ->addColumn('cruise_photos', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('cruise_photos_url', 'string', [
+                'default' => null,
+                'limit' => 1028,
+                'null' => true,
+            ])
+            ->addColumn('shipboard_data', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('shipboard_data_url', 'string', [
+                'default' => null,
+                'limit' => 1028,
+                'null' => true,
+            ])
+            ->addColumn('water_sampling_data', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('water_sampling_data_url', 'string', [
+                'default' => null,
+                'limit' => 1028,
+                'null' => true,
+            ])
+            ->addColumn('summary', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('notes', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addIndex(
+                [
+                    'cruise_cuid',
+                ],
+                ['unique' => true]
+            )
+            ->create();
+
+        $this->table('cruises')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+                'signed' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('cuid', 'string', [
+                'default' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('ship_name', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('cruise_start_date', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('cruise_end_date', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('notes', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addIndex(
+                [
+                    'cuid',
+                ],
+                ['unique' => true]
+            )
             ->create();
 
         $this->table('data_streams')
@@ -216,11 +447,6 @@ class Initial extends AbstractMigration
                 'limit' => 27,
                 'null' => false,
             ])
-            ->addColumn('instrument_id', 'integer', [
-                'default' => null,
-                'limit' => 11,
-                'null' => true,
-            ])
             ->addColumn('method', 'string', [
                 'default' => '',
                 'limit' => 100,
@@ -230,11 +456,6 @@ class Initial extends AbstractMigration
                 'default' => '',
                 'limit' => 100,
                 'null' => false,
-            ])
-            ->addColumn('stream_id', 'integer', [
-                'default' => null,
-                'limit' => 11,
-                'null' => true,
             ])
             ->addColumn('uframe_route', 'string', [
                 'default' => '',
@@ -256,6 +477,106 @@ class Initial extends AbstractMigration
                 'limit' => 20,
                 'null' => false,
             ])
+            ->addIndex(
+                [
+                    'reference_designator',
+                    'method',
+                    'stream_name',
+                ],
+                ['unique' => true]
+            )
+            ->create();
+
+        $this->table('deployment_reviews')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+                'signed' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('reference_designator', 'string', [
+                'default' => null,
+                'limit' => 27,
+                'null' => false,
+            ])
+            ->addColumn('deployment_number', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('user_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('status', 'string', [
+                'default' => null,
+                'limit' => 15,
+                'null' => true,
+            ])
+            ->addColumn('asset_sheet_reviewed', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('calibration_sheet_reviewed', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('deployment_sheet_reviewed', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('ingest_sheet_reviewed', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('raw_data_reviewed', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('raw_data_url', 'string', [
+                'default' => null,
+                'limit' => 1028,
+                'null' => true,
+            ])
+            ->addColumn('parameter_check', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('availability_check', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('quality_check', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('environment_check', 'date', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('percent_good', 'decimal', [
+                'default' => null,
+                'null' => true,
+                'precision' => 10,
+                'scale' => 2,
+            ])
+            ->addColumn('notes', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
             ->addColumn('created', 'datetime', [
                 'default' => null,
                 'limit' => null,
@@ -269,8 +590,7 @@ class Initial extends AbstractMigration
             ->addIndex(
                 [
                     'reference_designator',
-                    'method',
-                    'stream_name',
+                    'deployment_number',
                 ],
                 ['unique' => true]
             )
@@ -285,19 +605,29 @@ class Initial extends AbstractMigration
                 'signed' => false,
             ])
             ->addPrimaryKey(['id'])
+            ->addColumn('deploy_cuid', 'string', [
+                'default' => '',
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('deployed_by', 'string', [
+                'default' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('recover_cuid', 'string', [
+                'default' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('recovered_by', 'string', [
+                'default' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
             ->addColumn('reference_designator', 'string', [
                 'default' => null,
                 'limit' => 27,
-                'null' => true,
-            ])
-            ->addColumn('mooring_barcode', 'string', [
-                'default' => null,
-                'limit' => 25,
-                'null' => true,
-            ])
-            ->addColumn('mooring_serial_number', 'string', [
-                'default' => null,
-                'limit' => 25,
                 'null' => true,
             ])
             ->addColumn('deployment_number', 'integer', [
@@ -305,19 +635,34 @@ class Initial extends AbstractMigration
                 'limit' => 11,
                 'null' => true,
             ])
-            ->addColumn('anchor_launch_date', 'date', [
+            ->addColumn('version_number', 'string', [
+                'default' => null,
+                'limit' => 10,
+                'null' => true,
+            ])
+            ->addColumn('start_date', 'datetime', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
-            ->addColumn('anchor_launch_time', 'time', [
+            ->addColumn('stop_date', 'datetime', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
-            ->addColumn('recover_date', 'date', [
+            ->addColumn('mooring_uid', 'string', [
                 'default' => null,
-                'limit' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('node_uid', 'string', [
+                'default' => null,
+                'limit' => 20,
+                'null' => true,
+            ])
+            ->addColumn('sensor_uid', 'string', [
+                'default' => null,
+                'limit' => 20,
                 'null' => true,
             ])
             ->addColumn('latitude', 'float', [
@@ -330,14 +675,19 @@ class Initial extends AbstractMigration
                 'limit' => null,
                 'null' => true,
             ])
-            ->addColumn('water_depth', 'float', [
+            ->addColumn('orbit', 'string', [
+                'default' => null,
+                'limit' => 10,
+                'null' => true,
+            ])
+            ->addColumn('deployment_depth', 'float', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
-            ->addColumn('cruise_number', 'string', [
+            ->addColumn('water_depth', 'float', [
                 'default' => null,
-                'limit' => 50,
+                'limit' => null,
                 'null' => true,
             ])
             ->addColumn('notes', 'text', [
@@ -345,6 +695,13 @@ class Initial extends AbstractMigration
                 'limit' => null,
                 'null' => true,
             ])
+            ->addIndex(
+                [
+                    'reference_designator',
+                    'deployment_number',
+                ],
+                ['unique' => true]
+            )
             ->create();
 
         $this->table('instrument_classes')
@@ -367,6 +724,11 @@ class Initial extends AbstractMigration
                 'null' => false,
             ])
             ->addColumn('description', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('website_info', 'text', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
@@ -427,6 +789,16 @@ class Initial extends AbstractMigration
                 'default' => '',
                 'limit' => 75,
                 'null' => false,
+            ])
+            ->addColumn('description', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('website_info', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
             ])
             ->addColumn('created', 'datetime', [
                 'default' => null,
@@ -490,12 +862,12 @@ class Initial extends AbstractMigration
             ])
             ->addColumn('current_status', 'string', [
                 'default' => null,
-                'limit' => 10,
+                'limit' => 15,
                 'null' => true,
             ])
-            ->addColumn('uframe_status', 'string', [
+            ->addColumn('last_reviewed', 'date', [
                 'default' => null,
-                'limit' => 10,
+                'limit' => null,
                 'null' => true,
             ])
             ->addColumn('created', 'datetime', [
@@ -540,9 +912,14 @@ class Initial extends AbstractMigration
                 'limit' => 1,
                 'null' => true,
             ])
-            ->addColumn('cassandra_status', 'string', [
+            ->addColumn('cassandra_ts', 'integer', [
                 'default' => null,
-                'limit' => 1,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('cassandra_rec', 'integer', [
+                'default' => null,
+                'limit' => 11,
                 'null' => true,
             ])
             ->addColumn('operational_status', 'string', [
@@ -561,16 +938,6 @@ class Initial extends AbstractMigration
                 'null' => true,
             ])
             ->addColumn('reviewed_comment', 'text', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('created', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('modified', 'datetime', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
@@ -608,6 +975,11 @@ class Initial extends AbstractMigration
                 'limit' => 75,
                 'null' => false,
             ])
+            ->addColumn('current_status', 'string', [
+                'default' => null,
+                'limit' => 15,
+                'null' => true,
+            ])
             ->addColumn('created', 'datetime', [
                 'default' => null,
                 'limit' => null,
@@ -624,77 +996,6 @@ class Initial extends AbstractMigration
                 ],
                 ['unique' => true]
             )
-            ->create();
-
-        $this->table('notes')
-            ->addColumn('id', 'integer', [
-                'autoIncrement' => true,
-                'default' => null,
-                'limit' => 11,
-                'null' => false,
-                'signed' => false,
-            ])
-            ->addPrimaryKey(['id'])
-            ->addColumn('user_id', 'integer', [
-                'default' => null,
-                'limit' => 11,
-                'null' => true,
-            ])
-            ->addColumn('comment', 'text', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('type', 'string', [
-                'default' => null,
-                'limit' => 10,
-                'null' => true,
-            ])
-            ->addColumn('model', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('reference_designator', 'string', [
-                'default' => null,
-                'limit' => 30,
-                'null' => true,
-            ])
-            ->addColumn('start_date', 'date', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('end_date', 'date', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('redmine_issue', 'string', [
-                'default' => null,
-                'limit' => 20,
-                'null' => true,
-            ])
-            ->addColumn('resolved_date', 'date', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('resolved_comment', 'text', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('created', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('modified', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
             ->create();
 
         $this->table('parameter_functions')
@@ -797,6 +1098,16 @@ class Initial extends AbstractMigration
                 'limit' => null,
                 'null' => true,
             ])
+            ->addColumn('data_level', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('data_product_type', 'string', [
+                'default' => null,
+                'limit' => 50,
+                'null' => true,
+            ])
             ->create();
 
         $this->table('parameters_streams')
@@ -867,6 +1178,25 @@ class Initial extends AbstractMigration
             )
             ->create();
 
+        $this->table('sessions')
+            ->addColumn('id', 'string', [
+                'default' => '',
+                'limit' => 255,
+                'null' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('data', 'binary', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('expires', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->create();
+
         $this->table('sites')
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
@@ -923,7 +1253,7 @@ class Initial extends AbstractMigration
             ])
             ->addColumn('current_status', 'string', [
                 'default' => null,
-                'limit' => 10,
+                'limit' => 15,
                 'null' => true,
             ])
             ->addColumn('created', 'datetime', [
@@ -963,11 +1293,6 @@ class Initial extends AbstractMigration
                 'limit' => 11,
                 'null' => true,
             ])
-            ->addColumn('uses_ctd', 'boolean', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
             ->addColumn('binsize_minutes', 'integer', [
                 'default' => null,
                 'limit' => 11,
@@ -975,12 +1300,12 @@ class Initial extends AbstractMigration
             ])
             ->addColumn('stream_type', 'string', [
                 'default' => null,
-                'limit' => 20,
+                'limit' => 250,
                 'null' => true,
             ])
-            ->addColumn('display_name', 'string', [
+            ->addColumn('stream_content', 'string', [
                 'default' => null,
-                'limit' => 100,
+                'limit' => 250,
                 'null' => true,
             ])
             ->addColumn('description', 'string', [
@@ -1005,19 +1330,9 @@ class Initial extends AbstractMigration
                 'signed' => false,
             ])
             ->addPrimaryKey(['id'])
-            ->addColumn('test_plan_id', 'integer', [
+            ->addColumn('test_run_id', 'integer', [
                 'default' => null,
                 'limit' => 11,
-                'null' => true,
-            ])
-            ->addColumn('test_question_id', 'integer', [
-                'default' => null,
-                'limit' => 11,
-                'null' => true,
-            ])
-            ->addColumn('reference_designator', 'string', [
-                'default' => null,
-                'limit' => 27,
                 'null' => true,
             ])
             ->addColumn('method', 'string', [
@@ -1035,12 +1350,17 @@ class Initial extends AbstractMigration
                 'limit' => 11,
                 'null' => true,
             ])
-            ->addColumn('result', 'string', [
+            ->addColumn('status_complete', 'string', [
                 'default' => null,
                 'limit' => 10,
                 'null' => true,
             ])
-            ->addColumn('result_comment', 'text', [
+            ->addColumn('status_reasonable', 'string', [
+                'default' => null,
+                'limit' => 10,
+                'null' => true,
+            ])
+            ->addColumn('comment', 'text', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
@@ -1062,7 +1382,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('test_plans')
+        $this->table('test_runs')
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -1074,6 +1394,16 @@ class Initial extends AbstractMigration
             ->addColumn('name', 'string', [
                 'default' => '',
                 'limit' => 250,
+                'null' => true,
+            ])
+            ->addColumn('reference_designator', 'string', [
+                'default' => null,
+                'limit' => 27,
+                'null' => true,
+            ])
+            ->addColumn('deployment', 'integer', [
+                'default' => null,
+                'limit' => 11,
                 'null' => true,
             ])
             ->addColumn('user_id', 'integer', [
@@ -1096,35 +1426,34 @@ class Initial extends AbstractMigration
                 'limit' => 20,
                 'null' => true,
             ])
-            ->addColumn('created', 'datetime', [
+            ->addColumn('comment', 'text', [
                 'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
-            ->addColumn('modified', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->create();
-
-        $this->table('test_questions')
-            ->addColumn('id', 'integer', [
-                'autoIncrement' => true,
+            ->addColumn('count_items', 'integer', [
                 'default' => null,
                 'limit' => 11,
-                'null' => false,
-                'signed' => false,
-            ])
-            ->addPrimaryKey(['id'])
-            ->addColumn('question', 'string', [
-                'default' => null,
-                'limit' => 250,
                 'null' => true,
             ])
-            ->addColumn('type', 'string', [
+            ->addColumn('count_complete_good', 'integer', [
                 'default' => null,
-                'limit' => 20,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('count_complete_bad', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('count_reasonable_good', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('count_reasonable_bad', 'integer', [
+                'default' => null,
+                'limit' => 11,
                 'null' => true,
             ])
             ->addColumn('created', 'datetime', [
@@ -1215,25 +1544,28 @@ class Initial extends AbstractMigration
 
     public function down()
     {
+        $this->dropTable('annotations');
         $this->dropTable('assets');
         $this->dropTable('calibrations');
+        $this->dropTable('cruise_reviews');
+        $this->dropTable('cruises');
         $this->dropTable('data_streams');
+        $this->dropTable('deployment_reviews');
         $this->dropTable('deployments');
         $this->dropTable('instrument_classes');
         $this->dropTable('instrument_models');
         $this->dropTable('instruments');
         $this->dropTable('monthly_stats');
         $this->dropTable('nodes');
-        $this->dropTable('notes');
         $this->dropTable('parameter_functions');
         $this->dropTable('parameters');
         $this->dropTable('parameters_streams');
         $this->dropTable('regions');
+        $this->dropTable('sessions');
         $this->dropTable('sites');
         $this->dropTable('streams');
         $this->dropTable('test_items');
-        $this->dropTable('test_plans');
-        $this->dropTable('test_questions');
+        $this->dropTable('test_runs');
         $this->dropTable('users');
     }
 }

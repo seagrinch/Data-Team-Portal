@@ -37,7 +37,8 @@ class DataStreamsTable extends Table
             'bindingKey' => 'reference_designator',
         ]);
         $this->belongsTo('Streams', [
-            'foreignKey' => 'stream_id'
+            'foreignKey' => 'stream_name',
+            'bindingKey' => 'name'
         ]);
     }
 

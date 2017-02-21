@@ -14,11 +14,16 @@
     <fieldset>
         <legend>Edit <?= h($instrument->name) ?></legend>
         <?php
+/*
             echo $this->Form->input('start_depth');
             echo $this->Form->input('end_depth');
             echo $this->Form->input('location');
-            echo $this->Form->input('uframe_status',['options'=>['1'=>'OK',''=>'Unknown']]);
-            echo $this->Form->input('current_status',['options'=>['deployed'=>'Deployed','recovered'=>'Recovered',''=>'Unknown']]);
+*/
+            echo $this->Form->input('current_status', ['options'=>[
+              'deployed'=>'Deployed',
+              'recovered'=>'Recovered',
+              'lost'=>'Lost'
+            ], 'empty'=>'Unknown']);
         ?>
     </fieldset>
 		<?= $this->Html->link('Cancel', ['action' => 'view', $instrument->reference_designator], ['class'=>'btn btn-default']); ?>

@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-6">
     
-    <h3>Infrastructure Pages</h3>
+    <h3>Infrastructure Pages <a href="https://github.com/seagrinch/data-team-python"><small>GitHub <span class="glyphicon glyphicon-link" aria-hidden="true"></span></small></a></h3>
     <ul>
       <li><?php echo $this->Html->link('Arrays',['controller'=>'regions'])?></li>
       <li><?php echo $this->Html->link('Sites',['controller'=>'sites'])?></li>
@@ -13,7 +13,7 @@
       <li><?php echo $this->Html->link('Data Streams',['controller'=>'data-streams'])?></li>
     </ul>
     
-    <h3>Preload Information</h3>
+    <h3>Preload Information <a href="https://github.com/oceanobservatories/preload-database"><small>GitHub <span class="glyphicon glyphicon-link" aria-hidden="true"></span></small></a></h3>
     <ul>
       <li><?php echo $this->Html->link('Streams',['controller'=>'streams'])?> 
           [<?php echo $this->Html->link('DataTable',['controller'=>'streams', 'action'=>'all'])?>]</li>
@@ -22,7 +22,7 @@
       <li><?php echo $this->Html->link('Parameter Functions',['controller'=>'parameter-functions'])?></li>
     </ul>
     
-    <h3>Deployment Sheets</h3>
+    <h3>Asset Information  <a href="https://github.com/ooi-integration/asset-management"><small>GitHub <span class="glyphicon glyphicon-link" aria-hidden="true"></span></small></a></h3>
     <ul>
       <li><?php echo $this->Html->link('Assets',['controller'=>'assets'])?></li>
       <li>Calibrations - See Asset pages</li>
@@ -35,8 +35,10 @@
   
     <h3>Data Team Reviews</h3>
     <ul>
-      <li><?php echo $this->Html->link('Notes',['controller'=>'Notes'])?></li>
-      <li><?php echo $this->Html->link('Test Runs',['controller'=>'TestRuns'])?></li>
+      <li><?php echo $this->Html->link('Cruise Reviews',['controller'=>'CruiseReviews'])?></li>
+      <li><?php echo $this->Html->link('Deployment Reviews',['controller'=>'DeploymentReviews'])?></li>
+      <li><?php echo $this->Html->link('Annotations',['controller'=>'Annotations'])?></li>
+      <li><?php echo $this->Html->link('Test Runs',['controller'=>'TestRuns'])?> (deprecated)</li>
       <li>Monthly Status Reports (coming soon)</li>
       <li>Data Review Reports (coming soon)</li>
     </ul>

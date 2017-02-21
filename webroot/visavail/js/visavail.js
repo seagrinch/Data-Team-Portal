@@ -51,6 +51,7 @@ function visavailChart() {
       .style('opacity', 0);
 
   var definedBlocks = null;
+  var customCategories = null;
   var isDateOnlyFormat = null;
 
   function chart(selection) {
@@ -90,6 +91,17 @@ function visavailChart() {
               throw new Error('Detected different data formats in input data. Format can either be ' +
                   'continuous data format or time gap data format but not both.');
             }
+          }
+        }
+      }
+
+      // check if data has custom categories
+      if (customCategories === null) {
+        customCategories = 0;
+        for (var i = 0; i < dataset.length; i++) {
+          if (dataset[i].data[0][1] != 0 && dataset[i].data[0][1] != 1) {
+            customCategories = 1;
+            break;
           }
         }
       }
@@ -216,19 +228,51 @@ function visavailChart() {
       svg.append('g').attr('id', 'g_data');
 
       // create y axis labels
-      svg.select('#g_axis').selectAll('text')
+      var labels = svg.select('#g_axis').selectAll('text')
           .data(dataset.slice(startSet, endSet))
-          .enter()
-          .append('text')
+          .enter();
+
+      // text labels
+      labels.append('text')
           .attr('x', paddingLeft)
           .attr('y', lineSpacing + dataHeight / 2)
           .text(function (d) {
-            return d.measure;
+            if (!(d.measure_html != null)) {
+              return d.measure;
+            }
           })
           .attr('transform', function (d, i) {
             return 'translate(0,' + ((lineSpacing + dataHeight) * i) + ')';
           })
-          .attr('class', 'ytitle');
+          .attr('class', function(d) {
+            var returnCSSClass = 'ytitle';
+            if (d.measure_url != null) {
+              returnCSSClass = returnCSSClass + ' link';
+            }
+            return returnCSSClass;
+          })
+          .on('click', function(d) {
+            if (d.measure_url != null) {
+              return window.open(d.measure_url);
+            }
+            return null;
+          });
+
+      // HTML labels
+      labels.append('foreignObject')
+          .attr('x', paddingLeft)
+          .attr('y', lineSpacing)
+          .attr('transform', function (d, i) {
+            return 'translate(0,' + ((lineSpacing + dataHeight) * i) + ')';
+          })
+          .attr('width', -1 * paddingLeft)
+          .attr('height', dataHeight)
+          .attr('class', 'ytitle')
+          .html(function(d) {
+            if (d.measure_html != null) {
+              return d.measure_html;
+            }
+          });
 
       // create vertical grid
       svg.select('#g_axis').selectAll('line.vert_grid').data(xScale.ticks())
@@ -293,10 +337,25 @@ function visavailChart() {
           })
           .attr('height', dataHeight)
           .attr('class', function (d) {
-            if (d[1] === 1) {
-              return 'rect_has_data';
+            if (customCategories) {
+              var series = dataset.find(
+                  function(series) {
+                    return series.disp_data.indexOf(d) >= 0;
+                  }
+              );
+              if (series && series.categories) {
+                d3.select(this).attr('fill', series.categories[d[1]].color);
+                return '';
+              }
+            } else {
+              if (d[1] === 1) {
+                // data available
+                return 'rect_has_data';
+              } else {
+                // no data available
+                return 'rect_has_no_data';
+              }
             }
-            return 'rect_has_no_data';
           })
           .on('mouseover', function (d, i) {
             var matrix = this.getScreenCTM().translate(+this.getAttribute('x'), +this.getAttribute('y'));
@@ -305,10 +364,17 @@ function visavailChart() {
                 .style('opacity', 0.9);
             div.html(function () {
               var output = '';
-              if (d[1] === 1) {
-                output = '<i class="fa fa-fw fa-check tooltip_has_data"></i>';
+              if (customCategories) {
+                // custom categories: display category name
+                output = '&nbsp;' + d[1] + '&nbsp;';
               } else {
-                output = '<i class="fa fa-fw fa-times tooltip_has_no_data"></i>';
+                if (d[1] === 1) {
+                  // checkmark icon
+                  output = '<i class="fa fa-fw fa-check tooltip_has_data"></i>';
+                } else {
+                  // cross icon
+                  output = '<i class="fa fa-fw fa-times tooltip_has_no_data"></i>';
+                }
               }
               if (isDateOnlyFormat) {
                 if (d[2] > d3.time.second.offset(d[0], 86400)) {
@@ -406,36 +472,38 @@ function visavailChart() {
           .attr('class', 'subheading');
 
       // create legend
-      var legend = svg.select('#g_title')
-          .append('g')
-          .attr('id', 'g_legend')
-          .attr('transform', 'translate(0,-12)');
+      if (!customCategories) {
+        var legend = svg.select('#g_title')
+            .append('g')
+            .attr('id', 'g_legend')
+            .attr('transform', 'translate(0,-12)');
 
-      legend.append('rect')
-          .attr('x', width + margin.right - 150)
-          .attr('y', paddingTopHeading)
-          .attr('height', 15)
-          .attr('width', 15)
-          .attr('class', 'rect_has_data');
+        legend.append('rect')
+            .attr('x', width + margin.right - 150)
+            .attr('y', paddingTopHeading)
+            .attr('height', 15)
+            .attr('width', 15)
+            .attr('class', 'rect_has_data');
 
-      legend.append('text')
-          .attr('x', width + margin.right - 150 + 20)
-          .attr('y', paddingTopHeading + 8.5)
-          .text('Data available')
-          .attr('class', 'legend');
+        legend.append('text')
+            .attr('x', width + margin.right - 150 + 20)
+            .attr('y', paddingTopHeading + 8.5)
+            .text('Data available')
+            .attr('class', 'legend');
 
-      legend.append('rect')
-          .attr('x', width + margin.right - 150)
-          .attr('y', paddingTopHeading + 17)
-          .attr('height', 15)
-          .attr('width', 15)
-          .attr('class', 'rect_has_no_data');
+        legend.append('rect')
+            .attr('x', width + margin.right - 150)
+            .attr('y', paddingTopHeading + 17)
+            .attr('height', 15)
+            .attr('width', 15)
+            .attr('class', 'rect_has_no_data');
 
-      legend.append('text')
-          .attr('x', width + margin.right - 150 + 20)
-          .attr('y', paddingTopHeading + 8.5 + 15 + 2)
-          .text('No data available')
-          .attr('class', 'legend');
+        legend.append('text')
+            .attr('x', width + margin.right - 150 + 20)
+            .attr('y', paddingTopHeading + 8.5 + 15 + 2)
+            .text('No data available')
+            .attr('class', 'legend');
+      }
     });
   }
 

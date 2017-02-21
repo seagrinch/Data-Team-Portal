@@ -4,7 +4,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Note Entity.
+ * Annotation Entity.
  *
  * @property int $id
  * @property int $user_id
@@ -19,7 +19,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
  */
-class Note extends Entity
+class Annotation extends Entity
 {
 
     /**

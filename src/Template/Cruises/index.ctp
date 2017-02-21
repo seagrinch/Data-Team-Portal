@@ -6,6 +6,7 @@
             <th><?= $this->Paginator->sort('ship_name'); ?></th>
             <th><?= $this->Paginator->sort('cruise_start_date'); ?></th>
             <th><?= $this->Paginator->sort('cruise_end_date'); ?></th>
+            <th><?= $this->Paginator->sort('CruiseReviews.status','Review Status'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +16,16 @@
             <td><?= h($cruise->ship_name) ?></td>
             <td><?= h($cruise->cruise_start_date) ?></td>
             <td><?= h($cruise->cruise_end_date) ?></td>
+            <td><?php 
+                if (isset($cruise->cruise_review->status)) {
+                  $txt = h($cruise->cruise_review->status);
+                } else {
+                  $txt = 'New';
+                }
+              echo $this->Html->link($txt,
+                ['controller'=>'cruise-reviews', 'action'=>'view', $cruise->cuid], 
+                ['class'=>'']);
+            ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
