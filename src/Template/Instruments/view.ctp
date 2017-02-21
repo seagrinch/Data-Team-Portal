@@ -106,10 +106,12 @@
       ]
     ];
     foreach ($instrument->annotations as $a) {
-      $data_annotations['data'][] = [
-        $this->Time->i18nFormat($a->start_date,'yyyy-MM-dd HH:mm:ss'), 
-        $a->status, 
-        ($a->end_date) ? $this->Time->i18nFormat($a->end_date,'yyyy-MM-dd HH:mm:ss') : date("Y-m-d H:i:s")];
+      if ($a->start_date) {
+        $data_annotations['data'][] = [
+          $this->Time->i18nFormat($a->start_date,'yyyy-MM-dd HH:mm:ss'), 
+          $a->status, 
+          ($a->end_date) ? $this->Time->i18nFormat($a->end_date,'yyyy-MM-dd HH:mm:ss') : date("Y-m-d H:i:s")];
+      }
     }
     array_push($data,$data_annotations);
   }
@@ -139,101 +141,27 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane" id="streams">
       <?php if (count($instrument->data_streams)>0): ?>
-
-        <div class="well">
-          <strong>Display Parameters:</strong>
-          <label class="radio-inline">
-            <input type="radio" name="dpselector" id="dpselector1" value="All" checked> All
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="dpselector" id="dpselector2" value="Auxiliary"> Auxiliary
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="dpselector" id="dpselector3" value="Engineering"> Engineering
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="dpselector" id="dpselector4" value="Science"> Science
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="dpselector" id="dpselector5" value="Unprocessed"> Unprocessed
-          </label>
-        </div>
-        <?php $this->Html->scriptStart(['block' => true]); ?>
-        $(function() {
-          $("[name=dpselector]").click(function(){
-            if ($(this).val()=='All') {
-              $('.dptype').show();
-            } else {
-              $('.dptype').hide();
-              $(".dptype."+$(this).val()).show();  
-            }  
-          });
-        }); 
-        <?php $this->Html->scriptEnd(); ?>
-
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
           <tr>
             <th>Method</th>
             <th>Stream Name</th>
-            <th>uFrame Route</th>
-            <th>Driver</th>
-            <th>Parser</th>
+            <th></th>
           </tr>
           <?php foreach ($instrument->data_streams as $s): ?>
           <tr>
             <td><?= h($s->method) ?></td>
+            <td><?= h($s->stream_name) ?></td>
             <td>
-              <div class="stream">
-                <?= $this->Html->link($s->stream->name, ['controller'=>'streams', 'action' => 'view', $s->stream->name]) ?>
-                    <span class="actions"> - Add:
-                    <?php echo $this->Html->link(
-                      '<span class="glyphicon glyphicon-tag" style="color:black" aria-hidden="true"></span>', 
-                      ['controller'=>'annotations','action'=>'add','note',$instrument->reference_designator, 
-                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name]], ['escape'=>false ]); ?>
-                    <?php echo $this->Html->link(
-                      '<span class="glyphicon glyphicon-question-sign" style="color:red" aria-hidden="true"></span>', 
-                      ['controller'=>'annotations','action'=>'add','issue',$instrument->reference_designator,
-                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name]], ['escape'=>false ]); ?>
-                    <?php echo $this->Html->link(
-                      '<span class="glyphicon glyphicon-globe" style="color:green" aria-hidden="true"></span>', 
-                      ['controller'=>'annotations','action'=>'add','annotation',$instrument->reference_designator,
-                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name]], ['escape'=>false ]); ?>
-                      </span> 
-              </div>
-              <?php if (count($instrument->data_streams)>0): ?>
-                <ul>
-                <?php foreach ($s->stream->parameters as $p): ?>
-                  <li class="dptype <?= explode(' ',trim($p->data_product_type))[0]?>">
-                    <?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?> 
-                    <?= ($p->data_product_type ? $p->data_product_type : "") ?>
-                    <?= ($p->data_level>-1 ? "L".$p->data_level : "") ?>
-                    <span class="actions"> - Add:
-                    <?php echo $this->Html->link(
-                      '<span class="glyphicon glyphicon-tag" style="color:black" aria-hidden="true"></span>', 
-                      ['controller'=>'annotations','action'=>'add','note',$instrument->reference_designator, 
-                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name, 'parameter'=>$p->id]], ['escape'=>false ]); ?>
-                    <?php echo $this->Html->link(
-                      '<span class="glyphicon glyphicon-question-sign" style="color:red" aria-hidden="true"></span>', 
-                      ['controller'=>'annotations','action'=>'add','issue',$instrument->reference_designator,
-                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name, 'parameter'=>$p->id]], ['escape'=>false ]); ?>
-                    <?php echo $this->Html->link(
-                      '<span class="glyphicon glyphicon-globe" style="color:green" aria-hidden="true"></span>', 
-                      ['controller'=>'annotations','action'=>'add','annotation',$instrument->reference_designator,
-                      '?'=>['method'=>$s->method, 'stream'=>$s->stream_name, 'parameter'=>$p->id]], ['escape'=>false ]); ?>
-                      </span> 
-                      <style>
-                        .actions { display:none; }
-                        .dptype:hover .actions{ display:inline }
-                        .stream:hover .actions{ display:inline }
-                      </style>
-                  </li>
-                <?php endforeach; ?>
-                </ul>
-              <?php endif; ?>
-            </td>
-            <td><?= h($s->uframe_route) ?></td>
-            <td><?= h($s->driver) ?></td>
-            <td><?= h($s->parser) ?></td>
+              <?= $this->Html->link('Annotations <span class="glyphicon glyphicon-pencil" aria-hidden="true">', 
+                ['controller'=>'data-streams', 'action' => 'view', $s->id],
+                ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
+              <?= $this->Html->link('Stream <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
+                ['controller'=>'streams', 'action' => 'view', $s->stream_name],
+                ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
+              <?= $this->Html->link('Parameters <span class="glyphicon glyphicon-list-alt" aria-hidden="true">', 
+                '#',
+                ['class'=>'btn btn-default btn-xs','escape'=>false, 'data-toggle'=>'modal', 'data-target'=>'#'.$s->id]) ?>
+              </td>
           </tr>
           <?php endforeach; ?>
         </table>
@@ -313,6 +241,50 @@
   </div><!-- End Tab Content -->
 
 </div><!-- End Tabbed Navigation -->
+
+
+
+<!-- Parameter Modals -->
+<?php if (count($instrument->data_streams)>0): ?>
+  <?php foreach ($instrument->data_streams as $s): ?>
+    <div class="modal fade" id="<?= h($s->id)?>" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><?= h($s->stream->name) ?></h4>
+          </div>
+          <div class="modal-body">
+            <table class="table table-striped table-condensed">
+              <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Data Product Type</th>
+                <th>Level</th>
+              </tr>
+              </thead>
+              <tbody>
+              <?php foreach ($s->stream->parameters as $p): ?>
+              <tr>
+                <td><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?> </td>
+                <td><?= ($p->data_product_type ? $p->data_product_type : "") ?></td>
+                <td><?= ($p->data_level>-1 ? "L".$p->data_level : "") ?></td>
+              </tr>
+              <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+<!--
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+-->
+        </div>
+      </div>
+    </div>
+  <?php endforeach; ?>
+<?php endif; ?>
+
 
 <?php $this->Html->scriptStart(['block' => true]); ?>  
   // Javascript to enable link to tab

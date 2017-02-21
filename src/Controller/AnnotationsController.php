@@ -88,6 +88,16 @@ class AnnotationsController extends AppController
               ->where(['Nodes.reference_designator'=>$reference_designator]);
             $rd = $query->first();
             $model='nodes';
+        } elseif (strlen($reference_designator)==27 && ($this->request->query('method')) && ($this->request->query('stream'))) {
+            $this->loadModel('DataStreams');
+            $query = $this->DataStreams->find()
+              ->where([
+                'reference_designator'=>$reference_designator,
+                'method'=>$this->request->query('method'),
+                'stream_name'=>$this->request->query('stream')
+              ]);
+            $rd = $query->first();
+            $model='data_streams';
         } elseif (strlen($reference_designator)==27) {
             $this->loadModel('Instruments');
             $query = $this->Instruments->find()
@@ -116,7 +126,20 @@ class AnnotationsController extends AppController
             $annotation->user_id = $this->Auth->user('id');
             if ($this->Annotations->save($annotation)) {
                 $this->Flash->success(__('The annotation has been saved.'));
-                return $this->redirect(['controller'=>$annotation->model, 'action'=>'view', $rd->reference_designator, '#'=>$annotation->type . 's']);
+                if ($annotation->model=='data_streams') {
+                  return $this->redirect([
+                    'controller'=>'data_streams', 
+                    'action'=>'view', 
+                    $rd->id 
+                  ]);
+                } else {
+                  return $this->redirect([
+                    'controller'=>$annotation->model, 
+                    'action'=>'view', 
+                    $rd->reference_designator, 
+                    '#'=>$annotation->type . 's'
+                  ]);
+                }
             } else {
                 $this->Flash->error(__('The annotation could not be saved. Please, try again.'));
             }
@@ -144,7 +167,28 @@ class AnnotationsController extends AppController
             ]);
             if ($this->Annotations->save($annotation)) {
                 $this->Flash->success(__('The annotation has been updated.'));
-                return $this->redirect(['controller'=>$annotation->model, 'action'=>'view', $annotation->reference_designator, '#'=>'annotations']);
+                if ($annotation->model=='data_streams') {
+                  $this->loadModel('DataStreams');
+                  $query = $this->DataStreams->find()
+                    ->where([
+                    'reference_designator'=>$annotation->reference_designator,
+                    'method'=>$annotation->method,
+                    'stream_name'=>$annotation->stream
+                  ]);
+                  $rd = $query->first();
+                  return $this->redirect([
+                    'controller'=>'data_streams', 
+                    'action'=>'view', 
+                    $rd->id 
+                  ]);                  
+                } else {
+                  return $this->redirect([
+                    'controller'=>$annotation->model, 
+                    'action'=>'view', 
+                    $annotation->reference_designator, 
+                    '#'=>'annotations'
+                  ]);
+                }
             } else {
                 $this->Flash->error(__('The annotation could not be updated. Please, try again.'));
             }
