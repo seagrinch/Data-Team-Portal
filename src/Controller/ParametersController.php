@@ -31,8 +31,10 @@ class ParametersController extends AppController
     {
       $query = $this->Parameters->find('all');
       if ($this->request->is('json') ) { //Formerly ajax
-        $this->paginate['limit'] = 5000;
-        $query->contain();
+        $this->paginate = [
+          'limit' => 5000,
+          'maxLimit' => 5000
+        ];
         $this->set('_serialize', false);
       }
       $this->set('parameters',$this->paginate($query));

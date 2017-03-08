@@ -31,8 +31,10 @@ class StreamsController extends AppController
     {
       $query = $this->Streams->find('all');
       if ($this->request->is('json') ) { //Formerly ajax
-        $this->paginate['limit'] = 1000;
-        $query->contain();
+        $this->paginate = [
+          'limit' => 1000,
+          'maxLimit' => 1000
+        ];
         $this->set('_serialize', false);
       }
       $this->set('streams',$this->paginate($query));

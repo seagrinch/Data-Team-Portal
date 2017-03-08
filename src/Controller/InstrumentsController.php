@@ -44,8 +44,11 @@ class InstrumentsController extends AppController
         $query->where(['parent_node LIKE'=>$site.'%']);
       }
       if ($this->request->is('json') ) { //Formerly ajax
-        $this->paginate['limit'] = 2000;
-        $query->contain(['Nodes.Sites.Regions']);
+        $this->paginate = [
+          'limit' => 2000, 
+          'maxLimit' => 2000,
+          'contain' => 'Nodes.Sites.Regions'
+        ];
         $this->set('_serialize', false);
       }
       $this->set('instruments',$this->paginate($query));
