@@ -1,7 +1,7 @@
 {
-    "name": "cakephp/app",
-    "description": "CakePHP skeleton app",
-    "homepage": "http://cakephp.org",
+    "name": "seagrinch/data-team-portal",
+    "description": "OOI Data Team Portal",
+    "homepage": "http://ooi.visualocean.net",
     "type": "project",
     "license": "MIT",
     "require": {
