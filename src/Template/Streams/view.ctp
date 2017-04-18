@@ -54,10 +54,10 @@
                 <tr>
                     <td>PD<?= h($parameters->id) ?></td>
                     <td><?= $this->Html->link($parameters->name,['controller'=>'parameters','action'=>'view',$parameters->id]) ?></td>
-                    <td><?= h($parameters->unit) ?></td>
-                    <td><?= h($parameters->fill_value) ?></td>
                     <td><?= h($parameters->display_name) ?></td>
                     <td><?= h($parameters->standard_name) ?></td>
+                    <td><?= h($parameters->unit) ?></td>
+                    <td><?= h($parameters->fill_value) ?></td>
                     <td><?= h($parameters->precision) ?></td>
                     <td><?= h($parameters->data_product_identifier) ?></td>
                 </tr>
