@@ -22,7 +22,7 @@
       <dt><?= __('Method') ?></dt>
       <dd><?= h($dataStream->method) ?></dd>
       <dt><?= __('Stream') ?></dt>
-      <dd><?= $dataStream->has('stream') ? $this->Html->link($dataStream->stream->name, ['controller' => 'Streams', 'action' => 'view', $dataStream->stream->id]) : '' ?></dd>
+      <dd><?= $dataStream->has('stream') ? $this->Html->link($dataStream->stream->name, ['controller' => 'Streams', 'action' => 'view', $dataStream->stream->name]) : '' ?></dd>
     </dl>
   </div>
   <div class="col-md-7">

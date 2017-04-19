@@ -54,7 +54,6 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
                 <li><?php echo $this->Html->link('Parameters','/parameters/all')?></li>
                 <li><?php echo $this->Html->link('Assets','/assets')?></li>
                 <li><?php echo $this->Html->link('Cruise Reviews','/cruise-reviews')?></li>
-                <li><?php echo $this->Html->link('Deployment Reviews','/deployment-reviews')?></li>
                 <li><?php echo $this->Html->link('Notes','/notes')?></li>
               </ul>
             </li>

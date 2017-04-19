@@ -143,17 +143,15 @@
         <table class="table table-striped table-hover">
           <tr>
             <th>Method</th>
-            <th>Stream Name</th>
+            <th>Data Stream</th>
             <th></th>
           </tr>
           <?php foreach ($instrument->data_streams as $s): ?>
           <tr>
             <td><?= h($s->method) ?></td>
-            <td><?= h($s->stream_name) ?></td>
+            <td><?= $this->Html->link($s->stream_name, ['controller'=>'data-streams', 'action' => 'view', $s->id]) ?>
+            </td>
             <td>
-              <?= $this->Html->link('Annotations <span class="glyphicon glyphicon-pencil" aria-hidden="true">', 
-                ['controller'=>'data-streams', 'action' => 'view', $s->id],
-                ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
               <?= $this->Html->link('Stream <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
                 ['controller'=>'streams', 'action' => 'view', $s->stream_name],
                 ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
@@ -188,12 +186,7 @@
           </tr>
           <?php foreach ($instrument->deployments as $d): ?>
           <tr>
-            <td>
-              <?= h($d->deployment_number) ?> 
-              <?= $this->Html->link('Review <span class="glyphicon glyphicon-check" aria-hidden="true">', 
-                ['controller'=>'deployment-reviews', 'action' => 'view', $d->reference_designator, $d->deployment_number],
-                ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
-            </td>
+            <td><?= h($d->deployment_number) ?></td>
             <td><?= $this->Html->link($d->deploy_cuid, ['controller'=>'cruises', 'action' => 'view', $d->deploy_cuid]) ?></td>
             <td><?= $this->Time->format($d->start_date, 'MM/dd/yyyy') ?></td>
             <td><?= $this->Time->format($d->stop_date, 'MM/dd/yyyy') ?></td>
@@ -254,7 +247,8 @@
               <tbody>
               <?php foreach ($s->stream->parameters as $p): ?>
               <tr>
-                <td><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?> </td>
+                <td>PD<?= $p->id ?>
+                <?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?> </td>
                 <td><?= ($p->data_product_type ? $p->data_product_type : "") ?></td>
                 <td><?= ($p->data_level>-1 ? "L".$p->data_level : "") ?></td>
               </tr>

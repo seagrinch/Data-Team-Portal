@@ -36,7 +36,6 @@
     <h3>Data Team Reviews</h3>
     <ul>
       <li><?php echo $this->Html->link('Cruise Reviews',['controller'=>'CruiseReviews'])?></li>
-      <li><?php echo $this->Html->link('Deployment Reviews',['controller'=>'DeploymentReviews'])?></li>
       <li><?php echo $this->Html->link('Notes',['controller'=>'Notes'])?></li>
       <li><?php echo $this->Html->link('Test Runs',['controller'=>'TestRuns'])?> (deprecated)</li>
       <li>Monthly Status Reports (coming soon)</li>
