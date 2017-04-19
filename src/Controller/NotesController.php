@@ -44,7 +44,8 @@ class NotesController extends AppController
     {
         $this->paginate = [
             'contain' => ['Users'],
-            'sortWhitelist' => ['reference_designator', 'Users.first_name', 'created','type']
+            'sortWhitelist' => ['Notes.reference_designator', 'Users.first_name', 'Notes.created', 'Notes.modified'],
+            'order' => ['Notes.modified'=>'desc'],
         ];
         $notes = $this->paginate($this->Notes);
 
@@ -141,7 +142,7 @@ class NotesController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $note = $this->Notes->patchEntity($note, $this->request->data, [
-              'fieldList'=>['comment','status','deployment','start_date','end_date','redmine_issue','resolved_date']
+              'fieldList'=>['user_id','comment','status','deployment','start_date','end_date','redmine_issue','resolved_date']
             ]);
             if ($this->Notes->save($note)) {
                 $this->Flash->success(__('The note has been updated.'));
@@ -155,7 +156,8 @@ class NotesController extends AppController
                 $this->Flash->error(__('The note could not be updated. Please, try again.'));
             }
         }
-        $this->set(compact('note'));
+        $users = $this->Notes->Users->find('list', ['limit' => 200, 'valueField'=>'full_name']);
+        $this->set(compact('note','users'));
         $this->set('_serialize', ['note']);
     }
 

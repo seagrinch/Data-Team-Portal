@@ -19,6 +19,12 @@
       </dl>
       
       <?php
+      echo $this->Form->input('status',['label'=>'Status',
+        'options'=>[
+          'Note'=>'Note',
+          'Open'=>'Open Issue',
+          'Resolved'=>'Resolved Issue',
+        ],'empty'=>true]);
       echo $this->Form->input('deployment',['label'=>[
         'text'=>'Deployment <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the deployment number."></span>', 
         'escape'=>false] ] );
@@ -32,6 +38,7 @@
         'append' => '<span class="glyphicon glyphicon-th" id="end-date-dp"></span>',
         'value'=> $this->Time->i18nFormat($note->end_date,'M/d/yyyy'),
         ]);
+      echo $this->Form->input('user_id', ['options' => $users, 'empty' => true, 'label'=>'Assignee']);
       ?>
     </div>
     <div class='col-md-6'>
@@ -46,14 +53,6 @@
         'value'=> $this->Time->i18nFormat($note->resolved_date,'M/d/yyyy'),
         'empty' => true
         ]);
-      echo $this->Form->input('status',['label'=>'Status',
-        'options'=>[
-          'Not Operational'=>'Not Operational',
-          'Unavailable'=>'Unavailable',
-          'Pending'=>'Pending',
-          'Suspect'=>'Suspect',
-          'Available'=>'Available'
-        ],'empty'=>true]);
         //echo $this->Form->input('exclusion_flag',['type'=>'checkbox','label'=>'Exclude Data?']);
       ?>
 
