@@ -4,10 +4,10 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Annotation Entity.
+ * Note Entity.
  *
  */
-class Annotation extends Entity
+class Note extends Entity
 {
 
     /**

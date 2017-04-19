@@ -54,19 +54,16 @@ class SitesController extends AppController
           throw new NotFoundException(__('Site not found'));
       }
 
-      $notes = $this->Sites->Annotations->find('all')
+      $notes = $this->Sites->Notes->find('all')
         ->where(['reference_designator'=> $site->reference_designator])
-        ->andWhere(['type'=>'note'])
         ->contain(['Users'])
         ->order(['start_date'=>'ASC']);
       $site->notes = $notes;
 
-      $issues = $this->Sites->Annotations->find('all')
+      $annotations = $this->Sites->Annotations->find('all')
         ->where(['reference_designator'=> $site->reference_designator])
-        ->andWhere(['type'=>'issue'])
-        ->contain(['Users'])
-        ->order(['start_date'=>'ASC']);
-      $site->issues = $issues;
+        ->order(['start_datetime'=>'ASC']);
+      $site->annotations = $annotations;
 
       $this->set('site', $site);
       $this->set('_serialize', ['site']);

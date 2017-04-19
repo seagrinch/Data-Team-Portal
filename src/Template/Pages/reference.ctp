@@ -37,7 +37,7 @@
     <ul>
       <li><?php echo $this->Html->link('Cruise Reviews',['controller'=>'CruiseReviews'])?></li>
       <li><?php echo $this->Html->link('Deployment Reviews',['controller'=>'DeploymentReviews'])?></li>
-      <li><?php echo $this->Html->link('Annotations',['controller'=>'Annotations'])?></li>
+      <li><?php echo $this->Html->link('Notes',['controller'=>'Notes'])?></li>
       <li><?php echo $this->Html->link('Test Runs',['controller'=>'TestRuns'])?> (deprecated)</li>
       <li>Monthly Status Reports (coming soon)</li>
       <li>Data Review Reports (coming soon)</li>

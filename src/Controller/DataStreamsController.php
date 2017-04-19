@@ -51,10 +51,7 @@ class DataStreamsController extends AppController
         ->where(['reference_designator'=> $dataStream->reference_designator])
         ->andWhere(['method'=>$dataStream->method])
         ->andWhere(['stream'=>$dataStream->stream_name])
-        ->andWhere(['type'=>'annotation'])
-        ->andWhere(['model'=>'data_streams'])
-        ->contain(['Users'])
-        ->order(['start_date'=>'ASC']);
+        ->order(['start_datetime'=>'ASC']);
       $dataStream->annotations = $annotations;
 
       $cassandra = $this->Uframe->cassandra_times(

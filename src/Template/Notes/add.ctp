@@ -1,23 +1,23 @@
 <ol class="breadcrumb">
-  <li><?= $this->Html->link(__('Annotations'), ['controller'=>'annotations', 'action' => 'index']) ?></li>
-  <li class="active">Create a new Annotation</li>
+  <li><?= $this->Html->link(__('Notes'), ['controller'=>'notes', 'action' => 'index']) ?></li>
+  <li class="active">Create a new Note</li>
 </ol>
 
-<?= $this->Form->create($annotation) ?>
+<?= $this->Form->create($note) ?>
 <fieldset>
-  <legend>New <?=$annotation->type?></legend>
+  <legend>New Note</legend>
 
   <div class="row">
     <div class='col-md-6'>
       <dl class="dl-horizontal">
         <dt><?= __('Reference Designator') ?></dt>
-        <dd><?= h($annotation->reference_designator) ?></dd>
+        <dd><?= h($note->reference_designator) ?></dd>
         <dt><?= __('Method') ?></dt>
-        <dd><?= h($annotation->method) ?></dd>
+        <dd><?= h($note->method) ?></dd>
         <dt><?= __('Stream') ?></dt>
-        <dd><?= h($annotation->stream) ?></dd>
+        <dd><?= h($note->stream) ?></dd>
         <dt><?= __('Parameter') ?></dt>
-        <dd><?= h($annotation->parameter) ?></dd>
+        <dd><?= h($note->parameter) ?></dd>
       </dl>
       
       <?php
@@ -37,25 +37,21 @@
     <div class='col-md-6'>
       <?php
       echo $this->Form->input('comment',['type'=>'textarea', 'rows'=>12]);
-      if (in_array($annotation->type, ['issue', 'note'])) {
-        echo $this->Form->input('redmine_issue',['label'=>[
-          'text'=>'Redmine Issue <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Redmine issue number."></span>', 
-          'escape'=>false] ]);
-      }
-      if ($annotation->type=='annotation') {
-        echo $this->Form->input('status',['label'=>'Status',
-          'options'=>[
-            'Not Operational'=>'Not Operational',
-            'Unavailable'=>'Unavailable',
-            'Pending'=>'Pending',
-            'Suspect'=>'Suspect',
-            'Available'=>'Available'
-          ],'empty'=>true]);
-        //echo $this->Form->input('exclusion_flag',['type'=>'checkbox','label'=>'Exclude Data?']);
-      }
+      echo $this->Form->input('redmine_issue',['label'=>[
+        'text'=>'Redmine Issue <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Redmine issue number."></span>', 
+        'escape'=>false] ]);
+      echo $this->Form->input('status',['label'=>'Status',
+        'options'=>[
+          'Not Operational'=>'Not Operational',
+          'Unavailable'=>'Unavailable',
+          'Pending'=>'Pending',
+          'Suspect'=>'Suspect',
+          'Available'=>'Available'
+        ],'empty'=>true]);
+      //echo $this->Form->input('exclusion_flag',['type'=>'checkbox','label'=>'Exclude Data?']);
       ?>
 
-      <?= $this->Html->link('Cancel', ['controller'=>$annotation->model, 'action' => 'view', $annotation->reference_designator, '#'=>'annotations'], ['class'=>'btn btn-default']); ?> 
+      <?= $this->Html->link('Cancel', ['controller'=>$note->model, 'action' => 'view', $note->reference_designator, '#'=>'notes'], ['class'=>'btn btn-default']); ?> 
       <?= $this->Form->button(__('Save'),['class'=>'btn btn-primary']) ?> 
 
     </div>
