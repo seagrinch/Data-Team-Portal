@@ -20,10 +20,10 @@
       <?php foreach ($cruiseReviews as $cruiseReview): ?>
       <tr>
         <td><?= $this->Html->link($cruiseReview->cruise_cuid, ['controller'=>'cruises', 'action' => 'view', $cruiseReview->cruise_cuid]) ?></td>
-        <td><?= h($cruiseReview->cruise->ship_name) ?></td>
-        <td><?= h($cruiseReview->cruise->notes) ?></td>
-        <td><?= $this->Time->format($cruiseReview->cruise->cruise_start_date, 'MM/dd/yyyy') ?></td>
-        <td><?= $this->Time->format($cruiseReview->cruise->cruise_end_date, 'MM/dd/yyyy') ?></td>
+        <td><?= ($cruiseReview->has('cruise') ? h($cruiseReview->cruise->ship_name) : 'n/a' )?></td>
+        <td><?= ($cruiseReview->has('cruise') ? h($cruiseReview->cruise->notes) : 'n/a' ) ?></td>
+        <td><?= ($cruiseReview->has('cruise') ? $this->Time->format($cruiseReview->cruise->cruise_start_date, 'MM/dd/yyyy') : 'n/a' ) ?></td>
+        <td><?= ($cruiseReview->has('cruise') ? $this->Time->format($cruiseReview->cruise->cruise_end_date, 'MM/dd/yyyy') : 'n/a' ) ?></td>
         <td>
           <?php
             $txt = ($cruiseReview->status) ? $cruiseReview->status : 'New';

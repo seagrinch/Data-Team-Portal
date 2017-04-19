@@ -47,6 +47,11 @@ class CruisesController extends AppController
           ->contain(['Deployments','CruiseReviews']);
         $cruise = $query->first();
 
+        if (empty($cruise)) {
+          $this->Flash->error('Cruise ' . $cuid . ' could not be found.');
+          return $this->redirect(['action' => 'index']);
+        }
+
         $this->set('cruise', $cruise);
         $this->set('_serialize', ['cruise']);
     }

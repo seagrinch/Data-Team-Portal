@@ -108,7 +108,8 @@ class CruiseReviewsController extends AppController
         $cruiseReview = $query->first();
         
         if (empty($cruiseReview)) {
-            throw new NotFoundException(__('Cruise Review not found'));
+          //throw new NotFoundException(__('Cruise Review not found'));
+          return $this->redirect(['action' => 'add', $cuid]);
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {

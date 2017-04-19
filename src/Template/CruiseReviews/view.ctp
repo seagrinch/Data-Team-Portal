@@ -15,6 +15,7 @@
 
 <h2>Cruise Review for <?= h($cruiseReview->cruise_cuid) ?></h2>
 
+<?php if ($cruiseReview->has('cruise')): ?>
 <dl class="dl-horizontal">
   <dt><?= __('Ship Name') ?></dt>
   <dd><?= h($cruiseReview->cruise->ship_name) ?></dd>
@@ -25,6 +26,7 @@
   <dt><?= __('Notes') ?></dt>
   <dd><?= $this->Text->autoParagraph(h($cruiseReview->cruise->notes)) ?></dd>
 </dl>
+<?php endif; ?>
 
 <dl class="dl-horizontal">
   <dt><?= __('Reviewer') ?></th></dt>
