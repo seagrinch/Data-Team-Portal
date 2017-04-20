@@ -15,6 +15,9 @@
 
 <h2>Cruise Review for <?= h($cruiseReview->cruise_cuid) ?></h2>
 
+<div class="row">
+  <div class="col-md-6">
+
 <?php if ($cruiseReview->has('cruise')): ?>
 <dl class="dl-horizontal">
   <dt><?= __('Ship Name') ?></dt>
@@ -28,8 +31,11 @@
 </dl>
 <?php endif; ?>
 
+  </div>
+  <div class="col-md-6">
+
 <dl class="dl-horizontal">
-  <dt><?= __('Reviewer') ?></th></dt>
+  <dt><?= __('Reviewer') ?></dt>
   <dd><?= $cruiseReview->has('user') ? $this->Html->link($cruiseReview->user->username, ['controller' => 'Users', 'action' => 'view', $cruiseReview->user->id]) : '' ?></dd>
   <dt><?= __('Review Status') ?></dt>
   <dd><?= h($cruiseReview->status) ?></dd>
@@ -37,108 +43,125 @@
   <dd><?= $this->Time->timeAgoInWords($cruiseReview->modified) ?></dd>
 </dl>
 
-<table class="table table-striped table-hover">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+
+<table class="table table-striped table-hover table-condensed">
   <thead>
     <tr>
       <th>Item</th>
-      <th>MIO Submitted</th>
-      <th>Date Team Reviewed</th>
-      <th>URL</tdh>
+      <th>MIO Submission Date</th>
+      <th>Data Team Review Date</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr class="success">
       <th scope="row"><?= __('Cruise Plan') ?></th>
       <td><?= h($cruiseReview->cruise_plan) ?></td>
-      <td>&mdash;</td>
-      <td><?= h($cruiseReview->cruise_plan_url) ?></td>
+      <td>n/a</td>
     </tr>
     <tr>
-        <th scope="row"><?= __('Quick Look') ?></th>
-        <td><?= h($cruiseReview->quick_look) ?></td>
-        <td>&mdash;</td>
-        <td><?= h($cruiseReview->quick_look_url) ?></td>
-    </tr>
-    <tr>
-        <th scope="row"><?= __('Asset Sheet') ?></th>
+        <th scope="row"><?= __('Bulk Load Sheets') ?></th>
         <td><?= h($cruiseReview->asset_sheet_submitted) ?></td>
         <td><?= h($cruiseReview->asset_sheet_reviewed) ?></td>
-        <td>&mdash;</td>
     </tr>
     <tr>
-        <th scope="row"><?= __('Calibration Sheet') ?></th>
+        <th scope="row"><?= __('Calibration Sheets') ?></th>
         <td><?= h($cruiseReview->calibration_sheet_submitted) ?></td>
         <td><?= h($cruiseReview->calibration_sheet_reviewed) ?></td>
-        <td>&mdash;</td>
     </tr>
     <tr>
-        <th scope="row"><?= __('Deployment Sheet') ?></th>
+        <th scope="row"><?= __('Deployment Sheets') ?></th>
         <td><?= h($cruiseReview->deployment_sheet_submitted) ?></td>
         <td><?= h($cruiseReview->deployment_sheet_reviewed) ?></td>
-        <td>&mdash;</td>
     </tr>
     <tr>
-        <th scope="row"><?= __('Ingest Sheet') ?></th>
-        <td>&mdash;</td>
-        <td><?= h($cruiseReview->ingest_sheet_reviewed) ?></td>
-        <td>&mdash;</td>
+        <th scope="row"><?= __('Cruise Info Sheet') ?></th>
+        <td><?= h($cruiseReview->cruise_sheet_submitted) ?></td>
+        <td><?= h($cruiseReview->cruise_sheet_reviewed) ?></td>
+    </tr>
+    <tr class="success">
+        <th scope="row"><?= __('Quick Look Report') ?></th>
+        <td><?= h($cruiseReview->quick_look) ?></td>
+        <td>n/a</td>
     </tr>
     <tr>
-        <th scope="row"><?= __('Raw Data') ?></th>
-            <td><?= h($cruiseReview->raw_data) ?></td>
-        <td>&mdash;</td>
-        <td><?= h($cruiseReview->raw_data_url) ?></td>
+        <th scope="row"><?= __('Raw Data (telemetered/streamed)') ?></th>
+        <td><?= h($cruiseReview->raw_data_telemetered) ?></td>
+        <td>n/a</td>
     </tr>
-        <tr>
+    <tr>
+        <th scope="row"><?= __('Raw Data (recovered)') ?></th>
+        <td><?= h($cruiseReview->raw_data_recovered) ?></td>
+        <td>n/a</td>
+    </tr>
+    <tr>
+        <th scope="row"><?= __('Ingest Sheets (telemetered/streamed)') ?></th>
+        <td>n/a</td>
+        <td><?= h($cruiseReview->ingest_sheet_telemetered) ?></td>
+    </tr>
+    <tr>
+        <th scope="row"><?= __('Ingest Sheets (recovered)') ?></th>
+        <td>n/a</td>
+        <td><?= h($cruiseReview->ingest_sheet_recovered) ?></td>
+    </tr>
+    <tr>
         <th scope="row"><?= __('Live Ingestion Started') ?></th>
-        <td>&mdash;</td>
+        <td>n/a</td>
         <td><?= h($cruiseReview->live_ingestion_started) ?></td>
-        <td>&mdash;</td>
     </tr>
-    <tr>
+    <tr class="success">
         <th scope="row"><?= __('Cruise Report') ?></th>
         <td><?= h($cruiseReview->cruise_report) ?></td>
-        <td>&mdash;</td>
-        <td><?= h($cruiseReview->cruise_report_url) ?></td>
+        <td>n/a</td>
     </tr>
     <tr>
         <th scope="row"><?= __('Cruise Photos') ?></th>
         <td><?= h($cruiseReview->cruise_photos) ?></td>
-        <td>&mdash;</td>
-        <td><?= h($cruiseReview->cruise_photos_url) ?></td>
+        <td>n/a</td>
     </tr>
     <tr>
         <th scope="row"><?= __('Shipboard Data') ?></th>
         <td><?= h($cruiseReview->shipboard_data) ?></td>
-        <td>&mdash;</td>
-        <td><?= h($cruiseReview->shipboard_data_url) ?></td>
+        <td>n/a</td>
     </tr>
     <tr>
         <th scope="row"><?= __('Water Sampling Data') ?></th>
         <td><?= h($cruiseReview->water_sampling_data) ?></td>
-        <td>&mdash;</td>
-        <td><?= h($cruiseReview->water_sampling_data_url) ?></td>
+        <td>n/a</td>
     </tr>
   </tbody>
 </table>
 
-<div class="row">
-    <h4><?= __('Summary') ?></h4>
-    <?php 
-      if ($cruiseReview->summary) {
-        echo $this->Text->autoParagraph(h($cruiseReview->summary));
-      } else {
-        echo 'None';
-      } 
-    ?>
-</div>
-<div class="row">
-    <h4><?= __('Notes') ?></h4>
+  </div>
+  <div class="col-md-4">
+    <h4><?= __('Data Team Notes') ?></h4>
     <?php 
       if ($cruiseReview->notes) {
-        echo $this->Text->autoParagraph(h($cruiseReview->notes)); 
+        //echo $this->Text->autoParagraph(h($cruiseReview->notes)); 
+        $parser = new \Netcarver\Textile\Parser();
+        echo $parser->textileThis($cruiseReview->notes);
       } else {
         echo 'None';  
       }
     ?>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h4><?= __('Cruise Review Summary') ?></h4>
+    <?php 
+      if ($cruiseReview->summary) {
+        //echo $this->Text->autoParagraph(h($cruiseReview->summary));
+        $parser = new \Netcarver\Textile\Parser();
+        echo $parser->textileThis($cruiseReview->summary);
+      } else {
+        echo 'None';
+      } 
+    ?>
+  </div>
 </div>
