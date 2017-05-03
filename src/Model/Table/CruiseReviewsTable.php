@@ -101,6 +101,13 @@ class CruiseReviewsTable extends Table
             ->date('quick_look','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('quick_look');
         $validator
+            ->date('cruise_report','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('cruise_report');
+        $validator
+            ->date('cruise_photos','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('cruise_photos');
+
+        $validator
             ->date('raw_data_telemetered','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('raw_data_telemetered');
         $validator
@@ -115,19 +122,31 @@ class CruiseReviewsTable extends Table
         $validator
             ->date('live_ingestion_started','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('live_ingestion_started');
+        $validator
+            ->date('recovered_data_ingested','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('recovered_data_ingested');
 
-        $validator
-            ->date('cruise_report','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('cruise_report');
-        $validator
-            ->date('cruise_photos','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('cruise_photos');
         $validator
             ->date('shipboard_data','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('shipboard_data');
         $validator
             ->date('water_sampling_data','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('water_sampling_data');
+        $validator
+            ->date('water_sampling_data_carbon','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('water_sampling_data_carbon');
+        $validator
+            ->date('water_sampling_data_chl','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('water_sampling_data_chl');
+        $validator
+            ->date('water_sampling_data_nutrients','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('water_sampling_data_nutrients');
+        $validator
+            ->date('water_sampling_data_salt','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('water_sampling_data_salt');
+        $validator
+            ->date('water_sampling_data_oxygen','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('water_sampling_data_oxygen');
 
         $validator
             ->allowEmpty('summary');
