@@ -100,7 +100,7 @@ class InstrumentsController extends AppController
       
       $annotations = $this->Instruments->Annotations->find('all')
         ->where(['reference_designator'=> $instrument->reference_designator])
-        ->andWhere(['method' => ''])
+        ->andWhere(['OR'=>['method' => '', 'method IS'=>Null]])
         ->order(['start_datetime'=>'ASC']);
       $instrument->annotations = $annotations;
 

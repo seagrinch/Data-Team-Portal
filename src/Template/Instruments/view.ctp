@@ -98,22 +98,23 @@
     $data_annotations = [
       'measure'=>'Annotations',
       'categories'=>[
-        'Not Operational'=>['color'=>'gray'],
-        'Unavailable'=>['color'=>'#295ea4'],
-        'Pending'=>['color'=>'#ffcb4f'],
-        'Suspect'=>['color'=>'#fa5a5a'],
-        'Available'=>['color'=>'#00be70']
+        'PENDING_INGEST'=>['color'=>'blue'],
+        'NOT_OPERATIONAL'=>['color'=>'red'],
+        'NOT_AVAILABLE'=>['color'=>'red'],
+        ''=>['color'=>'gray'],
       ]
     ];
     foreach ($instrument->annotations as $a) {
-      if ($a->start_date) {
+      if ($a->start_datetime) {
         $data_annotations['data'][] = [
-          $this->Time->i18nFormat($a->start_date,'yyyy-MM-dd HH:mm:ss'), 
+          $this->Time->i18nFormat($a->start_datetime,'yyyy-MM-dd HH:mm:ss'), 
           $a->status, 
-          ($a->end_date) ? $this->Time->i18nFormat($a->end_date,'yyyy-MM-dd HH:mm:ss') : date("Y-m-d H:i:s")];
+          ($a->end_datetime) ? $this->Time->i18nFormat($a->end_datetime,'yyyy-MM-dd HH:mm:ss') : date("Y-m-d H:i:s")];
       }
     }
-    array_push($data,$data_annotations);
+    if(isset($data_annotations['data'])) {
+      array_push($data,$data_annotations);    
+    }
   }
 ?>
 <?php $this->Html->scriptStart(['block' => true]); ?>

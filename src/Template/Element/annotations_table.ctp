@@ -1,9 +1,9 @@
 <?php 
   $icons = [
-    'note' => ['icon'=>'glyphicon-tag', 'title'=>'Operational Note', 'color'=>'black'],
-    'annotation' => ['icon'=>'glyphicon-globe', 'title'=>'Annotation', 'color'=>'green'],
-    'issue' => ['icon'=>'glyphicon-question-sign', 'title'=>'Issue', 'color'=>'red'],
-    'resolved' => ['icon'=>'glyphicon-ok-sign', 'title'=>'Resolved Flag', 'color'=>'black'],
+    'PENDING_INGEST' => ['icon'=>'glyphicon-question-sign', 'title'=>'Pending Ingest', 'color'=>'blue'],
+    'NOT_OPERATIONAL' => ['icon'=>'glyphicon-remove', 'title'=>'Not Operational', 'color'=>'red'],
+    'NOT_AVAILABLE' => ['icon'=>'glyphicon-remove', 'title'=>'Not Available', 'color'=>'red'],
+    '' => ['icon'=>'glyphicon-tag', 'title'=>'Unknown', 'color'=>'black'],
   ];
 ?>
 <?php if ($annotations->count()>0): ?>
@@ -17,10 +17,16 @@
     </tr>
   </thead>
   <tbody>
-  <?php foreach ($annotations as $annotation): ?>
+  <?php foreach ($annotations as $annotation): 
+    if (in_array($annotation->status,$icons)) {
+      $icon = $icons[$annotation->status];
+    } else {
+      $icon = $icons[''];
+    }
+  ?>
   <tr>
     <td>
-      <span class="glyphicon <?= $icons[$annotation->type]['icon']?>" style="font-size: 1.0em; color:<?= $icons[$annotation->type]['color']?>;" aria-hidden="true"></span> 
+      <span class="glyphicon <?= $icon['icon']?>" style="font-size: 1.0em; color:<?= $icon['color']?>;" aria-hidden="true" title=<?=$icon['title']?>></span> 
       <small><?=$annotation->reference_designator?><br />
       <?php if ($annotation->status): ?>
         <strong>Status:</strong> <?= h($annotation->status) ?> <br />
@@ -40,30 +46,33 @@
       </small>
     </td>
     <td>
-      <?php if ($annotation->start_date): ?>
-        <?= h($annotation->start_date) ?> 
+      <?php if ($annotation->start_datetime): ?>
+        <?= h($annotation->start_datetime) ?> 
       <?php endif; ?> 
     </td>
     <td>
-      <?php if ($annotation->end_date): ?>
-        <?= h($annotation->end_date) ?> 
+      <?php if ($annotation->end_datetime): ?>
+        <?= h($annotation->end_datetime) ?> 
       <?php endif; ?> 
     </td>
     <td>
-      <?= $this->Text->autoParagraph(h($annotation->comment)); ?>
+      <?= $this->Text->autoParagraph(h($annotation->annotation)); ?>
+      <?php if ($annotation->todo): ?>
+        <span class="text-danger"><strong>Todo:</strong> <?= h($annotation->todo); ?></span>
+      <?php endif; ?> 
       <p><small>
-        <em>By <?= $annotation->has('user') ? h($annotation->user->full_name) : 'Unknown' ?>, 
-        <?= $this->Time->timeAgoInWords($annotation->created) ?></em>
-        <?php if ($this->request->session()->read('Auth.User.id') == $annotation->user_id): ?>
-          [<?php echo $this->Html->link('Edit', ['controller'=>'annotations','action'=>'edit',$annotation->id]); ?>]
-        <?php endif; ?>
-        <?php if ($annotation->redmine_issue): ?>
-          <br />
-          <strong>Redmine Issue</strong> <a href="https://uframe-cm.ooi.rutgers.edu/issues/<?= $annotation->redmine_issue?>">#<?= $annotation->redmine_issue?> <span class="glyphicon glyphicon-link" aria-hidden="true"></span></a> 
+        <?php if ($annotation->reviewed_by): ?>
+          <em>By <?= $annotation->reviewed_by ?>, 
         <?php endif; ?> 
-        <?php if ($annotation->resolved_date): ?>
+        <?= $this->Time->timeAgoInWords($annotation->reviewed_date) ?></em>
+        <?php if ($annotation->redmine_issue): 
+          $issues = explode(',',$annotation->redmine_issue);
+        ?>
           <br />
-          <strong>Resolved: </strong><?= h($annotation->resolved_date) ?>
+          <strong>Redmine Issue</strong> 
+          <?php foreach ($issues as $issue): ?>
+          <a href="https://uframe-cm.ooi.rutgers.edu/issues/<?= $issue?>">#<?= trim($issue)?> <span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>
+          <?php endforeach; ?> 
         <?php endif; ?> 
       </small></p>
     </td>
