@@ -176,7 +176,8 @@
     }
   }
 ?>
-<?php $this->Html->scriptStart(['block' => true]); ?>
+<?php if(count($data)>0):
+  $this->Html->scriptStart(['block' => true]); ?>
   var dataset = <?php echo json_encode($data);?>;
   moment.locale("en");
   var chart = visavailChart().width(800); // define width of chart in px
@@ -185,7 +186,7 @@
     .call(chart);
 <?php $this->Html->scriptEnd(); ?>
 <div id="example" class="well"><!-- Visavail.js chart will be inserted here --></div>
-
+<?php endif; ?>
 
 <?php $this->Html->scriptStart(['block' => true]); ?>
   var url = document.location.toString();
