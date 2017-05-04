@@ -6,6 +6,18 @@
       <li><?= $this->html->link($region->name,['action'=>'view',$region->reference_designator]) ?> (<?= h($region->reference_designator) ?>)</li>
       <?php endforeach; ?>
     </ul>
+    <p>&nbsp;</p>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">About this Site</h3>
+      </div>
+      <div class="panel-body">
+        <p>This portal supports the OOI Data Team's efforts to review and annotate the official datasets provided by the OOI.  However, information provided on this site is not official and should be considered advisory only.  In addition, due to the fluid nature of the review process, this site may not be in sync with the information provided by the official <a href="https://ooinet.oceanobservatories.org">OOI Data Portal</a>.</p>
+        <p>If you have any questions, please contact the <a href="http://oceanobservatories.org/helpdesk/">OOI Data Team</a>.</p>
+      </div>
+    </div>
+
   </div>
   <div class="col-md-6">
     <div id="mapid" style="height: 500px;"></div>
