@@ -41,75 +41,12 @@
 
 
 <!-- Stats Graph -->
-<?php $this->Html->css('https://fonts.googleapis.com/css?family=Muli',['block'=>true]); ?>
-<?php $this->Html->css('/visavail/css/visavail.css',['block'=>true]); ?>
-<?php $this->Html->css('/font-awesome/css/font-awesome.min.css',['block'=>true]); ?>
-<?php $this->Html->script('/moment/moment-with-locales.min.js',['block'=>true]); ?>
-<?php $this->Html->script('/d3/d3.min.js',['block'=>true]); ?>
-<?php $this->Html->script('/visavail/js/visavail.js',['block'=>true]); ?>
-<?php 
-  $data=[];
-  if (count($dataStream->instrument->deployments)>0) {
-    $data_deployments = [
-      'measure'=>'Deployments',
-      'categories'=>[
-        'Deployed'=>['color'=>'#00be70']
-      ]
-    ];
-    foreach ($dataStream->instrument->deployments as $d) {
-      $data_deployments['data'][] = [
-        $this->Time->i18nFormat($d->start_date,'yyyy-MM-dd HH:mm:ss'), 
-        'Deployed', 
-        ($d->stop_date) ? $this->Time->i18nFormat($d->stop_date,'yyyy-MM-dd HH:mm:ss') : date("Y-m-d H:i:s")];
-    }
-    array_push($data,$data_deployments);
-  }
-  if (count($dataStream->cassandra)>0) {
-    $data_annotations = [
-      'measure'=>'Cassandra',
-      'categories'=>[
-        'Available'=>['color'=>'#295ea4']
-      ]
-    ];
-    foreach ($dataStream->cassandra as $c) {
-      $data_annotations['data'][] = [
-        date('Y-m-d H:i:s', strtotime($c->beginTime)), 
-        'Available', 
-        ($c->endTime) ? date('Y-m-d H:i:s', strtotime($c->endTime)) : date("Y-m-d H:i:s")];
-    }
-    array_push($data,$data_annotations);
-  }
-  if ($dataStream->annotations->count()>0) {
-    $data_annotations = [
-      'measure'=>'Annotations',
-      'categories'=>[
-        'Not Operational'=>['color'=>'gray'],
-        'Unavailable'=>['color'=>'#295ea4'],
-        'Pending'=>['color'=>'#ffcb4f'],
-        'Suspect'=>['color'=>'#fa5a5a'],
-        'Available'=>['color'=>'#00be70']
-      ]
-    ];
-    foreach ($dataStream->annotations as $a) {
-      if ($a->start_date) {
-        $data_annotations['data'][] = [
-          $this->Time->i18nFormat($a->start_date,'yyyy-MM-dd HH:mm:ss'), 
-          $a->status, 
-          ($a->end_date) ? $this->Time->i18nFormat($a->end_date,'yyyy-MM-dd HH:mm:ss') : date("Y-m-d H:i:s")];
-      }
-    }
-    array_push($data,$data_annotations);
-  }
-?>
-<?php $this->Html->scriptStart(['block' => true]); ?>
-  var dataset = <?php echo json_encode($data);?>;
-  moment.locale("en");
-  var chart = visavailChart().width(800); // define width of chart in px
-  d3.select("#example")
-    .datum(dataset)
-    .call(chart);
-<?php $this->Html->scriptEnd(); ?>
-<div id="example" class="well"><!-- Visavail.js chart will be inserted here --></div>
+<?php echo $this->element('availability_chart', [
+  'deployments'=>$dataStream->instrument->deployments, 
+  'annotations'=>$dataStream->annotations,
+  'cassandra'=>$dataStream->cassandra
+  ]); ?>
+
 
 <!-- Tabbed Navigation -->
 <div>
@@ -122,45 +59,34 @@
   <!-- Tab Content -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="annotations">
-
-<h3>Annotations</h3>
-<?php echo $this->element('annotations_table', ['annotations'=>$dataStream->annotations]); ?>
-<p class="text-left">
-  <?php echo $this->Html->link(__('New Annotation'), [
-    'controller'=>'annotations',
-    'action'=>'add',
-    'annotation',
-    $dataStream->reference_designator, 
-    '?'=>[
-      'method'=>$dataStream->method,
-      'stream'=>$dataStream->stream_name
-    ]], ['class'=>'btn btn-primary']); ?>
-</p>
-
+      
+      <h3>Annotations</h3>
+      <?php echo $this->element('annotations_table', ['annotations'=>$dataStream->annotations]); ?>
+    
     </div>
     <div role="tabpanel" class="tab-pane" id="parameters">
 
-<h3>Parameters</h3>
-<?php if (count($dataStream->stream->parameters)>0): ?>
-<table class="table table-striped table-condensed">
-  <thead>
-    <tr>
-      <th>Parameter</th>
-      <th>Data Product Type</th>
-      <th>Level</th>
-    </tr>
-  </thead>
-  <tbody>
-  <?php foreach ($dataStream->stream->parameters as $p): ?>
-    <tr>
-      <td><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?> </td>
-      <td><?= ($p->data_product_type ? $p->data_product_type : "") ?></td>
-      <td><?= ($p->data_level>-1 ? "L".$p->data_level : "") ?></td>
-    </tr>
-  <?php endforeach; ?>
-  </tbody>
-</table>
-<?php endif; ?>
+      <h3>Parameters</h3>
+      <?php if (count($dataStream->stream->parameters)>0): ?>
+      <table class="table table-striped table-condensed">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Data Product Type</th>
+            <th>Level</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($dataStream->stream->parameters as $p): ?>
+          <tr>
+            <td><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?> </td>
+            <td><?= ($p->data_product_type ? $p->data_product_type : "") ?></td>
+            <td><?= ($p->data_level>-1 ? "L".$p->data_level : "") ?></td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
+      <?php endif; ?>
 
     </div>
 

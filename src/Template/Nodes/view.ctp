@@ -25,6 +25,14 @@
   <dd><?= $this->Number->format($node->end_depth) ?></dd>
 </dl>
 
+
+<!-- Stats Graph -->
+<?php echo $this->element('availability_chart', [
+  'deployments'=>$node->deployments, 
+  'annotations'=>$node->annotations
+  ]); ?>
+
+
 <div><!-- Tabbed Navigation -->
 
   <!-- Nav Tabs -->
@@ -99,6 +107,7 @@
   </div><!-- End Tab Content -->
 
 </div><!-- End Tabbed Navigation -->
+
 
 <?php $this->Html->scriptStart(['block' => true]); ?>
   var url = document.location.toString();

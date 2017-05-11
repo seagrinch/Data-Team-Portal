@@ -1,9 +1,37 @@
 <?php 
   $icons = [
-    'PENDING_INGEST' => ['icon'=>'glyphicon-question-sign', 'title'=>'Pending Ingest', 'color'=>'blue'],
-    'NOT_OPERATIONAL' => ['icon'=>'glyphicon-remove', 'title'=>'Not Operational', 'color'=>'red'],
-    'NOT_AVAILABLE' => ['icon'=>'glyphicon-remove', 'title'=>'Not Available', 'color'=>'red'],
-    '' => ['icon'=>'glyphicon-tag', 'title'=>'Unknown', 'color'=>'black'],
+    'AVAILABLE' => [
+      'icon'=>'glyphicon-ok-sign', 
+      'title'=>'Available', 
+      'color'=>'green'],
+    'FAIL' => [
+      'icon'=>'glyphicon-remove', 
+      'title'=>'Fail', 
+      'color'=>'red'],
+    'NOT_AVAILABLE' => [
+      'icon'=>'glyphicon-remove', 
+      'title'=>'Not Available', 
+      'color'=>'gray'],
+    'NOT_EVALUATED' => [
+      'icon'=>'glyphicon-question-sign', 
+      'title'=>'Not Evaluated', 
+      'color'=>'steelblue'],
+    'NOT_OPERATIONAL' => [
+      'icon'=>'glyphicon-remove', 
+      'title'=>'Not Operational', 
+      'color'=>'red'],
+    'PENDING_INGEST' => [
+      'icon'=>'glyphicon-question-sign', 
+      'title'=>'Pending Ingest', 
+      'color'=>'lightgray'],
+    'SUSPECT' => [
+      'icon'=>'glyphicon-question-sign', 
+      'title'=>'Suspect', 
+      'color'=>'orange'],
+    '' => [
+      'icon'=>'glyphicon-tag', 
+      'title'=>'Unknown', 
+      'color'=>'black'],
   ];
 ?>
 <?php if ($annotations->count()>0): ?>
@@ -18,7 +46,7 @@
   </thead>
   <tbody>
   <?php foreach ($annotations as $annotation): 
-    if (in_array($annotation->status,$icons)) {
+    if (array_key_exists($annotation->status,$icons)) {
       $icon = $icons[$annotation->status];
     } else {
       $icon = $icons[''];

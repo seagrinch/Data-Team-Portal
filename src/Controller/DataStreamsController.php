@@ -51,6 +51,7 @@ class DataStreamsController extends AppController
         ->where(['reference_designator'=> $dataStream->reference_designator])
         ->andWhere(['method'=>$dataStream->method])
         ->andWhere(['stream'=>$dataStream->stream_name])
+        ->andWhere(['parameter IS'=>Null])
         ->order(['start_datetime'=>'ASC']);
       $dataStream->annotations = $annotations;
 
