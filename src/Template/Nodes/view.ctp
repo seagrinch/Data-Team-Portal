@@ -95,7 +95,7 @@
 
       <?php echo $this->element('notes_table', ['notes'=>$node->notes]); ?>
       <p class="text-left">
-        <?php echo $this->Html->link(__('New Note'), ['controller'=>'annotations','action'=>'add',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add',$node->reference_designator], ['class'=>'btn btn-primary']); ?>
       </p>
 
     </div>

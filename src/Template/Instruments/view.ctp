@@ -160,7 +160,7 @@
 
       <?php echo $this->element('notes_table', ['notes'=>$instrument->notes]); ?>
       <p class="text-left">
-        <?php echo $this->Html->link(__('New Note'), ['controller'=>'annotations','action'=>'add',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
       </p>
 
     </div>

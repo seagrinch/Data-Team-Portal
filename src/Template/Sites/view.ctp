@@ -122,7 +122,7 @@
       <?php echo $this->element('notes_table', ['notes'=>$site->notes]); ?>
       
       <p class="text-left">
-        <?php echo $this->Html->link(__('New Note'), ['controller'=>'annotations','action'=>'add',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
+        <?php echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add',$site->reference_designator], ['class'=>'btn btn-primary']); ?>
       </p>
 
     </div>
