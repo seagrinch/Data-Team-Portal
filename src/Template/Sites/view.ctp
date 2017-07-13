@@ -80,41 +80,41 @@
 
     </div>
     <div role="tabpanel" class="tab-pane" id="deployments">
-
-    <?php if (count($site->deployments)>0): ?>
-      <table class="table table-striped">
-        <tr>
-          <th>Deployment Number</th>
-          <th>Mooring Barcode</th>
-          <th>Mooring Serial Number</th>
-          <th>Anchor Launch Date</th>
-          <th>Anchor Launch Time</th>
-          <th>Recover Date</th>
-          <th>Latitude</th>
-          <th>Longitude</th>
-          <th>Water Depth</th>
-          <th>Cruise Number</th>
-          <th>Notes</th>
-        </tr>
-        <?php foreach ($site->deployments as $d): ?>
-        <tr>
-          <td><?= h($d->deployment_number) ?></td>
-          <td><?= $this->Html->link($d->mooring_barcode, ['controller'=>'assets', 'action' => 'view', $d->mooring_barcode]) ?></td>
-          <td><?= h($d->mooring_serial_number) ?></td>
-          <td><?= $this->Time->format($d->anchor_launch_date, 'MM/dd/yyyy') ?></td>
-          <td><?= $this->Time->format($d->anchor_launch_time, 'HH:mm') ?></td>
-          <td><?= $d->recover_date ?></td>
-          <td><?= h($d->latitude) ?></td>
-          <td><?= h($d->longitude) ?></td>
-          <td><?= h($d->water_depth) ?></td>
-          <td><?= h($d->cruise_number) ?></td>
-          <td><?= h($d->notes) ?></td>
-        </tr>
-        <?php endforeach; ?>
-      </table>
-    <?php else: ?>
-      <p>No deployments found</p>
-    <?php endif; ?>
+      
+      <?php if (count($site->deployments)>0): ?>
+        <table class="table table-striped">
+          <tr>
+            <th>Deployment</th>
+            <th>Cruise</th>
+            <th>Start Date</th>
+            <th>Stop Date</th>
+            <th>Mooring Asset</th>
+            <th>Node Asset</th>
+            <th>Sensor Asset</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Deployment Depth</th>
+            <th>Water Depth</th>
+          </tr>
+          <?php foreach ($site->deployments as $d): ?>
+          <tr>
+            <td><?= h($d->deployment_number) ?></td>
+            <td><?= $this->Html->link($d->deploy_cuid, ['controller'=>'cruises', 'action' => 'view', $d->deploy_cuid]) ?></td>
+            <td><?= $this->Time->format($d->start_date, 'MM/dd/yyyy') ?></td>
+            <td><?= $this->Time->format($d->stop_date, 'MM/dd/yyyy') ?></td>
+            <td><?= $this->Html->link($d->mooring_uid, ['controller'=>'assets', 'action' => 'view', $d->mooring_uid]) ?></td>
+            <td><?= $this->Html->link($d->node_uid, ['controller'=>'assets', 'action' => 'view', $d->node_uid]) ?></td>
+            <td><?= $this->Html->link($d->sensor_uid, ['controller'=>'assets', 'action' => 'view', $d->sensor_uid]) ?></td>
+            <td><?= h($d->latitude) ?></td>
+            <td><?= h($d->longitude) ?></td>
+            <td><?= h($d->deployment_depth) ?></td>
+            <td><?= h($d->water_depth) ?></td>
+          </tr>
+          <?php endforeach; ?>
+        </table>
+      <?php else: ?>
+        <p>No deployments found</p>
+      <?php endif; ?>
 
     </div>
     <div role="tabpanel" class="tab-pane" id="notes">
