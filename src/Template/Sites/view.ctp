@@ -5,12 +5,14 @@
 </ol>
 
 <div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
+<!--
   <?php 
     $session = $this->request->session();
     if ($session->check('Auth.User')) { 
       echo $this->Html->link('Edit Site', ['action'=>'edit', $site->reference_designator], ['class'=>'btn btn-info']);
     }
   ?>
+-->
   <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'http://oceanobservatories.org/site/' . substr($site->reference_designator,0,8), ['class'=>'btn btn-default', 'escape'=>false]); ?>
   <?php echo $this->Html->link('Data portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooiui.oceanobservatories.org/plot/#' . $site->reference_designator, ['class'=>'btn btn-default', 'escape'=>false]); ?>
 </div>
@@ -32,6 +34,7 @@
   <dd><?= $this->Number->format($site->min_depth) ?></dd>
   <dt><?= __('Max Depth') ?></dt>
   <dd><?= $this->Number->format($site->max_depth) ?></dd>
+<!--
   <dt><?= __('Current Status') ?></dt>
   <dd><?php if ($site->current_status=='deployed') { ?>
       <span class="glyphicon glyphicon-ok-circle" aria-hidden="true" style="color:green;"></span> Deployed
@@ -43,6 +46,7 @@
       <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Unknown
     <?php } ?>
   </dd>
+-->
 </dl>
 
 
@@ -71,7 +75,8 @@
         <li><?= $this->html->link($node->name,['controller'=>'nodes','action'=>'view',$node->reference_designator]) ?> <small>(<?= h($node->reference_designator) ?>)</small>
           <ul>
             <?php foreach ($node->instruments as $instrument): ?>
-            <li><?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
+            <li><?php echo $this->element('instrument_status', ['status'=>$instrument->current_status,'notitle'=>true]); ?>
+                <?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
             <?php endforeach; ?>
           </ul>
         </li>

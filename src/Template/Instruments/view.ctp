@@ -7,12 +7,14 @@
 </ol>
 
 <div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
+<!--
   <?php 
     $session = $this->request->session();
     if ($session->check('Auth.User')) { 
       echo $this->Html->link('Edit Instrument', ['action'=>'edit', $instrument->reference_designator], ['class'=>'btn btn-info']);
     }
   ?>
+-->
   <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'http://oceanobservatories.org/site/' . substr($instrument->reference_designator,0,8), ['class'=>'btn btn-default', 'escape'=>false]); ?>
   <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooinet.oceanobservatories.org/plot/#' . $instrument->reference_designator, ['class'=>'btn btn-default', 'escape'=>false]); ?>
 </div>
@@ -22,44 +24,33 @@
 <div class="row">
   <div class="col-md-5">
 
-<dl class="dl-horizontal">
-  <dt><?= __('Reference Designator') ?></dt>
-  <dd><?= h($instrument->reference_designator) ?></dd>
-  <dt><?= __('Start Depth') ?></dt>
-  <dd><?= $this->Number->format($instrument->start_depth) ?></dd>
-  <dt><?= __('End Depth') ?></dt>
-  <dd><?= $this->Number->format($instrument->end_depth) ?></dd>
-  <dt><?= __('Location') ?></dt>
-  <dd><?= h($instrument->location) ?></dd>
-  <dt><?= __('Current Status') ?></dt>
-  <dd><?php if ($instrument->current_status=='deployed') { ?>
-      <span class="glyphicon glyphicon-ok-circle" aria-hidden="true" style="color:green;"></span> Deployed
-    <?php } elseif ($instrument->current_status=='recovered') { ?>
-      <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" style="color:gray;"></span> Recovered
-    <?php } elseif ($instrument->current_status=='lost') { ?>
-      <span class="glyphicon glyphicon-ban-circle" aria-hidden="true" style="color:red;"></span> Lost
-    <?php } else { ?>
-      <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Unknown
-    <?php } ?>
-  </dd>
-</dl>
+    <dl class="dl-horizontal">
+      <dt><?= __('Reference Designator') ?></dt>
+      <dd><?= h($instrument->reference_designator) ?></dd>
+      <dt><?= __('Start Depth') ?></dt>
+      <dd><?= $this->Number->format($instrument->start_depth) ?></dd>
+      <dt><?= __('End Depth') ?></dt>
+      <dd><?= $this->Number->format($instrument->end_depth) ?></dd>
+      <dt><?= __('Location') ?></dt>
+      <dd><?= h($instrument->location) ?></dd>
+      <dt><?= __('Default Stream') ?></dt>
+      <dd><?= h($instrument->preferred_stream) ?></dd>
+      <dt><?= __('Default Parameter') ?></dt>
+      <dd><?= h($instrument->preferred_parameter) ?></dd>
+      <dt><?= __('Current Status') ?></dt>
+      <dd><?php echo $this->element('instrument_status', ['status'=>$instrument->current_status]); ?></dd>
+    </dl>
 
   </div>
   <div class="col-md-7">
 
     <dl class="dl-horizontal">
       <dt><?= __('Class') ?></dt>
-      <dd><?= $this->Html->link($instrument_class->class, ['controller'=>'instrument_classes', 'action'=>'view', $instrument_class->class]) ?></dd>
+      <dd><?= $this->Html->link($instrument_class->class, ['controller'=>'instrument_classes', 'action'=>'view', $instrument_class->class]) ?> (<?= h($instrument_class->name) ?>)</dd>
       <dt><?= __('Series') ?></dt>
       <dd><?= $this->html->link($instrument_model->class . '-' .$instrument_model->series, ['controller'=>'instrument_models', 'action'=>'view', $instrument_model->class, $instrument_model->series]) ?></dd>
-      <dt><?= __('Instrument Name') ?></dt>
-      <dd><?= h($instrument_class->name) ?></dd>
       <dt><?= __('Science Discipline') ?></dt>
       <dd><?= h($instrument_class->primary_science_dicipline) ?></dd>
-<!--
-      <dt><?= __('Description') ?></dt>
-      <dd><?= h($instrument_class->description) ?></dd>
--->
       <dt><?= __('Make') ?></dt>
       <dd><?= h($instrument_model->make) ?></dd>
       <dt><?= __('Model') ?></dt>

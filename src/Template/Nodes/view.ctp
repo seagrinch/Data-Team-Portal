@@ -15,14 +15,6 @@
 <dl class="dl-horizontal">
   <dt><?= __('Reference Designator') ?></dt>
   <dd><?= h($node->reference_designator) ?></dd>
-  <dt><?= __('Description') ?></dt>
-  <dd><?= $node->description ?></dd>
-  <dt><?= __('Latitude') ?></dt>
-  <dd><?= $this->Number->format($node->latitude) ?></dd>
-  <dt><?= __('Longitude') ?></dt>
-  <dd><?= $this->Number->format($node->longitude) ?></dd>
-  <dt><?= __('Depth') ?></dt>
-  <dd><?= $this->Number->format($node->end_depth) ?></dd>
 </dl>
 
 

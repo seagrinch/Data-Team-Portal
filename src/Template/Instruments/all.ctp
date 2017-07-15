@@ -8,10 +8,12 @@
         <th>Node</th>
         <th>Instrument</th>
         <th>Reference Designator</th>
+        <th>Status</th>
     </tr>
   </thead>
   <tfoot>
     <tr>
+        <th></th>
         <th></th>
         <th></th>
         <th></th>
@@ -49,7 +51,8 @@ $(document).ready(function() {
             '<a href="/instruments/view/'+data+'">'+data+'</a>' :
             data;
         }
-      }
+      },
+      { "data": "status"},
     ],
     deferRender: true,
     pageLength: 10,

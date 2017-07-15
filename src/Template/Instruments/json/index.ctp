@@ -20,6 +20,7 @@ foreach ($instruments as $instrument) {
     'site_name' => $instrument->node->site->name,
     'region' => $instrument->node->site->region->reference_designator,
     'region_name' => $instrument->node->site->region->name,
+    'status' => $this->element('instrument_status', ['status'=>$instrument->current_status]),
   ];
   array_push($data, $item);
 }

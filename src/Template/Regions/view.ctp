@@ -11,8 +11,10 @@
 <dl class="dl-horizontal">
   <dt><?= __('Reference Designator') ?></dt>
   <dd><?= h($region->reference_designator) ?></dd>
+<!--
   <dt><?= __('Description') ?></dt>
   <dd><?= $region->description ?></dd>
+-->
   <dt><?= __('Latitude') ?></dt>
   <dd><?= $this->Number->format($region->latitude) ?></dd>
   <dt><?= __('Longitude') ?></dt>
