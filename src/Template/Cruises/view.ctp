@@ -61,7 +61,7 @@
     </tr>
     <?php foreach ($cruise->deployments as $d): ?>
     <tr>
-      <td><?= $this->Html->link($d->reference_designator, ['controller'=>'instruments', 'action' => 'view', $d->reference_designator]) ?></td>
+      <td><?= $this->Ooi->rdlink($d->reference_designator) ?></td>
       <td><?= h($d->deployment_number) ?></td>
       <td><?= $this->Time->format($d->start_date, 'MM/dd/yyyy') ?></td>
       <td><?= $this->Time->format($d->stop_date, 'MM/dd/yyyy') ?></td>
