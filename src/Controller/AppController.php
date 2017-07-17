@@ -61,9 +61,9 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         // Require SSL if not localhost
-        if (strcasecmp(env('SERVER_NAME'),'data-team.localhost') != 0) {
-          $this->Security->requireSecure(); 
-        }
+        //if (strcasecmp(env('SERVER_NAME'),'data-team.localhost') != 0) {
+        //  $this->Security->requireSecure(); 
+        //}
         // Allow default non-admin routes
         if (empty($this->request->params['prefix'])) {
             $this->Auth->allow(['index', 'view', 'display']);
