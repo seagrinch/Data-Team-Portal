@@ -55,12 +55,7 @@ class DataStreamsController extends AppController
         ->order(['start_datetime'=>'ASC']);
       $dataStream->annotations = $annotations;
 
-      $cassandra = $this->Uframe->cassandra_times(
-        substr($dataStream->reference_designator,0,8),
-        substr($dataStream->reference_designator,9,5),
-        substr($dataStream->reference_designator,15,12),
-        $dataStream->method,
-        $dataStream->stream_name);
+      $cassandra = $this->Uframe->cassandra_times($dataStream->reference_designator, $dataStream->method, $dataStream->stream_name);
 
       $dataStream->cassandra = $cassandra;
 

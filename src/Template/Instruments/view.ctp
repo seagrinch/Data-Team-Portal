@@ -210,6 +210,17 @@
 <?php endif; ?>
 
 
+<!-- Data Graph -->
+<?php echo $this->element('data_graph', 
+  ['data_url'=>$this->Url->build([
+    'controller'=>'Instruments',
+    'action'=>'data',
+    $instrument->reference_designator,
+    '_ext'=>'json'])
+  ]);
+?>
+
+
 <?php $this->Html->scriptStart(['block' => true]); ?>  
   // Javascript to enable link to tab
   var url = document.location.toString();

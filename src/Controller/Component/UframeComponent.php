@@ -19,7 +19,10 @@ class UframeComponent extends Component
         ];
     }
 
-    public function cassandra_times($site,$node,$inst,$method,$stream) {
+    public function cassandra_times($reference_designator,$method,$stream) {
+        $site = substr($reference_designator,0,8);
+        $node = substr($reference_designator,9,5);
+        $inst = substr($reference_designator,15,12);
         $http = new Client($this->client);
         $response = $http->get('api/m2m/12576/sensor/inv/' . $site . '/' . $node . '/' . $inst . '/metadata/times?partition=true');        
         $response = json_decode($response->body);
@@ -30,6 +33,27 @@ class UframeComponent extends Component
             return false;          
           }
         });
+        return $response;
+    }
+
+    public function recent_data($reference_designator,$stream,$parameter) {
+        $site = substr($reference_designator,0,8);
+        $node = substr($reference_designator,9,5);
+        $inst = substr($reference_designator,15,12);
+        if (strncmp($site, 'RS',2)==0) {
+          $method = 'streamed';
+        } elseif (in_array($site,['CE02SHBP','CE04OSBP'])) {
+          $method = 'streamed';
+        } else {
+          $method = 'telemetered';          
+        }
+        $start_date = date('Y-m-d\TH:i:s.0\Z',time()-(24*60*60));
+        $end_date = date('Y-m-d\TH:i:s.0\Z',time());
+        $url = '/api/m2m/12576/sensor/inv/' . $site . '/' . $node . '/' . $inst . '/' . $method . '/' . $stream . '?beginDT=' . $start_date . '&endDT=' . $end_date . '&limit=1000&parameters=7,' . $parameter;
+        //https://ooinet.oceanobservatories.org
+        $http = new Client($this->client);
+        $response = $http->get($url);        
+        $response = json_decode($response->body);
         return $response;
     }
 

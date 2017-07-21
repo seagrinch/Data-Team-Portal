@@ -19,7 +19,7 @@ class InstrumentsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['all']);
+        $this->Auth->allow(['all','data']);
     }
 
     /**
@@ -140,5 +140,26 @@ class InstrumentsController extends AppController
         $this->set(compact('instrument'));
         $this->set('_serialize', ['instrument']);
     }
+
+    /**
+     * Data method
+     */
+    public function data($id = null) {
+      $this->loadComponent('Uframe');
+      $query = $this->Instruments->find()
+        ->where(['Instruments.reference_designator'=>$id]);
+      $instrument = $query->first();
+      
+      if (empty($instrument)) {
+          throw new NotFoundException(__('Instrument not found'));
+      }
+
+      $data = $this->Uframe->recent_data($instrument->reference_designator, $instrument->preferred_stream, $instrument->preferred_parameter);
+
+      $this->set(compact(['data']));
+      $this->set('_serialize', false);
+      
+    }
+
 
 }
