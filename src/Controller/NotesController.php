@@ -48,7 +48,7 @@ class NotesController extends AppController
             'order' => ['Notes.modified'=>'desc'],
         ];
         $notes = $this->paginate($this->Notes);
-
+        
         $this->set(compact('notes'));
         $this->set('_serialize', ['notes']);
     }
@@ -80,19 +80,22 @@ class NotesController extends AppController
         if (strlen($reference_designator)==8) {
             $this->loadModel('Sites');
             $query = $this->Sites->find()
-              ->where(['Sites.reference_designator'=>$reference_designator]);
+              ->where(['Sites.reference_designator'=>$reference_designator])
+              ->contain(['Deployments']);
             $rd = $query->first();
             $model = 'sites';
         } elseif (strlen($reference_designator)==14) {
             $this->loadModel('Nodes');
             $query = $this->Nodes->find()
-              ->where(['Nodes.reference_designator'=>$reference_designator]);
+              ->where(['Nodes.reference_designator'=>$reference_designator])
+              ->contain(['Deployments']);
             $rd = $query->first();
             $model = 'nodes';
         } elseif (strlen($reference_designator)==27) {
             $this->loadModel('Instruments');
             $query = $this->Instruments->find()
-              ->where(['Instruments.reference_designator'=>$reference_designator]);
+              ->where(['Instruments.reference_designator'=>$reference_designator])
+              ->contain(['Deployments']);
             $rd = $query->first();
             $model = 'instruments';
         }
@@ -105,10 +108,11 @@ class NotesController extends AppController
         $note->model = $model;
         $note->reference_designator = $rd->reference_designator;
         $note->deployment = $deployment;
+        $note->deployments = $rd->deployments;
         
         if ($this->request->is('post')) {
             $note = $this->Notes->patchEntity($note, $this->request->data, [
-              'fieldList'=>['comment','status','deployment','start_date','end_date','redmine_issue']
+              'fieldList'=>['comment','status','deployment','asset_uid','start_date','end_date','redmine_issue']
             ]);
             $note->user_id = $this->Auth->user('id');
             if ($this->Notes->save($note)) {
@@ -142,7 +146,7 @@ class NotesController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $note = $this->Notes->patchEntity($note, $this->request->data, [
-              'fieldList'=>['user_id','comment','status','deployment','start_date','end_date','redmine_issue','resolved_date']
+              'fieldList'=>['user_id','comment','status','deployment','asset_uid','start_date','end_date','redmine_issue','resolved_date']
             ]);
             if ($this->Notes->save($note)) {
                 $this->Flash->success(__('The note has been updated.'));
@@ -157,6 +161,8 @@ class NotesController extends AppController
             }
         }
         $users = $this->Notes->Users->find('list', ['limit' => 200, 'valueField'=>'full_name']);
+        $this->loadModel('Deployments');
+        $note->deployments = $this->Deployments->find('all')->where(['reference_designator'=>$note['reference_designator']]);
         $this->set(compact('note','users'));
         $this->set('_serialize', ['note']);
     }

@@ -44,6 +44,11 @@ class AssetsTable extends Table
             'bindingKey' => 'asset_uid',
             'sort' => 'start_date'
         ]);
+        $this->hasMany('Notes', [
+            'foreignKey' => 'asset_uid',
+            'bindingKey' => 'asset_uid',
+            'sort' => 'start_date'
+        ]);
     }
 
     /**

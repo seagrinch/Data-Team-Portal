@@ -35,25 +35,19 @@
   </thead>
   <tbody>
   <?php foreach ($notes as $note): ?>
-  <tr <?= ($note->status=='Open') ? 'class="warning"' : '' ?>>
+  <tr <?= ($note->status=='Open Issue') ? 'class="warning"' : '' ?>>
     <td>
       <span class="glyphicon glyphicon-tag" style="font-size: 1.0em; color:black;" aria-hidden="true"></span> 
       <small><?= $this->Html->link($note->reference_designator,['controller'=>$note->model,'action'=>'view',$note->reference_designator]) ?><br />
-      <?php if ($note->status): ?>
-        <strong>Status:</strong> <?= h($note->status) ?> <br />
-      <?php endif; ?> 
       <?php if ($note->deployment): ?>
         <strong>Deployment:</strong> <?= h($note->deployment) ?> <br />
       <?php endif; ?> 
-      <?php if ($note->method): ?>
-        <strong>Method:</strong> <?= h($note->method)?> <br />
-      <?php endif; ?>
-      <?php if ($note->stream): ?>
-        <strong>Stream:</strong> <?= h($note->stream)?> <br />
-      <?php endif; ?>
-      <?php if ($note->parameter): ?>
-        <strong>Parameter:</strong> <?= h($note->parameter)?> <br />
-      <?php endif; ?>
+      <?php if ($note->asset_uid): ?>
+        <strong>Asset ID:</strong> <?= h($note->asset_uid) ?> <br />
+      <?php endif; ?> 
+      <?php if ($note->status): ?>
+        <strong>Status:</strong> <?= h($note->status) ?> <br />
+      <?php endif; ?> 
       </small>
     </td>
     <td>

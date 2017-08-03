@@ -26,6 +26,8 @@
   <dd><?= h($note->reference_designator) ?></dd>
   <dt><?= __('Deployment') ?></dt>
   <dd><?= h($note->deployment) ?></dd>
+  <dt><?= __('Asset UID') ?></dt>
+  <dd><?= h($note->asset_uid) ?></dd>
   <dt><?= __('Start Date') ?></dt>
   <dd><?= h($note->start_date) ?></dd>
   <dt><?= __('End Date') ?></dt>

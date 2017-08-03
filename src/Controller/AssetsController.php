@@ -42,6 +42,12 @@ class AssetsController extends AppController
           throw new NotFoundException(__('Asset not found'));
       }
 
+      $notes = $this->Assets->Notes->find('all')
+        ->where(['asset_uid'=> $asset->asset_uid])
+        ->contain(['Users'])
+        ->order(['start_date'=>'ASC']);
+      $asset->notes = $notes;
+
       $this->set('asset', $asset);
       $this->set('_serialize', ['asset']);
     }

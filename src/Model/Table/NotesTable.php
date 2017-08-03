@@ -70,6 +70,9 @@ class NotesTable extends Table
             ->allowEmpty('deployment');
 
         $validator
+            ->allowEmpty('asset_uid');
+
+        $validator
             ->allowEmpty('start_date')
             ->date('start_date','mdy');
 

@@ -33,6 +33,7 @@
   <!-- Nav Tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments</a></li>
+    <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes <?php if ($asset->notes->count()) { ?><span class="badge"><?= $asset->notes->count()?></span><?php } ?></a></li>
     <li role="presentation"><a href="#calibrations" aria-controls="calibrations" role="tab" data-toggle="tab">Calibrations</a></li>
   </ul>
   <!-- Tab Content -->
@@ -58,7 +59,7 @@
           <?php foreach ($asset->sensor_deployments as $d): ?>
           <tr>
             <td><?= $this->Html->link($d->deploy_cuid, ['controller'=>'cruises', 'action' => 'view', $d->deploy_cuid]) ?></td>
-            <td><?= $this->Ooi->rdlink($d->reference_designator) ?></td>
+            <td><?= $this->Ooi->rdLink($d->reference_designator) ?></td>
             <td><?= h($d->deployment_number) ?></td>
             <td><?= $this->Time->format($d->start_date, 'MM/dd/yyyy') ?></td>
             <td><?= $this->Time->format($d->stop_date, 'MM/dd/yyyy') ?></td>
@@ -75,6 +76,14 @@
       <?php else: ?>
         <p>No sensor deployments found</p>
       <?php endif; ?>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="notes">
+
+      <?php echo $this->element('notes_table', ['notes'=>$asset->notes]); ?>
+      <p class="text-left">
+        <?php //echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
+      </p>
 
     </div>
     <div role="tabpanel" class="tab-pane" id="calibrations">
