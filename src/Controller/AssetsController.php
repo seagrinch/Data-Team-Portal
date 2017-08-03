@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Event\Event;
 
 /**
  * Assets Controller
@@ -13,16 +14,38 @@ class AssetsController extends AppController
 {
 
     /**
+     * beforeFilter method
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['all']);
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
-    {
-        $assets = $this->paginate($this->Assets);
+    public function index() {
+      $query = $this->Assets->find('all');
+      if ($this->request->is('json') ) { //Formerly ajax
+        $this->paginate = [
+          'limit' => 5000, 
+          'maxLimit' => 5000,
+        ];
+        $this->set('_serialize', false);
+      }
+      $this->set('assets',$this->paginate($query));
+    }
 
-        $this->set(compact('assets'));
-        $this->set('_serialize', ['assets']);
+    /**
+     * All method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function all() {
+      //Simple view to render DataTables.js
     }
 
     /**

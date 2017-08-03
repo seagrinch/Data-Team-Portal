@@ -23,10 +23,12 @@
   </tfoot>
 </table>
 
+<!--
 <div>
   <h5>Filter Options</h5>
   <dl id="actions" class="dl-horizontal"></dl>
 </div>
+-->
 
 <?php echo $this->Html->script('https://cdn.datatables.net/v/bs/dt-1.10.12/datatables.min.js', ['block' => true]); ?>
 

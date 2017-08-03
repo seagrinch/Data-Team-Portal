@@ -24,7 +24,8 @@
     
     <h3>Asset Information  <a href="https://github.com/ooi-integration/asset-management"><small>GitHub <span class="glyphicon glyphicon-link" aria-hidden="true"></span></small></a></h3>
     <ul>
-      <li><?php echo $this->Html->link('Assets',['controller'=>'assets'])?></li>
+      <li><?php echo $this->Html->link('Assets',['controller'=>'assets'])?>
+          [<?php echo $this->Html->link('DataTable',['controller'=>'assets', 'action'=>'all'])?>]</li>
       <li>Calibrations - See Asset pages</li>
       <li><?php echo $this->Html->link('Cruises',['controller'=>'cruises'])?></li>
       <li>Deployments - See Instrument, Asset or Cruise pages</li>
