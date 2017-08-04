@@ -27,7 +27,7 @@ class InstrumentsController extends AppController
      */
     public function isAuthorized($user)
     {
-        if (in_array($this->request->action, ['edit'])) {
+        if (in_array($this->request->action, ['edit','status'])) {
             return true;
         }        
         return parent::isAuthorized($user);
@@ -161,5 +161,17 @@ class InstrumentsController extends AppController
       
     }
 
+
+    /**
+     * Data method
+     */
+    public function status() {
+        $query = $this->Instruments->find();
+        $query->select(['region'=>'LEFT(reference_designator,2)','current_status','count' => $query->func()->count('*')])
+          ->group(['LEFT(reference_designator,2)','current_status']);
+        $status = $query->all()->toArray();
+        $this->set(compact(['status']));      
+        $this->set('_serialize', ['status']);
+    }
 
 }
