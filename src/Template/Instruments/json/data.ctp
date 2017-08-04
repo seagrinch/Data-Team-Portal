@@ -1,8 +1,9 @@
 <?php 
+use Cake\Network\Exception\ServiceUnavailableException;
 
-if (!isset($data->status)) {
+if (!isset($data->status) && !isset($data->message)) {
   // Find QC variables
-  $keys = array_keys(get_object_vars($data[0]));
+  $keys = array_keys(get_object_vars($data));
   $badkeys=[];
   foreach ($keys as $k) {
     if (strpos($k,'_qc_executed') || strpos($k,'_qc_results')) {
@@ -20,8 +21,9 @@ if (!isset($data->status)) {
   echo json_encode($data, JSON_PRETTY_PRINT);
 
 } else {
-  $error = $data->status;
-  echo $error;
-//   echo json_encode(compact('error'), JSON_PRETTY_PRINT);
+  $error['message'] = property_exists($data,'status') ? $data->status : $data->message;
+  throw new ServiceUnavailableException($error);
+  //echo $error;
+  //echo json_encode(compact('error'), JSON_PRETTY_PRINT);
   
 }
