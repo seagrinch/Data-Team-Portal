@@ -170,7 +170,13 @@ class InstrumentsController extends AppController
         $query->select(['region'=>'LEFT(reference_designator,2)','current_status','count' => $query->func()->count('*')])
           ->group(['LEFT(reference_designator,2)','current_status']);
         $status = $query->all()->toArray();
-        $this->set(compact(['status']));      
+
+        $this->loadModel('ImportLog');
+        $import_time = $this->ImportLog->find()
+          ->where(['name'=>'status_check'])
+          ->first();
+        
+        $this->set(compact(['status','import_time']));      
         $this->set('_serialize', ['status']);
     }
 
