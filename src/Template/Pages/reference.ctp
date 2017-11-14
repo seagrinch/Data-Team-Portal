@@ -45,6 +45,7 @@
 
     <h3>Metadata</h3>
     <ul>
+      <li><?php echo $this->Html->link('Instrument Status Chart',['controller'=>'instruments','action'=>'status'])?></li>
       <li><?php echo $this->Html->link('Import Log',['controller'=>'ImportLog'])?></li>
     </ul>
       

@@ -1,5 +1,15 @@
 <div id='chart_div'></div>
 
+<form class="form-inline">
+  <div class="form-group">
+    <strong>Parameter:</strong>
+    <select class="form-control" style="width:auto" id="parameter">
+    </select>
+  </div>
+</form>
+
+<?php $this->Html->script('https://d3js.org/d3.v3.min.js',['block'=>true]); ?>
+
 <style>
 #chart_div .axis path, #chart_div .axis line {
   fill: none;
@@ -27,6 +37,16 @@ d3.json('<?=$data_url?>', function(error, data) {
   var cols = d3.keys(data[0]);
   cols.pop('time');
 
+  d3.select('#parameter')
+    .selectAll('option')
+    .data(cols).enter()
+    .append('option')
+      .text(function (d) { return d; });
+
+//  var dropDown = d3.select("#parameter");
+//  dropDown.on("change", function() {
+//  }
+  
   data.forEach(function(d) {
     d.date = new Date(d.time * 1000);
     d.data = +d[cols[0]];

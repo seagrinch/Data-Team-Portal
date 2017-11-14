@@ -4,18 +4,36 @@
   <li class="active"><?= h($site->name) ?></li>
 </ol>
 
-<div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
-<!--
-  <?php 
-    $session = $this->request->session();
-    if ($session->check('Auth.User')) { 
-      echo $this->Html->link('Edit Site', ['action'=>'edit', $site->reference_designator], ['class'=>'btn btn-info']);
-    }
-  ?>
--->
-  <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'http://oceanobservatories.org/site/' . substr($site->reference_designator,0,8), ['class'=>'btn btn-default', 'escape'=>false]); ?>
-  <?php echo $this->Html->link('Data portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooiui.oceanobservatories.org/plot/#' . $site->reference_designator, ['class'=>'btn btn-default', 'escape'=>false]); ?>
+<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
+  <div class="btn-group btn-group-sm" role="group" aria-label="...">
+    <!--
+    <?php 
+      $session = $this->request->session();
+      if ($session->check('Auth.User')) { 
+        echo $this->Html->link('Edit Site', ['action'=>'edit', $site->reference_designator], ['class'=>'btn btn-info']);
+      }
+    ?>
+    -->
+    <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 
+      'http://oceanobservatories.org/site/' . substr($site->reference_designator,0,8), 
+      ['class'=>'btn btn-default', 'escape'=>false]); ?>
+    <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 
+      'https://ooinet.oceanobservatories.org/plot/#' . $site->reference_designator, 
+      ['class'=>'btn btn-default', 'escape'=>false]); ?>
+  </div>
+  <div class="btn-group btn-group-sm" role="group" aria-label="...">
+    <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
+      ['action' => 'view', $site->reference_designator],
+      ['class'=>'btn btn-primary active','escape'=>false]) ?>
+    <?php echo $this->Html->link('Daily Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+      ['action' => 'stats-daily', $site->reference_designator],
+      ['class'=>'btn btn-default','escape'=>false]) ?>
+    <?php echo $this->Html->link('Monthly Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+      ['action' => 'stats-monthly', $site->reference_designator],
+      ['class'=>'btn btn-default','escape'=>false]) ?>
+  </div>
 </div>
+
 
 <h3><?= h($site->name) ?></h3>
 

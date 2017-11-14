@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Event\Event;
 
 /**
  * DataStreams Controller
@@ -15,9 +16,18 @@ class DataStreamsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->loadComponent('Uframe');
     }
     
+    /**
+     * beforeFilter method
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['plot','plotData','statsDaily']);
+    }
+
+
     /**
      * Index method
      *
@@ -55,6 +65,7 @@ class DataStreamsController extends AppController
         ->order(['start_datetime'=>'ASC']);
       $dataStream->annotations = $annotations;
 
+      $this->loadComponent('Uframe');
       $cassandra = $this->Uframe->cassandra_times($dataStream->reference_designator, $dataStream->method, $dataStream->stream_name);
 
       $dataStream->cassandra = $cassandra;
@@ -62,6 +73,68 @@ class DataStreamsController extends AppController
       $this->set('dataStream', $dataStream);
       $this->set('_serialize', ['dataStream']);
     }
-
+    
+    
+    /**
+     * Plot method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function plot($id = null)
+    {
+      $dataStream = $this->DataStreams->get($id);
+      
+      if (empty($dataStream)) {
+          throw new NotFoundException(__('Data Stream not found'));
+      }
+      
+      $this->set(compact(['dataStream']));
+      $this->set('_serialize', ['dataStream']);
+    }
+    
+    
+    /**
+     * Plot Data method
+     */
+    public function plotData($id = null) {
+      $dataStream = $this->DataStreams->get($id);
+      
+      if (empty($dataStream)) {
+          throw new NotFoundException(__('Data Stream not found'));
+      }
+      
+      $this->loadComponent('Uframe');
+      $data = $this->Uframe->recent_data($dataStream->reference_designator, $dataStream->method, $dataStream->stream_name);
+      
+      $this->set(compact(['data']));
+      $this->set('_serialize', false);
+      
+    }
+    
+    
+    /**
+     * Stats Data method
+     */
+    public function statsDaily($id = null) {
+      $dataStream = $this->DataStreams->get($id);
+      
+      if (empty($dataStream)) {
+          throw new NotFoundException(__('Data Stream not found'));
+      }
+      
+      if ($this->request->is('json') ) { 
+        $this->loadModel('StreamStats');
+        $query = $this->StreamStats->find('all')
+          ->where(['reference_designator'=>$dataStream->reference_designator, 'method'=>$dataStream->method, 'stream'=>$dataStream->stream_name])
+          ->select(['date','percentage'=>'status']);
+        $data = $query->all()->toArray();
+        
+        $this->set(compact(['data']));
+        $this->set('_serialize', false);
+      } else {
+        $this->set(compact(['dataStream']));
+        $this->set('_serialize', ['dataStream']);
+      }
+    }
 
 }

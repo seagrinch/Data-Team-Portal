@@ -3,14 +3,14 @@ use Cake\Network\Exception\ServiceUnavailableException;
 
 if (!isset($data->status) && !isset($data->message)) {
   // Find QC variables
-  $keys = array_keys(get_object_vars($data));
-  $badkeys=[];
+  $keys = array_keys(get_object_vars($data[0]));
+  $badkeys=['driver_timestamp','preferred_timestamp','internal_timestamp','ingestion_timestamp','port_timestamp','temperature','pressure']; // Expected keys to remove
   foreach ($keys as $k) {
     if (strpos($k,'_qc_executed') || strpos($k,'_qc_results')) {
       array_push($badkeys,$k);
     }
   }
-  
+
   // Remove unnecessary variables from output array
   foreach ($data as &$d) {
     unset($d->pk); // Metadata variable

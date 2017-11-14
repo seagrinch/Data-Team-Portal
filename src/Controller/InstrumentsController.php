@@ -19,7 +19,7 @@ class InstrumentsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['all','data']);
+        $this->Auth->allow(['all','status','statsDaily','statsMonthly']);
     }
 
     /**
@@ -141,29 +141,9 @@ class InstrumentsController extends AppController
         $this->set('_serialize', ['instrument']);
     }
 
-    /**
-     * Data method
-     */
-    public function data($id = null) {
-      $this->loadComponent('Uframe');
-      $query = $this->Instruments->find()
-        ->where(['Instruments.reference_designator'=>$id]);
-      $instrument = $query->first();
-      
-      if (empty($instrument)) {
-          throw new NotFoundException(__('Instrument not found'));
-      }
-
-      $data = $this->Uframe->recent_data($instrument->reference_designator, $instrument->preferred_stream, $instrument->preferred_parameter);
-
-      $this->set(compact(['data']));
-      $this->set('_serialize', false);
-      
-    }
-
 
     /**
-     * Data method
+     * Status method
      */
     public function status() {
         $query = $this->Instruments->find();
@@ -178,6 +158,78 @@ class InstrumentsController extends AppController
         
         $this->set(compact(['status','import_time']));      
         $this->set('_serialize', ['status']);
+    }
+    
+    
+    /**
+     * Daily Stats method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function statsDaily($id = null)
+    {
+      $query = $this->Instruments->find()
+        ->where(['Instruments.reference_designator'=>$id])
+        ->contain(['Nodes.Sites.Regions']);
+      $instrument = $query->first();
+      
+      if (empty($instrument)) {
+          throw new NotFoundException(__('Instrument not found'));
+      }
+      
+      if ($this->request->is('json') ) { 
+        $this->loadModel('InstrumentStats');
+        $query = $this->InstrumentStats->find('all')
+          ->where(['reference_designator'=>$instrument->reference_designator])
+          ->select(['date','percentage'=>'status']);
+        $data = $query->all()->toArray();
+        
+        $this->set(compact(['data']));
+        $this->set('_serialize', false);
+        
+      } else {
+        
+        $this->set(compact(['instrument']));
+        $this->set('_serialize', ['dataStream']);
+      }
+    }
+    
+    
+    /**
+     * Monthly Stats method
+     */
+    public function statsMonthly($id = null) {
+      $query = $this->Instruments->find()
+        ->where(['Instruments.reference_designator'=>$id])
+        ->contain(['Nodes.Sites.Regions']);
+      $instrument = $query->first();
+      
+      if (empty($instrument)) {
+          throw new NotFoundException(__('Instrument not found'));
+      }
+      
+      if ($this->request->is('json') ) { 
+                
+        $this->loadModel('StreamStats');
+        $query = $this->StreamStats->find('all')
+          ->where(['reference_designator'=>$instrument->reference_designator]);
+        $ym = $query->func()->date_format([
+          'date' => 'identifier',
+          "'%Y-%m'" => 'literal'
+        ]);
+        
+        $query->select(['month' => $ym, 'method', 'stream', 'count' => $query->func()->count('status'), 'sum' => $query->func()->sum('status')]);
+        $query->group([$ym, 'method','stream']);
+        $data = $query->all()->toArray();
+        
+        $this->set(compact(['data']));
+        $this->set('_serialize', false);
+        
+      } else {
+        
+        $this->set(compact(['instrument']));
+        $this->set('_serialize', ['dataStream']);
+      }
     }
 
 }

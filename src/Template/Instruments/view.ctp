@@ -6,17 +6,34 @@
   <li class="active"><?= h($instrument->name) ?></li>
 </ol>
 
-<div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
-<!--
-  <?php 
-    $session = $this->request->session();
-    if ($session->check('Auth.User')) { 
-      echo $this->Html->link('Edit Instrument', ['action'=>'edit', $instrument->reference_designator], ['class'=>'btn btn-info']);
-    }
-  ?>
--->
-  <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'http://oceanobservatories.org/site/' . substr($instrument->reference_designator,0,8), ['class'=>'btn btn-default', 'escape'=>false]); ?>
-  <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooinet.oceanobservatories.org/plot/#' . $instrument->reference_designator, ['class'=>'btn btn-default', 'escape'=>false]); ?>
+<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
+  <div class="btn-group btn-group-sm" role="group" aria-label="...">
+    <!--
+    <?php 
+      $session = $this->request->session();
+      if ($session->check('Auth.User')) { 
+        echo $this->Html->link('Edit Instrument', ['action'=>'edit', $instrument->reference_designator], ['class'=>'btn btn-info']);
+      }
+    ?>
+    -->
+    <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 
+      'http://oceanobservatories.org/site/' . substr($instrument->reference_designator,0,8), 
+      ['class'=>'btn btn-default', 'escape'=>false]); ?>
+    <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 
+      'https://ooinet.oceanobservatories.org/plot/#' . $instrument->reference_designator, 
+      ['class'=>'btn btn-default', 'escape'=>false]); ?>
+  </div>
+  <div class="btn-group btn-group-sm" role="group" aria-label="...">
+    <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
+      ['action' => 'view', $instrument->reference_designator],
+      ['class'=>'btn btn-primary active','escape'=>false]) ?>
+    <?php echo $this->Html->link('Daily Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+      ['action' => 'stats-daily', $instrument->reference_designator],
+      ['class'=>'btn btn-default','escape'=>false]) ?>
+    <?php echo $this->Html->link('Monthly Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+      ['action' => 'stats-monthly', $instrument->reference_designator],
+      ['class'=>'btn btn-default','escape'=>false]) ?>
+  </div>
 </div>
 
 <h3><?= h($instrument->name) ?></h3>
@@ -33,10 +50,12 @@
       <dd><?= $this->Number->format($instrument->end_depth) ?></dd>
       <dt><?= __('Location') ?></dt>
       <dd><?= h($instrument->location) ?></dd>
+<!--
       <dt><?= __('Default Stream') ?></dt>
       <dd><?= h($instrument->preferred_stream) ?></dd>
       <dt><?= __('Default Parameter') ?></dt>
       <dd><?= h($instrument->preferred_parameter) ?></dd>
+-->
       <dt><?= __('Current Status') ?></dt>
       <dd><?php echo $this->element('instrument_status', ['status'=>$instrument->current_status]); ?></dd>
     </dl>
@@ -72,35 +91,45 @@
 <div>
   <!-- Nav Tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments <?php if (count($instrument->deployments)) { ?><span class="badge"><?= count($instrument->deployments)?></span><?php } ?></a></li>
-    <li role="presentation"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams/Parameters</a></li>
+    <li role="presentation" class="active"><a href="#streams" aria-controls="streams" role="tab" data-toggle="tab">Streams/Parameters</a></li>
+    <li role="presentation"><a href="#deployments" aria-controls="deployments" role="tab" data-toggle="tab">Deployments <?php if (count($instrument->deployments)) { ?><span class="badge"><?= count($instrument->deployments)?></span><?php } ?></a></li>
     <li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes <?php if ($instrument->notes->count()) { ?><span class="badge"><?= $instrument->notes->count()?></span><?php } ?></a></li>
     <li role="presentation"><a href="#annotations" aria-controls="annotations" role="tab" data-toggle="tab">Annotations <?php if ($instrument->annotations->count()) { ?><span class="badge"><?= $instrument->annotations->count()?></span><?php } ?></a></li>
   </ul>
 
   <!-- Tab Content -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane" id="streams">
+    <div role="tabpanel" class="tab-pane active" id="streams">
       <?php if (count($instrument->data_streams)>0): ?>
         <table class="table table-striped table-hover">
           <tr>
             <th>Method</th>
             <th>Data Stream</th>
             <th></th>
+            <th>Type</th>
           </tr>
           <?php foreach ($instrument->data_streams as $s): ?>
           <tr>
             <td><?= h($s->method) ?></td>
-            <td><?= $this->Html->link($s->stream_name, ['controller'=>'data-streams', 'action' => 'view', $s->id]) ?>
+            <td><?= $this->Html->link($s->stream_name, ['controller'=>'streams', 'action' => 'view', $s->stream_name]) ?>
             </td>
             <td>
-              <?= $this->Html->link('Stream <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
-                ['controller'=>'streams', 'action' => 'view', $s->stream_name],
+              <?= $this->Html->link('Report <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
+                ['controller'=>'data-streams', 'action' => 'view', $s->id],
                 ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
+              <?= $this->Html->link('Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+                ['controller'=>'data-streams', 'action' => 'stats-daily', $s->id],
+                ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
+              <?= $this->Html->link('Plot <span class="glyphicon glyphicon-signal" aria-hidden="true">', 
+                ['controller'=>'data-streams', 'action' => 'plot', $s->id],
+                ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
+<!--
               <?= $this->Html->link('Parameters <span class="glyphicon glyphicon-list-alt" aria-hidden="true">', 
                 '#',
                 ['class'=>'btn btn-default btn-xs','escape'=>false, 'data-toggle'=>'modal', 'data-target'=>'#'.$s->id]) ?>
+-->
               </td>
+            <td><?= h($s->stream->stream_type) ?></td>
           </tr>
           <?php endforeach; ?>
         </table>
@@ -109,7 +138,7 @@
       <?php endif; ?>
 
     </div>
-    <div role="tabpanel" class="tab-pane active" id="deployments">
+    <div role="tabpanel" class="tab-pane" id="deployments">
 
       <?php if (count($instrument->deployments)>0): ?>
         <table class="table table-striped">
@@ -166,8 +195,7 @@
 </div><!-- End Tabbed Navigation -->
 
 
-
-<!-- Parameter Modals -->
+<!-- Parameter modal -->
 <?php if (count($instrument->data_streams)>0): ?>
   <?php foreach ($instrument->data_streams as $s): ?>
     <div class="modal fade" id="<?= h($s->id)?>" tabindex="-1" role="dialog">
@@ -208,17 +236,7 @@
     </div>
   <?php endforeach; ?>
 <?php endif; ?>
-
-
-<!-- Data Graph -->
-<?php echo $this->element('data_graph', 
-  ['data_url'=>$this->Url->build([
-    'controller'=>'Instruments',
-    'action'=>'data',
-    $instrument->reference_designator,
-    '_ext'=>'json'])
-  ]);
-?>
+<!-- End Parameter modal -->
 
 
 <?php $this->Html->scriptStart(['block' => true]); ?>  
@@ -237,6 +255,7 @@
       }
   })
 <?php $this->Html->scriptEnd(); ?>
+
 
 <?php 
 /*

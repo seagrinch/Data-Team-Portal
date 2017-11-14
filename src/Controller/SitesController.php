@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Event\Event;
 
 /**
  * Sites Controller
@@ -11,6 +12,15 @@ use Cake\Network\Exception\NotFoundException;
  */
 class SitesController extends AppController
 {
+
+    /**
+     * beforeFilter method
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['statsDaily','statsMonthly']);
+    }
 
     /**
      * isAuthorized method
@@ -100,6 +110,96 @@ class SitesController extends AppController
         }
         $this->set(compact('site'));
         $this->set('_serialize', ['site']);
+    }
+    
+    
+    /**
+     * Daily Stats method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function statsDaily($id = null)
+    {
+      $query = $this->Sites->find()
+        ->where(['Sites.reference_designator'=>$id])
+        ->contain(['Regions','Nodes','Nodes.Instruments','Deployments']);
+      $site = $query->first();
+      
+      if (empty($site)) {
+          throw new NotFoundException(__('Site not found'));
+      }
+      
+      if ($this->request->is('json') ) { 
+        
+        $this->loadModel('InstrumentStats');
+        $query = $this->InstrumentStats->find('all')
+          ->where(['LEFT(reference_designator,8)'=>$site->reference_designator])
+          ->select(['date', 
+                    'count' => $query->func()->count('status'), 
+                    'sum' => $query->func()->sum('status')])
+          ->group(['date'])
+          ->formatResults(function (\Cake\Collection\CollectionInterface $results) {
+            return $results->map(function ($row) {
+              $row['percentage'] = $row['sum'] / $row['count'];
+              return $row;
+            });
+          });
+        $data = $query->all()->toArray();
+        
+        $this->set(compact(['data']));
+        $this->set('_serialize', false);
+        
+      } else {
+        
+        $this->set(compact(['site']));
+        $this->set('_serialize', ['dataStream']);
+      }
+    }
+    
+    
+    /**
+     * Montly Stats method
+     */
+    public function statsMonthly($id = null) {
+      $query = $this->Sites->find()
+        ->where(['Sites.reference_designator'=>$id])
+        ->contain(['Regions','Nodes','Nodes.Instruments','Deployments']);
+      $site = $query->first();
+      
+      if (empty($site)) {
+          throw new NotFoundException(__('Site not found'));
+      }
+      
+      if ($this->request->is('json') ) { 
+
+        $this->loadModel('InstrumentStats');
+        $query = $this->InstrumentStats->find('all');
+        $ym = $query->func()->date_format([
+          'date' => 'identifier',
+          "'%Y-%m'" => 'literal'
+        ]);
+        $query->where(['LEFT(reference_designator,8)'=>$site->reference_designator])
+          ->select(['month' => $ym, 
+                    'reference_designator',
+                    'count' => $query->func()->count('status'), 
+                    'sum' => $query->func()->sum('status')])
+          ->group(['month','reference_designator'])
+          ->formatResults(function (\Cake\Collection\CollectionInterface $results) {
+            return $results->map(function ($row) {
+              $row['percentage'] = $row['sum'] / $row['count'];
+              return $row;
+            });
+          });
+        $data = $query->all()->toArray();
+        
+        $this->set(compact(['data']));
+        $this->set('_serialize', false);
+                
+      } else {
+        
+        $this->set(compact(['site']));
+        $this->set('_serialize', ['dataStream']);
+      }
     }
 
 }

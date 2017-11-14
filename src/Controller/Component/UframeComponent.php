@@ -36,10 +36,11 @@ class UframeComponent extends Component
         return $response;
     }
 
-    public function recent_data($reference_designator,$stream,$parameter) {
+    public function recent_data($reference_designator,$method,$stream) {
         $site = substr($reference_designator,0,8);
         $node = substr($reference_designator,9,5);
         $inst = substr($reference_designator,15,12);
+/*
         if (strncmp($site, 'RS',2)==0) {
           $method = 'streamed';
         } elseif (in_array($site,['CE02SHBP','CE04OSBP'])) {
@@ -47,10 +48,11 @@ class UframeComponent extends Component
         } else {
           $method = 'telemetered';          
         }
+*/
         $start_date = date('Y-m-d\TH:i:s.0\Z',time()-(24*60*60));
         $end_date = date('Y-m-d\TH:i:s.0\Z',time());
-        $url = '/api/m2m/12576/sensor/inv/' . $site . '/' . $node . '/' . $inst . '/' . $method . '/' . $stream . '?beginDT=' . $start_date . '&endDT=' . $end_date . '&limit=1000&parameters=7,' . $parameter;
-        //https://ooinet.oceanobservatories.org
+        $url = '/api/m2m/12576/sensor/inv/' . $site . '/' . $node . '/' . $inst . '/' . $method . '/' . $stream . '?beginDT=' . $start_date . '&endDT=' . $end_date . '&limit=1000';  // '&parameters=7,' . $parameter
+
         $http = new Client($this->client);
         $response = $http->get($url);        
         $response = json_decode($response->body);
