@@ -39,14 +39,21 @@
       <li><?php echo $this->Html->link('Cruise Reviews',['controller'=>'CruiseReviews'])?></li>
       <li><?php echo $this->Html->link('Notes',['controller'=>'Notes'])?></li>
       <li><?php echo $this->Html->link('Test Runs',['controller'=>'TestRuns'])?> (deprecated)</li>
-      <li>Monthly Status Reports (coming soon)</li>
-      <li>Data Review Reports (coming soon)</li>
+      <li>Data Review Reports (?)</li>
     </ul>
+
+    <h3>Annotations  <a href="https://github.com/ooi-data-review/annotations"><small>GitHub <span class="glyphicon glyphicon-link" aria-hidden="true"></span></small></a></h3>
+
+    <h3>Ingestion Information  <a href="https://github.com/ooi-integration/ingestion-csvs"><small>GitHub <span class="glyphicon glyphicon-link" aria-hidden="true"></span></small></a></h3>
+    <ul>
+      <li><?php echo $this->Html->link('Ingestions',['controller'=>'ingestions'])?></li>
+    </ul>  
 
     <h3>Metadata</h3>
     <ul>
-      <li><?php echo $this->Html->link('Instrument Status Chart',['controller'=>'instruments','action'=>'status'])?></li>
       <li><?php echo $this->Html->link('Import Log',['controller'=>'ImportLog'])?></li>
+      <li><?php echo $this->Html->link('Summary Chart of Instrument Status',['controller'=>'instruments','action'=>'status'])?></li>
+      <li><?php echo $this->Html->link('Monthly Array Stats',['controller'=>'regions','action'=>'array-monthly'])?></li>
     </ul>
       
   </div>

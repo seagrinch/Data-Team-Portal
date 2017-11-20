@@ -18,6 +18,10 @@ class ImportLogController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+          'order'=>['name'],
+          'limit'=>100
+        ];
         $importLog = $this->paginate($this->ImportLog);
 
         $this->set(compact('importLog'));
