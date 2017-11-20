@@ -1,6 +1,18 @@
+<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
+  <div class="btn-group btn-group-sm" role="group" aria-label="...">
+    <?php echo $this->Html->link('Daily Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+      ['action' => 'array-daily'],
+      ['class'=>'btn btn-default','escape'=>false]) ?>
+    <?php echo $this->Html->link('Monthly Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+      ['action' => 'array-monthly'],
+      ['class'=>'btn btn-default','escape'=>false]) ?>
+  </div>
+</div>
+
+<h1>OOI Arrays</h1>
 <div class="row">
   <div class="col-md-6">
-    <h1>OOI Arrays</h1>
+    <?php echo $this->Html->link('Semi Real-time Status',['controller'=>'instruments','action'=>'status'],['class'=>'btn btn-info pull-right'])?>
     <ul>
       <?php foreach ($regions as $region): ?>
       <li><?= $this->html->link($region->name,['action'=>'view',$region->reference_designator]) ?> (<?= h($region->reference_designator) ?>)</li>

@@ -5,9 +5,26 @@
   <li class="active"><?= h($node->name) ?></li>
 </ol>
 
-<div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
-  <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'http://oceanobservatories.org/site/' . substr($node->reference_designator,0,8), ['class'=>'btn btn-default', 'escape'=>false]); ?>
-  <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 'https://ooiui.oceanobservatories.org/plot/#' . $node->reference_designator, ['class'=>'btn btn-default', 'escape'=>false]); ?>
+<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
+  <div class="btn-group btn-group-sm" role="group" aria-label="...">
+    <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 
+      'http://oceanobservatories.org/site/' . substr($node->reference_designator,0,8), 
+      ['class'=>'btn btn-default', 'escape'=>false]); ?>
+    <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 
+      'https://ooinet.oceanobservatories.org/plot/#' . $node->reference_designator, 
+      ['class'=>'btn btn-default', 'escape'=>false]); ?>
+  </div>
+  <div class="btn-group btn-group-sm" role="group" aria-label="...">
+    <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
+      ['action' => 'view', $node->reference_designator],
+      ['class'=>'btn btn-primary active','escape'=>false]) ?>
+    <?php echo $this->Html->link('Daily Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+      ['action' => 'stats-daily', $node->reference_designator],
+      ['class'=>'btn btn-default','escape'=>false]) ?>
+    <?php echo $this->Html->link('Monthly Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+      ['action' => 'stats-monthly', $node->reference_designator],
+      ['class'=>'btn btn-default','escape'=>false]) ?>
+  </div>
 </div>
 
 <h3><?= h($node->name) ?></h3>

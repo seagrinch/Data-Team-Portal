@@ -122,7 +122,7 @@ class SitesController extends AppController
     {
       $query = $this->Sites->find()
         ->where(['Sites.reference_designator'=>$id])
-        ->contain(['Regions','Nodes','Nodes.Instruments','Deployments']);
+        ->contain(['Regions']);
       $site = $query->first();
       
       if (empty($site)) {
@@ -163,7 +163,7 @@ class SitesController extends AppController
     public function statsMonthly($id = null) {
       $query = $this->Sites->find()
         ->where(['Sites.reference_designator'=>$id])
-        ->contain(['Regions','Nodes','Nodes.Instruments','Deployments']);
+        ->contain(['Regions']);
       $site = $query->first();
       
       if (empty($site)) {

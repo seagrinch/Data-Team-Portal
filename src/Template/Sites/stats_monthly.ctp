@@ -26,7 +26,15 @@
   </div>
 </div>
 
+<h3><?= h($site->name) ?></h3>
 
-<h3><?= h($site->reference_designator) ?></h3>
-
-Monthly Stats Graph 
+<!-- Stats Graph -->
+<?php echo $this->element('monthly_stats', [
+  'data_url'=>$this->Url->build([
+    'controller'=>'sites',
+    'action'=>'statsMonthly',
+    $site->reference_designator,
+    '_ext'=>'json']),
+  'dtype'=>'Site'
+  ]);
+?>

@@ -217,9 +217,19 @@ class InstrumentsController extends AppController
           'date' => 'identifier',
           "'%Y-%m'" => 'literal'
         ]);
-        
-        $query->select(['month' => $ym, 'method', 'stream', 'count' => $query->func()->count('status'), 'sum' => $query->func()->sum('status')]);
-        $query->group([$ym, 'method','stream']);
+        $query->select(['month' => $ym, 
+                        'method', 
+                        'stream', 
+                        'reference_designator' => $query->func()->concat(['method' => 'identifier',' ','stream' => 'identifier']),
+                        'count' => $query->func()->count('status'), 
+                        'sum' => $query->func()->sum('status')])
+          ->group([$ym, 'method','stream'])
+          ->formatResults(function (\Cake\Collection\CollectionInterface $results) {
+            return $results->map(function ($row) {
+              $row['percentage'] = $row['sum'] / $row['count'];
+              return $row;
+            });
+          });
         $data = $query->all()->toArray();
         
         $this->set(compact(['data']));

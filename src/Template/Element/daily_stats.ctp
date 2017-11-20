@@ -1,18 +1,22 @@
 <div id='chart_div'></div>
+<div id='legend_div'></div>
 
 <?php $this->Html->script('https://d3js.org/d3.v4.min.js',['block'=>true]); ?>
+<?php $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js',['block'=>true]); ?>
 <?php $this->Html->scriptStart(['block' => true]); ?>
 
 var width = 960,
     height = 136,
     cellSize = 17;
 
-var formatPercent = d3.format(".1%");
+var formatPercent = d3.format(".0%");
 
-var color = d3.scaleQuantize()
-    .domain([0,1])
-    .range(['#d7191c', '#f7fbff','#deebf7','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#08519c','#08306b'])
+var color = d3.scaleLinear() //alternately use scaleQuantize()
+    .domain([0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1])
+    //.range(['#d7191c', '#f7fbff','#deebf7','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#08519c','#08306b'])
     //.range(["#d7191c", "#ffffbf", "#2c7bb6"]);
+    //.range(['#f7feae','#b7e6a5','#7ccba2','#46aea0','#089099','#00718b','#045275']); // From https://carto.com/carto-colors/
+    .range(['#AB653B','#A67232','#9C8030','#8E8E35','#7D9A44','#68A65B','#50B076','#33B895','#1BBFB5','#30C4D2','#5FC6EB']); //http://tristen.ca/hcl-picker/#/hlc/11/1.08/5EC6EB/AB653B
 
 var svg = d3.select("#chart_div")
   .selectAll("svg")
@@ -55,14 +59,18 @@ d3.json('<?=$data_url?>', function(error, json_data) {
 
   var data = d3.nest()
       .key(function(d) { return d.date; })
-      .rollup(function(d) { return d[0].percentage })
+      .rollup(function(d) { return { 
+        percentage: d[0].percentage,
+        count: d[0].count,
+        sum: d[0].sum }; })
     .object(json_data);
 
   rect.filter(function(d) { return d in data; })
-      .attr("fill", function(d) { return color(data[d]); })
+      .attr("fill", function(d) { return color(data[d].percentage); })
       .attr("opacity",.5)
     .append("title")
-      .text(function(d) { return d + ": " + formatPercent(data[d]); });
+      .text(function(d) { return d + ": " + formatPercent(data[d].percentage) + ' (' + data[d].sum + '/' + data[d].count + ')'; });
+
 });
 
 function pathMonth(t0) {
@@ -75,4 +83,26 @@ function pathMonth(t0) {
       + "H" + (w1 + 1) * cellSize + "V" + 0
       + "H" + (w0 + 1) * cellSize + "Z";
 }
+
+// Legend
+
+var svg2 = d3.select("#legend_div")
+  .append('svg')
+  .attr("width", width)
+  .attr("height", 90);
+
+svg2.append('g')
+  .attr("class", "legendLinear")
+  .attr("transform", "translate(20,20)");
+
+var legendLinear = d3.legendColor()
+  .shapeWidth(40)
+  .orient('horizontal')
+  .cells(11)
+  .scale(color)
+  .labelFormat(formatPercent);
+
+svg2.select(".legendLinear")
+  .call(legendLinear);
+
 <?php $this->Html->scriptEnd(); ?>

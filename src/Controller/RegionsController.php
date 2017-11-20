@@ -19,7 +19,7 @@ class RegionsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['statsDaily','statsMonthly']);
+        $this->Auth->allow(['statsDaily','statsMonthly','arrayDaily','arrayMonthly']);
     }
 
     /**
@@ -102,7 +102,8 @@ class RegionsController extends AppController
     /**
      * Monthly Stats method
      */
-    public function statsMonthly($id = null) {
+    public function statsMonthly($id = null) 
+    {
       $query = $this->Regions->find()
         ->where(['reference_designator'=>$id])
         ->contain(['Sites']);
@@ -126,10 +127,10 @@ class RegionsController extends AppController
         ]);
         $query->where(['LEFT(reference_designator,2)'=>$region->reference_designator])
           ->select(['month' => $ym, 
-                    'site' => $rd,
+                    'rd' => $rd,
                     'count' => $query->func()->count('status'), 
                     'sum' => $query->func()->sum('status')])
-          ->group(['month','site'])
+          ->group(['month','rd'])
           ->formatResults(function (\Cake\Collection\CollectionInterface $results) {
             return $results->map(function ($row) {
               $row['percentage'] = $row['sum'] / $row['count'];
@@ -148,4 +149,69 @@ class RegionsController extends AppController
       }
     }
 
+
+    /**
+     * Array Daily Stats method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function arrayDaily()
+    {
+//       if ($this->request->is('json') ) { 
+        $this->loadModel('InstrumentStats');
+        $query = $this->InstrumentStats->find('all');
+        $query->select(['date', 
+                    'count' => $query->func()->count('status'), 
+                    'sum' => $query->func()->sum('status')])
+          ->group(['date'])
+          ->formatResults(function (\Cake\Collection\CollectionInterface $results) {
+            return $results->map(function ($row) {
+              $row['percentage'] = $row['sum'] / $row['count'];
+              return $row;
+            });
+          });
+        $data = $query->all()->toArray();
+        
+        $this->set(compact(['data']));
+        $this->set('_serialize', false);
+        
+//       }
+    }
+
+
+    /**
+     * Array Monthly Stats method
+     */
+    public function arrayMonthly() {
+      if ($this->request->is('json') ) { 
+        
+        $this->loadModel('InstrumentStats');
+        $query = $this->InstrumentStats->find('all');
+        $ym = $query->func()->date_format([
+          'date' => 'identifier',
+          "'%Y-%m'" => 'literal'
+        ]);
+        $rd = $query->func()->left([
+          'reference_designator' => 'identifier',
+          "2" => 'literal'
+        ]);
+        $query->select(['month' => $ym, 
+                    'rd' => $rd,
+                    'count' => $query->func()->count('status'), 
+                    'sum' => $query->func()->sum('status')])
+          ->group(['month','rd'])
+          ->formatResults(function (\Cake\Collection\CollectionInterface $results) {
+            return $results->map(function ($row) {
+              $row['percentage'] = $row['sum'] / $row['count'];
+              return $row;
+            });
+          });
+        $data = $query->all()->toArray();
+        
+        $this->set(compact(['data']));
+        $this->set('_serialize', false);
+        
+       }
+    }
+    
 }
