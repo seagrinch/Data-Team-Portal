@@ -12,7 +12,7 @@
 <h1>OOI Arrays</h1>
 <div class="row">
   <div class="col-md-6">
-    <?php echo $this->Html->link('Semi Real-time Status',['controller'=>'instruments','action'=>'status'],['class'=>'btn btn-info pull-right'])?>
+<!--     <?php echo $this->Html->link('Semi Real-time Status',['controller'=>'instruments','action'=>'status'],['class'=>'btn btn-info pull-right'])?> -->
     <ul>
       <?php foreach ($regions as $region): ?>
       <li><?= $this->html->link($region->name,['action'=>'view',$region->reference_designator]) ?> (<?= h($region->reference_designator) ?>)</li>
