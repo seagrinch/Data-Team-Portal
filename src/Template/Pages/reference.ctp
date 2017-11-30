@@ -40,6 +40,7 @@
       <li><?php echo $this->Html->link('Notes',['controller'=>'Notes'])?></li>
       <li><?php echo $this->Html->link('Test Runs',['controller'=>'TestRuns'])?> (deprecated)</li>
       <li>Data Review Reports (?)</li>
+      <li><?php echo $this->Html->link('Science Parameters',['controller'=>'data-streams','action'=>'science'])?></li>
     </ul>
 
     <h3>Annotations  <a href="https://github.com/ooi-data-review/annotations"><small>GitHub <span class="glyphicon glyphicon-link" aria-hidden="true"></span></small></a></h3>

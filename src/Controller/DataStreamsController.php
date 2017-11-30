@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Event\Event;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * DataStreams Controller
@@ -24,7 +25,7 @@ class DataStreamsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['plot','plotData','statsDaily']);
+        $this->Auth->allow(['plot','plotData','statsDaily','science']);
     }
 
 
@@ -136,5 +137,54 @@ class DataStreamsController extends AppController
         $this->set('_serialize', ['dataStream']);
       }
     }
+
+
+    /**
+     * Parameter List method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function science($id = null)
+    {
+      $this->loadModel('Regions');
+      $query = $this->Regions->find()
+        ->where(['reference_designator'=>$id]);
+      $region = $query->first();
+      
+      if (empty($region)) {
+        
+        $regions = $this->paginate($this->Regions);
+        $this->set(compact('regions'));
+        $this->set('_serialize', ['regions']);
+        
+      } else {
+        
+        $this->paginate = ['maxLimit' => 5000, 'limit' => 5000];
+        $query = $this->DataStreams->find()
+          ->select(['reference_designator','method','Streams.name','Parameters.id','Parameters.name','Parameters.unit'])
+          ->where(['LEFT(reference_designator,2)'=>$region->reference_designator])
+          ->matching(
+            'Streams.Parameters', function ($q) {
+              return $q->where(['Parameters.data_product_type' => 'Science Data']);
+            }
+          );
+        $data = $this->paginate($query);
+
+        $_serialize = 'data';
+        $_header = ['reference_designator','method','Streams.name','Parameters.id','Parameters.name','Parameters.unit'];
+        $_extract = ['reference_designator','method',
+          function($row) {
+            return $row['_matchingData']['Streams']['name']; // Approach 1
+          },
+          '_matchingData.Parameters.id','_matchingData.Parameters.name','_matchingData.Parameters.unit']; // Approach 2
+
+        $this->response->download($region->reference_designator . '_sci_parameters.csv');
+        $this->viewBuilder()->className('CsvView.Csv');
+        $this->set(compact('data', '_serialize', '_header', '_extract'));
+        
+      }
+    
+    }
+
 
 }
