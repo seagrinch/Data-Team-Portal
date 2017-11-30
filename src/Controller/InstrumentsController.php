@@ -181,7 +181,7 @@ class InstrumentsController extends AppController
         $this->loadModel('InstrumentStats');
         $query = $this->InstrumentStats->find('all')
           ->where(['reference_designator'=>$instrument->reference_designator])
-          ->select(['date','percentage'=>'status']);
+          ->select(['date','percentage'=>'status','count'=>'status','sum'=>'status']);
         $data = $query->all()->toArray();
         
         $this->set(compact(['data']));
