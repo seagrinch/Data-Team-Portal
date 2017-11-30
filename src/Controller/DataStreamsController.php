@@ -171,7 +171,7 @@ class DataStreamsController extends AppController
         $data = $this->paginate($query);
 
         $_serialize = 'data';
-        $_header = ['reference_designator','method','Streams.name','Parameters.id','Parameters.name','Parameters.unit'];
+        $_header = ['reference_designator','method','stream_name','parameter_id','parameter_name','parameter_unit'];
         $_extract = ['reference_designator','method',
           function($row) {
             return $row['_matchingData']['Streams']['name']; // Approach 1

@@ -1,5 +1,5 @@
 <h3>Data Stream Science Parameters</h3>
-<p>Select a region to download all Data Stream Science Parameters as a CSV file.</p>
+<p>Select a region to download a list of all Data Stream Science Parameters as a CSV file.</p>
 <ul>
   <?php foreach ($regions as $region): ?>
   <li><?= $this->html->link($region->name,['action'=>'science',$region->reference_designator]) ?> (<?= h($region->reference_designator) ?>)</li>
