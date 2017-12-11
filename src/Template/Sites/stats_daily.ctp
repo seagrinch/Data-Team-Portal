@@ -39,3 +39,9 @@
     '_ext'=>'json'])
   ]);
 ?>
+
+<?php if(isset($import_time)): ?>
+<p>Last import: <?= $this->Time->timeAgoInWords($import_time->import_date) ?>
+<?php endif; ?>
+
+<?php echo $this->element('stats_caveat'); ?>

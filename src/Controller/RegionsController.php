@@ -93,8 +93,11 @@ class RegionsController extends AppController
         
       } else {
         
-        $this->set(compact(['region']));
+        $this->loadModel('ImportLog');
+        $import_time = $this->ImportLog->findByName('instrument_stats')->first();
+        $this->set(compact(['region','import_time']));
         $this->set('_serialize', ['dataStream']);
+        
       }
     }
     
@@ -144,8 +147,11 @@ class RegionsController extends AppController
         
       } else {
         
-        $this->set(compact(['region']));
+        $this->loadModel('ImportLog');
+        $import_time = $this->ImportLog->findByName('instrument_stats')->first();        
+        $this->set(compact(['region','import_time']));
         $this->set('_serialize', ['dataStream']);
+        
       }
     }
 
@@ -157,7 +163,7 @@ class RegionsController extends AppController
      */
     public function arrayDaily()
     {
-//       if ($this->request->is('json') ) { 
+       if ($this->request->is('json') ) { 
         $this->loadModel('InstrumentStats');
         $query = $this->InstrumentStats->find('all');
         $query->select(['date', 
@@ -175,7 +181,14 @@ class RegionsController extends AppController
         $this->set(compact(['data']));
         $this->set('_serialize', false);
         
-//       }
+      } else {  
+        
+        $this->loadModel('ImportLog');
+        $import_time = $this->ImportLog->findByName('instrument_stats')->first();
+        
+        $this->set(compact(['import_time']));
+        
+      }
     }
 
 
@@ -211,7 +224,14 @@ class RegionsController extends AppController
         $this->set(compact(['data']));
         $this->set('_serialize', false);
         
-       }
+      } else {
+        
+        $this->loadModel('ImportLog');
+        $import_time = $this->ImportLog->findByName('instrument_stats')->first();
+        
+        $this->set(compact(['import_time']));
+        
+      }
     }
     
 }

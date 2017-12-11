@@ -132,9 +132,15 @@ class DataStreamsController extends AppController
         
         $this->set(compact(['data']));
         $this->set('_serialize', false);
+        
       } else {
-        $this->set(compact(['dataStream']));
+        
+        $this->loadModel('ImportLog');
+        $import_time = $this->ImportLog->findByName('stream_stats')->first();
+        
+        $this->set(compact(['dataStream','import_time']));
         $this->set('_serialize', ['dataStream']);
+        
       }
     }
 
@@ -183,7 +189,6 @@ class DataStreamsController extends AppController
         $this->set(compact('data', '_serialize', '_header', '_extract'));
         
       }
-    
     }
 
 

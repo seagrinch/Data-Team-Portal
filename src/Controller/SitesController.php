@@ -151,8 +151,12 @@ class SitesController extends AppController
         
       } else {
         
-        $this->set(compact(['site']));
+        $this->loadModel('ImportLog');
+        $import_time = $this->ImportLog->findByName('instrument_stats')->first();
+        
+        $this->set(compact(['site','import_time']));
         $this->set('_serialize', ['dataStream']);
+        
       }
     }
     
@@ -196,9 +200,13 @@ class SitesController extends AppController
         $this->set('_serialize', false);
                 
       } else {
+
+        $this->loadModel('ImportLog');
+        $import_time = $this->ImportLog->findByName('instrument_stats')->first();
         
-        $this->set(compact(['site']));
+        $this->set(compact(['site','import_time']));
         $this->set('_serialize', ['dataStream']);
+        
       }
     }
 
