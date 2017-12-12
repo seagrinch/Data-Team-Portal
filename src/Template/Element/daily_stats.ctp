@@ -3,6 +3,8 @@
 
 <?php $this->Html->script('https://d3js.org/d3.v4.min.js',['block'=>true]); ?>
 <?php $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js',['block'=>true]); ?>
+<?php $this->Html->script('https://d3js.org/d3-scale-chromatic.v1.min.js',['block'=>true]); ?>
+
 <?php $this->Html->scriptStart(['block' => true]); ?>
 
 var width = 960,
@@ -11,22 +13,27 @@ var width = 960,
 
 var formatPercent = d3.format(".0%");
 
-var color = d3.scaleLinear() //alternately use scaleQuantize()
-    .domain([0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1])
+//var color = d3.scaleLinear() //alternately use scaleQuantize()
+//    .domain([0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1])
     //.range(['#d7191c', '#f7fbff','#deebf7','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#08519c','#08306b'])
     //.range(["#d7191c", "#ffffbf", "#2c7bb6"]);
     //.range(['#f7feae','#b7e6a5','#7ccba2','#46aea0','#089099','#00718b','#045275']); // From https://carto.com/carto-colors/
-    .range(['#AB653B','#A67232','#9C8030','#8E8E35','#7D9A44','#68A65B','#50B076','#33B895','#1BBFB5','#30C4D2','#5FC6EB']); //http://tristen.ca/hcl-picker/#/hlc/11/1.08/5EC6EB/AB653B
+//    .range(['#AB653B','#A67232','#9C8030','#8E8E35','#7D9A44','#68A65B','#50B076','#33B895','#1BBFB5','#30C4D2','#5FC6EB']); //http://tristen.ca/hcl-picker/#/hlc/11/1.08/5EC6EB/AB653B
+
+var color = d3.scaleSequential(d3.interpolateBlues)
+      .domain([0,1]);
 
 var svg = d3.select("#chart_div")
   .selectAll("svg")
-  .data(d3.range(2013, 2018))
+  .data(d3.range(2013, 2019))
   .enter().append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
+    .attr('class','year')
     .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
 
+// Year Labels
 svg.append("text")
     .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
     .attr("font-family", "sans-serif")
@@ -34,6 +41,7 @@ svg.append("text")
     .attr("text-anchor", "middle")
     .text(function(d) { return d; });
 
+// Daily boxex
 var rect = svg.append("g")
     .attr("fill", "none")
     .attr("stroke", "#ccc")
@@ -46,6 +54,7 @@ var rect = svg.append("g")
     .attr("y", function(d) { return d.getDay() * cellSize; })
     .datum(d3.timeFormat("%Y-%m-%d"));
 
+// Month outlines
 svg.append("g")
     .attr("fill", "none")
     .attr("stroke", "#000")
@@ -53,6 +62,20 @@ svg.append("g")
   .data(function(d) { return d3.timeMonths(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
   .enter().append("path")
     .attr("d", pathMonth);
+
+// Month labels
+var month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+svg.append('g')
+  .selectAll('text')
+  .data(function(d) { return d3.timeMonths(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+  .enter().append('text')
+    .text(function (d,i) { return month[i]; })
+    .attr("font-family", "sans-serif")
+    .attr("font-size", 10)
+    .attr('transform', function (d, i) { 
+      return 'translate(' + (d3.timeWeek.count(d3.timeYear(d), d) +1)* cellSize + ',-5)'; 
+    });
 
 d3.json('<?=$data_url?>', function(error, json_data) {
   if (error) throw error;
