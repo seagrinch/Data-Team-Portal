@@ -38,10 +38,16 @@ class InstrumentsController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index($site=null) {
+    public function index($site=null,$status=null) {
+      $this->paginate = [
+        'contain' => 'Nodes.Sites.Regions'
+      ];
       $query = $this->Instruments->find('all');
       if ($site) {
         $query->where(['parent_node LIKE'=>$site.'%']);
+      }
+      if ($status) {
+        $query->where(['Instruments.current_status'=>$status]);
       }
       if ($this->request->is('json') ) { //Formerly ajax
         $this->paginate = [
