@@ -1,7 +1,7 @@
 <div id='chart_div'></div>
 
 <?php $this->Html->script('https://d3js.org/d3.v4.min.js',['block'=>true]); ?>
-<?php $this->Html->script('https://unpkg.com/d3-summary-tiles/build/d3-summary-tiles.min.js',['block'=>true]); ?>
+<?php $this->Html->script('d3-summary-tiles',['block'=>true]); ?>
 
 <?php $this->Html->scriptStart(['block' => true]); ?>
 // Adapted from https://github.com/madams1/d3-summary-tiles
@@ -18,7 +18,7 @@ d3.json('<?=$data_url?>', function(error, json_data) {
       case 8:
         window.open('/sites/stats-monthly/'+rd,'_self');
         break;
-      case 27:
+      case 27: // Add capitalization check to make sure it's a reference designator?
         window.open('/instruments/stats-monthly/'+rd,'_self');
         break;
     }
@@ -36,7 +36,7 @@ d3.json('<?=$data_url?>', function(error, json_data) {
       .fill("percentage")
       .tileWidth(20)
       .tileHeight(20)
-      //.tooltipWidth()
+      .tooltipWidth(320)
       .numberFormat( d3.format(".0%") )
       .legendTitle('Daily Coverage')
       .colorScheme("Blues")

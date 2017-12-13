@@ -1,9 +1,68 @@
 <div id='chart_div'></div>
 <div id='legend_div'></div>
 
+<style type="text/css">
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Northward tooltips */
+.d3-tip.n:after {
+  content: "\25BC";
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+  text-align: center;
+}
+
+/* Eastward tooltips */
+.d3-tip.e:after {
+  content: "\25C0";
+  margin: -4px 0 0 0;
+  top: 50%;
+  left: -8px;
+}
+
+/* Southward tooltips */
+.d3-tip.s:after {
+  content: "\25B2";
+  margin: 0 0 1px 0;
+  top: -8px;
+  left: 0;
+  text-align: center;
+}
+
+/* Westward tooltips */
+.d3-tip.w:after {
+  content: "\25B6";
+  margin: -4px 0 0 -1px;
+  top: 50%;
+  left: 100%;
+}
+</style>
+
 <?php $this->Html->script('https://d3js.org/d3.v4.min.js',['block'=>true]); ?>
 <?php $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js',['block'=>true]); ?>
 <?php $this->Html->script('https://d3js.org/d3-scale-chromatic.v1.min.js',['block'=>true]); ?>
+<?php $this->Html->script('d3-tip',['block'=>true]); ?>
 
 <?php $this->Html->scriptStart(['block' => true]); ?>
 
@@ -33,6 +92,10 @@ var svg = d3.select("#chart_div")
     .attr('class','year')
     .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
 
+// Initialize tooltip 
+var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
+svg.call(tip)
+
 // Year Labels
 svg.append("text")
     .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
@@ -41,7 +104,7 @@ svg.append("text")
     .attr("text-anchor", "middle")
     .text(function(d) { return d; });
 
-// Daily boxex
+// Daily boxes
 var rect = svg.append("g")
     .attr("fill", "none")
     .attr("stroke", "#ccc")
@@ -77,6 +140,7 @@ svg.append('g')
       return 'translate(' + (d3.timeWeek.count(d3.timeYear(d), d) +1)* cellSize + ',-5)'; 
     });
 
+
 d3.json('<?=$data_url?>', function(error, json_data) {
   if (error) throw error;
 
@@ -91,8 +155,12 @@ d3.json('<?=$data_url?>', function(error, json_data) {
   rect.filter(function(d) { return d in data; })
       .attr("fill", function(d) { return color(data[d].percentage); })
       .attr("opacity",.5)
-    .append("title")
-      .text(function(d) { return d + ": " + formatPercent(data[d].percentage) + ' (' + data[d].sum + '/' + data[d].count + ')'; });
+    .on('mouseover', function(d, i) {
+      tip.show( d + ": " + formatPercent(data[d].percentage) + ' (' + data[d].sum + '/' + data[d].count + ')' )
+    })
+    .on('mouseout', tip.hide)
+    //.append("title")
+    //  .text(function(d) { return d + ": " + formatPercent(data[d].percentage) + ' (' + data[d].sum + '/' + data[d].count + ')'; });
 
 });
 
@@ -107,8 +175,8 @@ function pathMonth(t0) {
       + "H" + (w0 + 1) * cellSize + "Z";
 }
 
-// Legend
 
+// Legend
 var svg2 = d3.select("#legend_div")
   .append('svg')
   .attr("width", width)
@@ -127,5 +195,6 @@ var legendLinear = d3.legendColor()
 
 svg2.select(".legendLinear")
   .call(legendLinear);
+
 
 <?php $this->Html->scriptEnd(); ?>
