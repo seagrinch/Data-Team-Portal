@@ -37,13 +37,15 @@
     <h3>Data Team Reviews</h3>
     <ul>
       <li><?php echo $this->Html->link('Cruise Reviews',['controller'=>'CruiseReviews'])?></li>
+      <li><?php echo $this->Html->link('Deployment Reviews',['controller'=>'DeploymentReviews'])?> (deprecated?)</li>
       <li><?php echo $this->Html->link('Notes',['controller'=>'Notes'])?></li>
       <li><?php echo $this->Html->link('Test Runs',['controller'=>'TestRuns'])?> (deprecated)</li>
       <li>Data Review Reports (?)</li>
-      <li><?php echo $this->Html->link('Science Parameters',['controller'=>'data-streams','action'=>'science'])?></li>
+      <li><?php echo $this->Html->link('Science Parameters',['controller'=>'data-streams','action'=>'science'])?> - Auto generated lists of all science parameters expected in the system.</li>
     </ul>
 
-    <h3>Annotations  <a href="https://github.com/ooi-data-review/annotations"><small>GitHub <span class="glyphicon glyphicon-link" aria-hidden="true"></span></small></a></h3>
+    <h3>Annotations</h3>
+    <p>Annotations are now pulled directly from uFrame, however they are cached in this system periodically via script.  When the uFrame supports filtering b reference designator, this can be done dynamically.</p>
 
     <h3>Ingestion Information  <a href="https://github.com/ooi-integration/ingestion-csvs"><small>GitHub <span class="glyphicon glyphicon-link" aria-hidden="true"></span></small></a></h3>
     <ul>

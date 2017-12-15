@@ -1,30 +1,30 @@
 <?php 
   $icons = [
-    'AVAILABLE' => [
+    'available' => [
       'icon'=>'glyphicon-ok-sign', 
       'title'=>'Available', 
       'color'=>'green'],
-    'FAIL' => [
+    'fail' => [
       'icon'=>'glyphicon-remove', 
       'title'=>'Fail', 
       'color'=>'red'],
-    'NOT_AVAILABLE' => [
+    'not_available' => [
       'icon'=>'glyphicon-remove', 
       'title'=>'Not Available', 
       'color'=>'gray'],
-    'NOT_EVALUATED' => [
+    'not_evaluated' => [
       'icon'=>'glyphicon-question-sign', 
       'title'=>'Not Evaluated', 
       'color'=>'steelblue'],
-    'NOT_OPERATIONAL' => [
+    'not_operational' => [
       'icon'=>'glyphicon-remove', 
       'title'=>'Not Operational', 
       'color'=>'red'],
-    'PENDING_INGEST' => [
+    'pending_ingest' => [
       'icon'=>'glyphicon-question-sign', 
       'title'=>'Pending Ingest', 
       'color'=>'lightgray'],
-    'SUSPECT' => [
+    'suspect' => [
       'icon'=>'glyphicon-question-sign', 
       'title'=>'Suspect', 
       'color'=>'orange'],
@@ -46,22 +46,16 @@
   </thead>
   <tbody>
   <?php foreach ($annotations as $annotation): 
-    if (array_key_exists($annotation->status,$icons)) {
-      $icon = $icons[$annotation->status];
+    if (array_key_exists($annotation->qcFlag,$icons)) {
+      $icon = $icons[$annotation->qcFlag];
     } else {
       $icon = $icons[''];
     }
   ?>
   <tr>
     <td>
-      <span class="glyphicon <?= $icon['icon']?>" style="font-size: 1.0em; color:<?= $icon['color']?>;" aria-hidden="true" title=<?=$icon['title']?>></span> 
+      <span class="glyphicon <?= $icon['icon']?>" style="font-size: 1.0em; color:<?= $icon['color']?>;" aria-hidden="true" title="<?=$icon['title']?>"></span> 
       <small><?=$annotation->reference_designator?><br />
-      <?php if ($annotation->status): ?>
-        <strong>Status:</strong> <?= h($annotation->status) ?> <br />
-      <?php endif; ?> 
-      <?php if ($annotation->deployment): ?>
-        <strong>Deployment:</strong> <?= h($annotation->deployment) ?> <br />
-      <?php endif; ?> 
       <?php if ($annotation->method): ?>
         <strong>Method:</strong> <?= h($annotation->method)?> <br />
       <?php endif; ?>
@@ -89,18 +83,14 @@
         <span class="text-danger"><strong>Todo:</strong> <?= h($annotation->todo); ?></span>
       <?php endif; ?> 
       <p><small>
-        <?php if ($annotation->reviewed_by): ?>
-          <em>By <?= $annotation->reviewed_by ?>, 
+          <strong>Id:</strong> <?= $annotation->id ?></em> 
+        <?php if ($annotation->source): ?>
+          <strong>By:</strong> <?= explode('@',$annotation->source)[0] ?></em>
         <?php endif; ?> 
-        <?= $this->Time->timeAgoInWords($annotation->reviewed_date) ?></em>
-        <?php if ($annotation->redmine_issue): 
-          $issues = explode(',',$annotation->redmine_issue);
-        ?>
+        <?php if ($annotation->qcFlag): ?>
           <br />
-          <strong>Redmine Issue</strong> 
-          <?php foreach ($issues as $issue): ?>
-          <a href="https://uframe-cm.ooi.rutgers.edu/issues/<?= $issue?>">#<?= trim($issue)?> <span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>
-          <?php endforeach; ?> 
+          <strong>Flag:</strong> <?=h($annotation->qcFlag)?> 
+          <strong>Exclude:</strong> <?=($annotation->exclusionFlag?'Yes':'No')?>
         <?php endif; ?> 
       </small></p>
     </td>

@@ -42,21 +42,21 @@
     $data_annotations = [
       'measure'=>'Annotations',
       'categories'=>[
-        'AVAILABLE'=>['color'=>'green'],
-        'FAIL'=>['color'=>'red'],
-        'NOT_AVAILABLE'=>['color'=>'gray'],
-        'NOT_EVALUATED'=>['color'=>'steelblue'],
-        'NOT_OPERATIONAL'=>['color'=>'red'],
-        'PENDING_INGEST'=>['color'=>'lightgray'],
-        'SUSPECT'=>['color'=>'orange'],
-        'Unknown'=>['color'=>'gray'],
+        'available'=>['color'=>'green'],
+        'fail'=>['color'=>'red'],
+        'not_available'=>['color'=>'gray'],
+        'not_evaluated'=>['color'=>'steelblue'],
+        'not_operational'=>['color'=>'red'],
+        'pending_ingest'=>['color'=>'lightgray'],
+        'suspect'=>['color'=>'orange'],
+        'Unknown'=>['color'=>'lightgrey'],
       ]
     ];
     foreach ($annotations as $a) {
       if ($a->start_datetime) {
         $data_annotations['data'][] = [
           $this->Time->i18nFormat($a->start_datetime,'yyyy-MM-dd HH:mm:ss'), 
-          ($a->status) ? $a->status : 'Unknown', 
+          ($a->qcFlag) ? $a->qcFlag : 'Unknown', 
           ($a->end_datetime) ? $this->Time->i18nFormat($a->end_datetime,'yyyy-MM-dd HH:mm:ss') : date("Y-m-d H:i:s")];
       }
     }

@@ -46,8 +46,6 @@ class AnnotationsTable extends Table
         $validator
             ->notEmpty('reference_designator', 'A reference_designator is required');
         $validator
-            ->allowEmpty('deployment');
-        $validator
             ->allowEmpty('method');
         $validator
             ->allowEmpty('stream');
@@ -60,22 +58,14 @@ class AnnotationsTable extends Table
             ->notEmpty('end_date');
         $validator
             ->notEmpty('annotation', 'An annotation is required');
-        $validator
-            ->notEmpty('status');
             
         $validator
-            ->allowEmpty('redmine_issue');
+            ->allowEmpty('exclusionFlag');
         $validator
-            ->allowEmpty('todo');
+            ->allowEmpty('qcFlag');
         $validator
-            ->allowEmpty('reviewed_by');
-        $validator
-            ->allowEmpty('reviewed_date');
-            
-        $validator
-            ->integer('uframe_id','Must be an integer')
-            ->allowEmpty('uframe_id');
-
+            ->allowEmpty('source');
+        
         return $validator;
     }
 

@@ -61,6 +61,7 @@ class NodesController extends AppController
       
       $annotations = $this->Nodes->Annotations->find('all')
         ->where(['reference_designator'=> $node->reference_designator])
+        ->orWhere(['reference_designator'=> $node->site->reference_designator])
         ->order(['start_datetime'=>'ASC']);
       $node->annotations = $annotations;
 
