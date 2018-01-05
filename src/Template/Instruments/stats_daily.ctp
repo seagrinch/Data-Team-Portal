@@ -34,7 +34,7 @@
 
 
 <!-- Stats Graph -->
-<?php echo $this->element('daily_stats', 
+<?php echo $this->element('daily_stats_instrument', 
   ['data_url'=>$this->Url->build([
     'controller'=>'instruments',
     'action'=>'statsDaily',
@@ -47,4 +47,4 @@
 <p>Last import: <?= $this->Time->timeAgoInWords($import_time->import_date) ?>
 <?php endif; ?>
 
-<?php echo $this->element('stats_caveat'); ?>
+<?php echo $this->element('stats_caveat_instrument'); ?>

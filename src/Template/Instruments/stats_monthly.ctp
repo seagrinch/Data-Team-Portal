@@ -47,4 +47,4 @@
 <p>Last import: <?= $this->Time->timeAgoInWords($import_time->import_date) ?>
 <?php endif; ?>
 
-<?php echo $this->element('stats_caveat'); ?>
+<?php echo $this->element('stats_caveat_instrument'); ?>

@@ -1,8 +1,15 @@
-<h3>Caveats</h3>
-<p><em>Note, work on these statistics is still in progress, but is based on the latest information from the system.</em></p>
+<h3>Explanation</h3>
 
-<p>Monthly statistics are calculated by totaling the number of days each instrument has at least 5 data points (of any stream type) in the system, and dividing that by the number of days each instrument was deployed according to Asset Management.  The deployment information does not necessarily take failures, early recoveries, or Cabled analytical data into account.  Click on the <em>Daily Stats</em> option to see the totals for each day, or click on a row to drill down through the Array/Site/Instrument hierarchy.</p>
+<p><strong>Daily Stats</strong> show as the percent of the number of instruments that have data in the system on that day, divided the number of instruments that were deployed that day.</p>
 
-<p>Daily statistics are calculated in much the same way.  At the instrument level, they simply show the days for which an instrument has data available in the system (i.e. 0% or 100% if the instrument was deployed, and nothing if it wasn't).  At the Array/Site/Node levels, the percentages show the number of instruments that have data in the system on that day, divided the number of instruments that were deployed that day.</p>
+<p><strong>Monthly Stats</strong> are calculated by totaling the number of days each instrument has at least 5 data points (of any science stream type) in the system, and dividing that by the number of days each instrument was deployed in a given month.
 
-<p>These statistics only include science streams, and do not include engineering-only instruments (e.g. CPMEN).  Instruments that are not currently ingested into the uFrame system are also not included.  That applies to OBSSP/OBSBB, HYDBB, HYDLF, ZPLSC, ZPLSG, or CAMHD, which are delivered only via the Raw Data Archive or are sent directly to IRIS. Certain analytical data products (e.g. FLOBN, RASFL, OSMOI, PPSDN) and data products with an in-development driver or parser (e.g. MASSP, FLORT-D) are supposed to be parsed and ingested into the system, but are also not yet included in the statistics above.  These missing datasets do lower delivery percentages for the nodes to which those instruments are attached. That means that some availability percentages are an indication of work-to-go, rather than an operational failure.</p>
+<h3>What is not included?</h3>
+
+<p>These statistics only include science streams, and do not include engineering-only instruments (e.g. CPMEN).</p>
+
+<p>Instruments that are not currently ingested into the uFrame system are also not included. That applies to OBSSP/OBSBB, HYDBB, HYDLF, ZPLSC, ZPLSG, or CAMHD, which are delivered only via the Raw Data Archive or are sent directly to IRIS.</p>
+
+<p>Certain analytical data products (e.g. FLOBN, RASFL, OSMOI, PPSDN) and data products with an in-development driver or parser (e.g. MASSP, FLORT-D) are supposed to be parsed and ingested into the system, but are also not yet included in the statistics above. These missing datasets do lower delivery percentages for the nodes to which those instruments are attached. That means that some availability percentages are an indication of work-to-go, rather than a potential operational failure.</p>
+
+<p><em>Disclaimer: Work to produce these statistics is undergoing active development. Statistics are based on the current state of information in the OOI CI system and may not reflect operational events that have not yet been captured by the CI system. The deployment information does not necessarily take instrument failures or the interruption of data transmission into account. The information provided is not official and should be considered advisory only.</em></p>
