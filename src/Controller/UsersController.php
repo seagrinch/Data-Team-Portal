@@ -44,6 +44,16 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
+                if($this->request->data('remember_me')) {
+                  $this->Cookie->configKey('CookieAuth', [
+                    'expires' => '+1 month',
+                    'httpOnly' => true
+                  ]);
+                  $this->Cookie->write('CookieAuth', [
+                    'username' => $this->request->data('username'),
+                    'password' => $this->request->data('password')
+                  ]);
+                }
                 $this->Flash->success(__('You have successfully logged in.'));
                 return $this->redirect($this->Auth->redirectUrl());
             }

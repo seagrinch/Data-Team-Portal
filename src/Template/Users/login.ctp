@@ -6,6 +6,7 @@
             <legend><?= __('Please log in') ?></legend>
             <?= $this->Form->input('username') ?>
             <?= $this->Form->input('password') ?>
+            <?= $this->Form->input('remember_me',['type'=>'checkbox']); ?>
         </fieldset>
     <?= $this->Form->button(__('Sign in')); ?>
     <?= $this->Form->end() ?>

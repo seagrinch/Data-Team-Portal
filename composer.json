@@ -12,7 +12,8 @@
         "cakephp/plugin-installer": "*",
         "friendsofcake/bootstrap-ui": "^0.6.1",
         "friendsofcake/cakephp-csvview": "~3.0",
-        "netcarver/textile": "3.5.*"
+        "netcarver/textile": "3.5.*",
+        "xety/cake3-cookieauth": "1.*"
     },
     "require-dev": {
         "psy/psysh": "@stable",

@@ -224,3 +224,5 @@ Type::build('datetime')
 Plugin::load('BootstrapUI');
 
 Plugin::load('CsvView');
+
+Plugin::load('Xety/Cake3CookieAuth');

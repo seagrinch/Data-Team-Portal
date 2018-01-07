@@ -27,7 +27,6 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
-
     /**
      * Initialization hook method.
      *
@@ -43,12 +42,17 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
+        $this->loadComponent('Cookie');
         $this->loadComponent('Auth', [
             'authorize' => ['Controller'], 
             'loginAction' => ['prefix'=>false, 'controller'=>'Users', 'action'=>'login'],
             'loginRedirect' => ['prefix'=>false, 'controller' => 'Regions', 'action' => 'index'],
             'logoutRedirect' => ['prefix'=>false, 'controller' => 'Regions', 'action' => 'index'],
             'flash' => ['element' => 'error','key' => 'auth'], //Bootstrap
+            'authenticate' => [
+              'Form',
+              'Xety/Cake3CookieAuth.Cookie'
+            ]
         ]);
     }
 
@@ -68,10 +72,20 @@ class AppController extends Controller
         if (empty($this->request->params['prefix'])) {
             $this->Auth->allow(['index', 'view', 'display']);
         }
+        //Automaticaly Login.
+        if (!$this->Auth->user() && $this->Cookie->read('CookieAuth')) {
+            $user = $this->Auth->identify();
+            if ($user) {
+                $this->Auth->setUser($user);
+            } else {
+                $this->Cookie->delete('CookieAuth');
+            }
+        }
         //Disable auth messages when not yet logged in.
         if (!$this->Auth->user()) {
             $this->Auth->config('authError', false);
         }
+        
     }
     
     /**
