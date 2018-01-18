@@ -1,6 +1,6 @@
 <h3>Explanation</h3>
 
-<p><strong>Daily Stats</strong> show as the percent of the number of instruments that have data in the system on that day, divided the number of instruments that were deployed that day.</p>
+<p><strong>Daily Stats</strong> show the percent of the instruments that have data in the system on that day, divided by the number of instruments that were in the water on that day.</p>
 
 <p><strong>Monthly Stats</strong> are calculated by totaling the number of days each instrument has at least 5 data points (of any science stream type) in the system, and dividing that by the number of days each instrument was deployed in a given month.
 
