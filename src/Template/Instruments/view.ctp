@@ -78,6 +78,15 @@
 
   </div>
 </div>
+<dl class="dl-horizontal">
+  <dt>M2M Example <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="You can add /times or /parameters to subset this list. You can also remove /metadata to get the list of available streams."></span></dt>
+  <dd>
+    <?php echo sprintf("https://ooinet.oceanobservatories.org/api/m2m/12576/sensor/inv/%s/%s/%s/metadata", 
+      $instrument->node->site->reference_designator,
+      substr($instrument->reference_designator,9,5),
+      substr($instrument->reference_designator,15,12) ); ?>
+  </dd>
+</dl>
 
 
 <!-- Stats Graph -->
@@ -117,12 +126,25 @@
               <?= $this->Html->link('Report <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
                 ['controller'=>'data-streams', 'action' => 'view', $s->id],
                 ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
-              <?= $this->Html->link('Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
-                ['controller'=>'data-streams', 'action' => 'stats-daily', $s->id],
-                ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
-              <?= $this->Html->link('Plot <span class="glyphicon glyphicon-signal" aria-hidden="true">', 
-                ['controller'=>'data-streams', 'action' => 'plot', $s->id],
-                ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
+              <?= $this->Html->link('M2M <span class="glyphicon glyphicon-lamp" aria-hidden="true">', 
+                  sprintf("https://ooinet.oceanobservatories.org/api/m2m/12576/sensor/inv/%s/%s/%s/%s/%s?beginDT=%s&endDT=%s&limit=1000", 
+                    $instrument->node->site->reference_designator,
+                    substr($instrument->reference_designator,9,5),
+                    substr($instrument->reference_designator,15,12),
+                    $s->method,
+                    $s->stream_name,
+                    date_create('1 day ago')->format('Y-m-d\TH:i:s.\0\0\0\Z'),
+                    date_create('now')->format('Y-m-d\TH:i:s.\0\0\0\Z') ),
+                  ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
+              <?php
+                if ($s->stream->stream_type=='Science') {
+                  echo $this->Html->link('Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+                    ['controller'=>'data-streams', 'action' => 'stats-daily', $s->id],
+                    ['class'=>'btn btn-default btn-xs','escape'=>false]);
+                  //echo $this->Html->link('Plot <span class="glyphicon glyphicon-signal" aria-hidden="true">', 
+                  //  ['controller'=>'data-streams', 'action' => 'plot', $s->id],
+                  //  ['class'=>'btn btn-default btn-xs','escape'=>false]);
+                } ?>
 <!--
               <?= $this->Html->link('Parameters <span class="glyphicon glyphicon-list-alt" aria-hidden="true">', 
                 '#',
