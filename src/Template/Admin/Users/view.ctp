@@ -1,5 +1,6 @@
 <ol class="breadcrumb">
-  <li><?= $this->Html->link(__('Users'), ['controller'=>'Users', 'action' => 'index']) ?></li>
+  <li><?= $this->Html->link('Users', ['controller'=>'Users', 'action'=>'index', 'prefix'=>false]) ?></li>
+  <li><?= $this->Html->link('Admin', ['controller'=>'Users', 'action'=>'index']) ?></li>  
   <li class="active"><?= h($user->full_name) ?></li>
 </ol>
 

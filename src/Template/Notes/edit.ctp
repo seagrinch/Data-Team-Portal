@@ -4,9 +4,6 @@
   <li class="active">Edit</li>
 </ol>
 
-<div class="pull-right"><?= $this->Form->postLink(__('Delete Note'), ['action' => 'delete', $note->id], ['confirm' => __('Are you sure you want to delete the note for {0}?', $note->reference_designator), 'class'=>'btn btn-danger']) ?></div>
-<div class="clearfix"></div>
-
 <?php 
   $deployments =[];
   foreach ($note->deployments as $d) {
@@ -30,11 +27,17 @@
       </dl>
       
       <?php
+      echo $this->Form->input('type',['label'=>'Note Type',
+        'options'=>[
+          'note'=>'Operational Note',
+          'issue'=>'Open Issue',
+          'resolved'=>'Resolved Issue',
+        ],'empty'=>true]);
       echo $this->Form->input('deployment',[
         'empty'=>true,
         'type'=>'select' ] );
       echo $this->Form->input('asset_uid',['label'=>[
-        'text'=>'Asset ID <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Asset UID."></span>', 
+        'text'=>'Asset ID <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Asset UID. This will automatically update based on the selected deployment."></span>', 
         'escape'=>false] ] );
       echo $this->Form->input('start_date',[
         'type'=>'text',
@@ -65,20 +68,27 @@
         'options'=>[
           'Available'=>'Available',
           'Not Operational'=>'Not Operational',
+          'Not Available'=>'Not Available',
+          'Pending Ingest'=>'Pending Ingest',
+          'Not Evaluated'=>'Not Evaluated',
+          'Suspect'=>'Suspect',
           'Failed'=>'Failed',
-          'Open Issue'=>'Open Issue',
-          'Resolved'=>'Resolved Issue',
+          'Pass'=>'Pass',
         ],'empty'=>true]);
       ?>
 
+      <div class="pull-right">
       <?= $this->Html->link('Cancel', ['controller'=>$note->model, 'action' => 'view', $note->reference_designator, '#'=>'notes'], ['class'=>'btn btn-default']); ?> 
       <?= $this->Form->button(__('Save Changes'),['class'=>'btn btn-primary']) ?> 
-
+      </div>
+      
     </div>
   </div>
 </fieldset>
     
 <?= $this->Form->end() ?>
+
+<?= $this->Form->postLink(__('Delete Note'), ['action' => 'delete', $note->id], ['confirm' => __('Are you sure you want to delete the note for {0}?', $note->reference_designator), 'class'=>'btn btn-danger']) ?>
 
 <?php $this->Html->css('datepicker/bootstrap-datepicker3',['block'=>true]); ?>
 <?php $this->Html->script('datepicker/bootstrap-datepicker',['block'=>true]); ?>

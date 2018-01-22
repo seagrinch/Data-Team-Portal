@@ -71,7 +71,7 @@
         <?php endif; ?>
         <?php if ($note->redmine_issue): ?>
           <br />
-          <strong>Redmine Issue</strong> <a href="https://uframe-cm.ooi.rutgers.edu/issues/<?= $note->redmine_issue?>">#<?= $note->redmine_issue?> <span class="glyphicon glyphicon-link" aria-hidden="true"></span></a> 
+          <strong>Redmine Issue</strong> <a href="https://redmine.oceanobservatories.org/issues/<?= $note->redmine_issue?>">#<?= $note->redmine_issue?> <span class="glyphicon glyphicon-link" aria-hidden="true"></span></a> 
         <?php endif; ?> 
         <?php if ($note->resolved_date): ?>
           <br />

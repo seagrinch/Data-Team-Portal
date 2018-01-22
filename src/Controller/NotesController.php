@@ -112,7 +112,7 @@ class NotesController extends AppController
         
         if ($this->request->is('post')) {
             $note = $this->Notes->patchEntity($note, $this->request->data, [
-              'fieldList'=>['comment','status','deployment','asset_uid','start_date','end_date','redmine_issue']
+              'fieldList'=>['type','comment','status','deployment','asset_uid','start_date','end_date','redmine_issue']
             ]);
             $note->user_id = $this->Auth->user('id');
             if ($this->Notes->save($note)) {
@@ -146,7 +146,7 @@ class NotesController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $note = $this->Notes->patchEntity($note, $this->request->data, [
-              'fieldList'=>['user_id','comment','status','deployment','asset_uid','start_date','end_date','redmine_issue','resolved_date']
+              'fieldList'=>['user_id','type','comment','status','deployment','asset_uid','start_date','end_date','redmine_issue','resolved_date']
             ]);
             if ($this->Notes->save($note)) {
                 $this->Flash->success(__('The note has been updated.'));

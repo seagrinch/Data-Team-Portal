@@ -26,6 +26,12 @@
       </dl>
       
       <?php
+      echo $this->Form->input('type',['label'=>'Note Type',
+        'options'=>[
+          'note'=>'Operational Note',
+          'issue'=>'Open Issue',
+          'resolved'=>'Resolved Issue',
+        ],'empty'=>true]);
       //use Cake\Utility\Hash;
       echo $this->Form->input('deployment',[
         //'label'=>[
@@ -38,7 +44,7 @@
         'empty'=>true,
         'type'=>'select' ] );
       echo $this->Form->input('asset_uid',['label'=>[
-        'text'=>'Asset ID <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Asset UID."></span>', 
+        'text'=>'Asset ID <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Asset UID. This will automatically update based on the selected deployment."></span>', 
         'escape'=>false] ] );
       echo $this->Form->input('start_date',[
         'type'=>'text',
@@ -60,9 +66,12 @@
         'options'=>[
           'Available'=>'Available',
           'Not Operational'=>'Not Operational',
+          'Not Available'=>'Not Available',
+          'Pending Ingest'=>'Pending Ingest',
+          'Not Evaluated'=>'Not Evaluated',
+          'Suspect'=>'Suspect',
           'Failed'=>'Failed',
-          'Open Issue'=>'Open Issue',
-          'Resolved'=>'Resolved Issue',
+          'Pass'=>'Pass',
         ],'empty'=>true]);
       ?>
 

@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 use Cake\Event\Event;
 use Cake\Mailer\MailerAwareTrait;
 
@@ -22,6 +23,7 @@ class UsersController extends AppController
     {
         parent::beforeFilter($event);
         $this->Auth->allow(['logout','requestResetPassword','resetPassword']);
+        $this->Auth->deny(['index','view']);
     }
 
     /**
@@ -29,7 +31,7 @@ class UsersController extends AppController
      */
     public function isAuthorized($user)
     {
-        if (in_array($this->request->action, ['profile', 'update'])) {
+        if (in_array($this->request->action, ['profile', 'update','index','view'])) {
             return true;
         }        
         return parent::isAuthorized($user);
@@ -74,8 +76,42 @@ class UsersController extends AppController
      */
     public function index()
     {
-        return $this->redirect(['action'=>'profile']);
+        $users = $this->paginate($this->Users);
+
+        $this->set(compact('users'));
+        $this->set('_serialize', ['users']);
     }
+
+
+    /**
+     * View method
+     *
+     * @param string|null $id Region id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($username = null) {
+      $query = $this->Users->findByUsername($username);
+      $user = $query->first();
+      if (empty($user)) {
+          throw new NotFoundException(__('User not found'));
+      }
+      
+      $notes = $this->Users->Notes->find('all')
+        ->where(['user_id'=> $user['id'], 'type'=>'issue'])
+        ->order(['modified'=>'DESC']);
+      $user->notes = $notes;
+      
+      $cruise_reviews = $this->Users->CruiseReviews->find('all')
+        ->where(['user_id'=> $user['id'], 'status !='=>'Complete'])
+        ->order(['modified'=>'DESC'])
+        ->contain(['Cruises']);
+      $user->cruise_reviews = $cruise_reviews;
+      
+      $this->set('user', $user);
+      $this->set('_serialize', ['user']);
+    }
+
 
     /**
      * Profile method
@@ -88,9 +124,7 @@ class UsersController extends AppController
         $user = $this->Users->get($this->Auth->user('id'), [
             'contain' => []
         ]);
-
-        $this->set('user', $user);
-        $this->set('_serialize', ['user']);
+        return $this->redirect(['action'=>'view',$user->username]);
     }
 
     /**

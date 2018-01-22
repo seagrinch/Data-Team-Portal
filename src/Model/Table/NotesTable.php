@@ -52,13 +52,13 @@ class NotesTable extends Table
             ->notEmpty('user_id', 'A user_id is required');
 
         $validator
-            ->allowEmpty('type');
+            ->notEmpty('type','A note type is required.');
 
         $validator
             ->notEmpty('comment', 'A comment is required');
 
         $validator
-            ->notEmpty('status', 'A status is required');
+            ->allowEmpty('status');
 
         $validator
             ->notEmpty('model', 'A model is required');
