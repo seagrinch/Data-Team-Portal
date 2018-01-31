@@ -88,15 +88,29 @@
       <table class="table table-striped table-condensed">
         <thead>
           <tr>
+            <th>Id</th>
             <th>Parameter</th>
-            <th>Data Product Type</th>
+            <th>Display Name</th>
+            <th>Standard Name</th>
+            <th>Unit</th>
+            <th>Fill Value</th>
+            <th>Precision</th>
+            <th>Identifier</th>
+            <th>Type</th>
             <th>Level</th>
           </tr>
         </thead>
         <tbody>
         <?php foreach ($dataStream->stream->parameters as $p): ?>
           <tr>
+            <td>PD<?= h($p->id) ?></td>
             <td><?= $this->Html->link($p->name, ['controller'=>'parameters', 'action' => 'view', $p->id]) ?> </td>
+            <td><?= h($p->display_name) ?></td>
+            <td><?= h($p->standard_name) ?></td>
+            <td><?= h($p->unit) ?></td>
+            <td><?= h($p->fill_value) ?></td>
+            <td><?= h($p->precision) ?></td>
+            <td><?= h($p->data_product_identifier) ?></td>
             <td><?= ($p->data_product_type ? $p->data_product_type : "") ?></td>
             <td><?= ($p->data_level>-1 ? "L".$p->data_level : "") ?></td>
           </tr>

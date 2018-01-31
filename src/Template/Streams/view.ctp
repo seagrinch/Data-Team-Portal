@@ -39,14 +39,16 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th><?= __('Id') ?></th>
-                <th><?= __('Name') ?></th>
-                <th><?= __('Display Name') ?></th>
-                <th><?= __('Standard Name') ?></th>
-                <th><?= __('Unit') ?></th>
-                <th><?= __('Fill Value') ?></th>
-                <th><?= __('Precision') ?></th>
-                <th><?= __('Data Product Identifier') ?></th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Display Name</th>
+                <th>Standard Name</th>
+                <th>Unit</th>
+                <th>Fill Value</th>
+                <th>Precision</th>
+                <th>Identifier</th>
+                <th>Type</th>
+                <th>Level</th>
             </tr>
             </thead>
             <tbody>
@@ -60,6 +62,8 @@
                     <td><?= h($parameters->fill_value) ?></td>
                     <td><?= h($parameters->precision) ?></td>
                     <td><?= h($parameters->data_product_identifier) ?></td>
+                    <td><?= h($parameters->data_product_type) ?></td>
+                    <td><?= ($parameters->data_level>-1 ? "L".$parameters->data_level : "") ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
