@@ -25,7 +25,7 @@ class DataStreamsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['plot','plotData','statsDaily','science']);
+        $this->Auth->allow(['plot','plotData','statsDaily','science','export']);
     }
 
 
@@ -146,7 +146,7 @@ class DataStreamsController extends AppController
 
 
     /**
-     * Parameter List method
+     * Science Parameter List method
      *
      * @return \Cake\Network\Response|null
      */
@@ -188,6 +188,41 @@ class DataStreamsController extends AppController
         $this->viewBuilder()->className('CsvView.Csv');
         $this->set(compact('data', '_serialize', '_header', '_extract'));
         
+      }
+    }
+
+    /**
+     * Export Stream List method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function export($id = null)
+    {
+      $this->loadModel('Regions');
+      $query = $this->Regions->find()
+        ->where(['reference_designator'=>$id]);
+      $region = $query->first();
+      
+      if (empty($region)) {
+        
+        $regions = $this->paginate($this->Regions);
+        $this->set(compact('regions'));
+        $this->set('_serialize', ['regions']);
+        
+      } else {
+        $query = $this->DataStreams->find()
+          ->select(['reference_designator','method','Streams.name','Streams.stream_content','Streams.stream_type'])
+          ->contain(['Streams'])
+          ->where(['LEFT(reference_designator,2)'=>$region->reference_designator]);
+        $data = $query->all();
+
+        $_serialize = 'data';
+        $_header = ['reference_designator','method','stream_name','stream_content','stream_type'];
+        $_extract = ['reference_designator','method','stream.name','stream.stream_content','stream.stream_type'];
+
+        $this->response->download($region->reference_designator . '_eng_parameters.csv');
+        $this->viewBuilder()->className('CsvView.Csv');
+        $this->set(compact('data', '_serialize', '_header', '_extract'));
       }
     }
 

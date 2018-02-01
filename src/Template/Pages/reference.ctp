@@ -42,6 +42,7 @@
       <li><?php echo $this->Html->link('Test Runs',['controller'=>'TestRuns'])?> (deprecated)</li>
       <li>Data Review Reports (?)</li>
       <li><?php echo $this->Html->link('Science Parameters',['controller'=>'data-streams','action'=>'science'])?> - Auto generated lists of all science parameters expected in the system.</li>
+      <li><?php echo $this->Html->link('Data Streams',['controller'=>'data-streams','action'=>'export'])?> - Auto generated list of all data streams in the system.</li>
     </ul>
 
     <h3>Annotations</h3>
