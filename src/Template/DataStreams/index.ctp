@@ -1,14 +1,13 @@
-<h3>Data Streams</h3>
+<h3>OOI Data Streams</h3>
 <table class="table table-striped table-condensed" cellpadding="0" cellspacing="0">
   <thead>
     <tr>
       <th><?= $this->Paginator->sort('reference_designator') ?></th>
       <th><?= $this->Paginator->sort('method') ?></th>
       <th><?= $this->Paginator->sort('stream_name') ?></th>
-      <th><?= $this->Paginator->sort('uframe_route') ?></th>
-      <th><?= $this->Paginator->sort('driver') ?></th>
-      <th><?= $this->Paginator->sort('parser') ?></th>
-      <th><?= $this->Paginator->sort('instrument_type') ?></th>
+      <th><?= $this->Paginator->sort('stream_content') ?></th>
+      <th><?= $this->Paginator->sort('description') ?></th>
+      <th><?= $this->Paginator->sort('stream_type') ?></th>
     </tr>
   </thead>
   <tbody>
@@ -16,11 +15,10 @@
     <tr>
       <td><?= $dataStream->has('instrument') ? $this->Html->link($dataStream->reference_designator, ['controller' => 'Instruments', 'action' => 'view', $dataStream->instrument->reference_designator]) : '' ?></td>
       <td><?= h($dataStream->method) ?></td>
-      <td><?= $dataStream->has('stream') ? $this->Html->link($dataStream->stream->name, ['controller' => 'Streams', 'action' => 'view', $dataStream->stream->id]) : '' ?></td>
-      <td><?= h($dataStream->uframe_route) ?></td>
-      <td><?= h($dataStream->driver) ?></td>
-      <td><?= h($dataStream->parser) ?></td>
-      <td><?= h($dataStream->instrument_type) ?></td>
+      <td><?= $dataStream->has('stream') ? $this->Html->link($dataStream->stream->name, ['controller' => 'Streams', 'action' => 'view', $dataStream->stream->name]) : '' ?></td>
+      <td><?= h($dataStream->stream->stream_content) ?></td>
+      <td><?= h($dataStream->stream->description) ?></td>
+      <td><?= h($dataStream->stream->stream_type) ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>

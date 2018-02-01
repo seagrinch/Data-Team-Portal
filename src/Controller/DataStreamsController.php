@@ -37,7 +37,8 @@ class DataStreamsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Instruments', 'Streams']
+            'contain' => ['Instruments', 'Streams'],
+            'sortWhitelist' => ['reference_designator','method','stream_name','stream_content','description','stream_type']
         ];
         $dataStreams = $this->paginate($this->DataStreams);
 

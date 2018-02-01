@@ -114,14 +114,15 @@
           <tr>
             <th>Method</th>
             <th>Data Stream</th>
+            <th>Content</th>
             <th></th>
             <th>Type</th>
           </tr>
           <?php foreach ($instrument->data_streams as $s): ?>
           <tr>
             <td><?= h($s->method) ?></td>
-            <td><?= $this->Html->link($s->stream_name, ['controller'=>'streams', 'action' => 'view', $s->stream_name]) ?>
-            </td>
+            <td><?= $this->Html->link($s->stream_name, ['controller'=>'streams', 'action' => 'view', $s->stream_name]) ?></td>
+            <td><?= h($s->stream->stream_content) ?></td>
             <td>
               <?= $this->Html->link('Report <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
                 ['controller'=>'data-streams', 'action' => 'view', $s->id],

@@ -39,13 +39,15 @@
       <dt><?= __('Method') ?></dt>
       <dd><?= h($dataStream->method) ?></dd>
       <dt><?= __('Stream') ?></dt>
-      <dd><?= $dataStream->stream_name ?></dd>
+      <dd><?= $this->Html->link($dataStream->stream_name, ['controller' => 'streams', 'action' => 'view', $dataStream->stream_name]) ?></dd>
     </dl>
   </div>
   <div class="col-md-7">
     <dl class="dl-horizontal">
-      <dt><?= __('Instrument Type') ?></dt>
-      <dd><?= h($dataStream->instrument_type) ?></dd>
+      <dt><?= __('Stream Type') ?></dt>
+      <dd><?= h($dataStream->stream->stream_type) ?></dd>
+      <dt><?= __('Stream Content') ?></dt>
+      <dd><?= h($dataStream->stream->stream_content) ?></dd>
       <dt><?= __('Uframe Route') ?></dt>
       <dd><?= h($dataStream->uframe_route) ?></dd>
       <dt><?= __('Driver') ?></dt>
