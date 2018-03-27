@@ -36,7 +36,7 @@
 
 <dl class="dl-horizontal">
   <dt><?= __('Reviewer') ?></dt>
-  <dd><?= $cruiseReview->has('user') ? $this->Html->link($cruiseReview->user->username, ['controller' => 'Users', 'action' => 'view', $cruiseReview->user->id]) : '' ?></dd>
+  <dd><?= $cruiseReview->has('user') ? $this->Html->link($cruiseReview->user->username, ['controller' => 'Users', 'action' => 'view', $cruiseReview->user->username]) : '' ?></dd>
   <dt><?= __('Review Status') ?></dt>
   <dd><?= h($cruiseReview->status) ?></dd>
   <dt><?= __('Modified') ?></dt>
@@ -68,21 +68,25 @@
           <td><?= h($cruiseReview->asset_sheet_submitted) ?></td>
           <td><?= h($cruiseReview->asset_sheet_reviewed) ?></td>
         </tr>
+<!--
         <tr>
           <th scope="row"><?= __('Calibration Sheets') ?></th>
           <td><?= h($cruiseReview->calibration_sheet_submitted) ?></td>
           <td><?= h($cruiseReview->calibration_sheet_reviewed) ?></td>
         </tr>
+-->
         <tr>
           <th scope="row"><?= __('Deployment Sheets') ?></th>
           <td><?= h($cruiseReview->deployment_sheet_submitted) ?></td>
           <td><?= h($cruiseReview->deployment_sheet_reviewed) ?></td>
         </tr>
+<!--
         <tr>
           <th scope="row"><?= __('Cruise Info Sheet') ?></th>
           <td><?= h($cruiseReview->cruise_sheet_submitted) ?></td>
           <td><?= h($cruiseReview->cruise_sheet_reviewed) ?></td>
         </tr>
+-->
         <tr>
           <th scope="row"><?= __('Quick Look Report') ?></th>
           <td><?= h($cruiseReview->quick_look) ?></td>
@@ -104,6 +108,7 @@
 </div>
 
 <div class="row">
+<!--
   <div class="col-md-6">
     <h3>Data Ingestion</h3>
     <table class="table table-striped table-hover table-condensed">
@@ -135,17 +140,18 @@
       </tbody>
     </table>
   </div>
+-->
   <div class="col-md-6">
     <h3>Cruise Data</h3>
     <table class="table table-striped table-hover table-condensed">
       <tbody>
         <tr>
-          <th scope="row"><?= __('Shipboard Data') ?></th>
-          <td><?= h($cruiseReview->shipboard_data) ?></td>
+          <th scope="row"><?= __('CTD Rosette Data') ?></th>
+          <td><?= h($cruiseReview->ctd_rosette) ?></td>
         </tr>
         <tr>
-          <th scope="row"><?= __('Water Sampling Data') ?></th>
-          <td><?= h($cruiseReview->water_sampling_data) ?></td>
+          <th scope="row"><?= __('CTD Log Sheets') ?></th>
+          <td><?= h($cruiseReview->ctd_log_sheets) ?></td>
         </tr>
         <tr>
           <th scope="row"><?= __('Water Sampling Data - Carbon') ?></th>

@@ -47,19 +47,9 @@
           <td><?= $this->Form->input('asset_sheet_reviewed', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
         </tr>
         <tr>
-          <th scope="row"><?= __('Calibration Sheets') ?></th>
-          <td><?= $this->Form->input('calibration_sheet_submitted', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
-          <td><?= $this->Form->input('calibration_sheet_reviewed', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
-        </tr>
-        <tr>
           <th scope="row"><?= __('Deployment Sheets') ?></th>
           <td><?= $this->Form->input('deployment_sheet_submitted', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
           <td><?= $this->Form->input('deployment_sheet_reviewed', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
-        </tr>
-        <tr>
-          <th scope="row"><?= __('Cruise Info Sheet') ?></th>
-          <td><?= $this->Form->input('cruise_sheet_submitted', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
-          <td><?= $this->Form->input('cruise_sheet_reviewed', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
         </tr>
         <tr>
           <th scope="row"><?= __('Quick Look Report') ?></th>
@@ -83,47 +73,16 @@
 
 <div class="row">
   <div class="col-md-6">
-    <h3>Data Ingestion</h3>
-    <table class="table table-striped table-condensed">
-      <tbody>
-        <tr>
-          <th scope="row"><?= __('Raw Data (telemetered/streamed)') ?></th>
-          <td><?= $this->Form->input('raw_data_telemetered', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
-        </tr>
-        <tr>
-          <th scope="row"><?= __('Raw Data (recovered)') ?></th>
-          <td><?= $this->Form->input('raw_data_recovered', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
-        </tr>
-        <tr>
-          <th scope="row"><?= __('Ingest Sheets (telemetered/streamed)') ?></th>
-          <td><?= $this->Form->input('ingest_sheet_telemetered', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
-        </tr>
-        <tr>
-          <th scope="row"><?= __('Ingest Sheets (recovered)') ?></th>
-          <td><?= $this->Form->input('ingest_sheet_recovered', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
-        </tr>
-        <tr>
-          <th scope="row"><?= __('Live Ingestion Started') ?></th>
-          <td><?= $this->Form->input('live_ingestion_started', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
-        </tr>
-        <tr>
-          <th scope="row"><?= __('Recovered Data Ingested') ?></th>
-          <td><?= $this->Form->input('recovered_data_ingested', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="col-md-6">
     <h3>Cruise Data</h3>
     <table class="table table-striped table-condensed">
       <tbody>
         <tr>
-          <th scope="row"><?= __('Shipboard Data') ?></th>
-          <td><?= $this->Form->input('shipboard_data', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
+          <th scope="row"><?= __('CTD Rosette Data') ?></th>
+          <td><?= $this->Form->input('ctd_rosette', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
         </tr>
         <tr>
-          <th scope="row"><?= __('Water Sampling Data') ?></th>
-          <td><?= $this->Form->input('water_sampling_data', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
+          <th scope="row"><?= __('CTD Log Sheets') ?></th>
+          <td><?= $this->Form->input('ctd_log_sheets', ['type'=>'text', 'empty' => true, 'label'=>false]) ?></td>
         </tr>
         <tr>
           <th scope="row"><?= __('Water Sampling Data - Carbon') ?></th>

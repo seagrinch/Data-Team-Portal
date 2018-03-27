@@ -20,11 +20,11 @@ class CruisesController extends AppController
     {
         $this->paginate = [
           'limit' => 25,
-          'order' => ['Cruises.cruise_start_date' => 'desc'],
+          'order' => ['cruise_start_date' => 'desc'],
           'contain' => ['CruiseReviews'],
           'sortWhitelist' => [
-            'cuid', 'ship_name', 'cruise_start_date', 'cruise_end_date', 'CruiseReviews.status',
-            'Cruises.cuid', 'Cruises.ship_name', 'Cruises.cruise_start_date', 'Cruises.cruise_end_date'
+            'cuid', 'ship_name', 'notes', 'cruise_start_date', 'cruise_end_date', 
+            'CruiseReviews.status', 'CruiseReviews.modified'
           ]
         ];
         $cruises = $this->paginate($this->Cruises);
@@ -46,7 +46,7 @@ class CruisesController extends AppController
           ->where(['Cruises.cuid'=>$cuid])
           ->contain([
             'Deployments'=>['sort'=>['start_date','reference_designator']],
-            'CruiseReviews']);
+            'CruiseReviews.Users']);
         $cruise = $query->first();
 
         if (empty($cruise)) {

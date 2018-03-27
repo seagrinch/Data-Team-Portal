@@ -67,6 +67,9 @@ class CruiseReviewsTable extends Table
             ->add('cruise_cuid', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
+            ->notEmpty('user_id', 'A user_id is required');
+
+        $validator
             ->allowEmpty('status');
 
         $validator
@@ -127,11 +130,11 @@ class CruiseReviewsTable extends Table
             ->allowEmpty('recovered_data_ingested');
 
         $validator
-            ->date('shipboard_data','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('shipboard_data');
+            ->date('ctd_rosette','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('ctd_rosette');
         $validator
-            ->date('water_sampling_data','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('water_sampling_data');
+            ->date('ctd_log_sheets','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('ctd_log_sheets');
         $validator
             ->date('water_sampling_data_carbon','mdy','Please enter a date as mm/dd/yyyy')
             ->allowEmpty('water_sampling_data_carbon');
@@ -170,4 +173,13 @@ class CruiseReviewsTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         return $rules;
     }
+
+    /**
+     * isOwnedBy function.
+     */
+    public function isOwnedBy($id, $userId)
+    {
+        return $this->exists(['id' => $id, 'user_id' => $userId]);
+    }
+
 }

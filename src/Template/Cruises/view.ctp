@@ -32,7 +32,7 @@
   <div class="col-md-6">
     <dl class="dl-horizontal">
       <dt><?= __('Reviewer') ?></th></dt>
-      <dd><?= $cruise->cruise_review->has('user') ? $this->Html->link($cruise->cruise_review->user->username, ['controller' => 'Users', 'action' => 'view', $cruise->cruise_review->user->id]) : '' ?></dd>
+      <dd><?= $cruise->cruise_review->has('user') ? $this->Html->link($cruise->cruise_review->user->username, ['controller' => 'Users', 'action' => 'view', $cruise->cruise_review->user->username]) : '' ?></dd>
       <dt><?= __('Review Status') ?></dt>
       <dd><?= h($cruise->cruise_review->status) ?></dd>
       <dt><?= __('Modified') ?></dt>

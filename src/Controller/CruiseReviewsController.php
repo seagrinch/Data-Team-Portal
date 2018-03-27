@@ -18,9 +18,21 @@ class CruiseReviewsController extends AppController
      */
     public function isAuthorized($user)
     {
-        if (in_array($this->request->action, ['add','edit'])) {
+        // All registered users can add
+        if (in_array($this->request->action, ['add'])) {
             return true;
-        }        
+        }
+        // Only the owner of an item can edit and delete it
+        if (in_array($this->request->action, ['edit', 'delete'])) {
+            $id = (int)$this->request->params['pass'][0];
+            if ($this->CruiseReviews->isOwnedBy($id, $user['id'])) {
+                return true;
+            }
+        }
+        // Admin can do anything
+        if ($user['role'] === 'admin') {
+          return true;
+        }
         return parent::isAuthorized($user);
     }
 
@@ -36,8 +48,8 @@ class CruiseReviewsController extends AppController
           'order' => ['Cruises.cruise_start_date' => 'desc'],
           'contain' => ['Cruises','Users'],
           'sortWhitelist' => [
-            'cruise_cuid', 'status', 'Users.username', 'Cruises.ship_name', 
-            'Cruises.notes', 'Cruises.cruise_start_date', 'Cruises.cruise_end_date', 'modified'
+            'cruise_cuid', 'Cruises.ship_name', 'Cruises.notes', 'Cruises.cruise_start_date', 'Cruises.cruise_end_date',
+            'status', 'Users.username', 'modified'
           ]
         ];
         $cruiseReviews = $this->paginate($this->CruiseReviews);
@@ -83,7 +95,7 @@ class CruiseReviewsController extends AppController
             $cruiseReview->user_id = $this->Auth->user('id');
             $cruiseReview->status = 'Not Started';
             if ($this->CruiseReviews->save($cruiseReview)) {
-                $this->Flash->success(__('The cruise review has been saved.'));
+                $this->Flash->success(__('This new cruise review has been setup.'));
                 return $this->redirect(['action' => 'view', $cruiseReview->cruise_cuid]);
             } else {
                 $this->Flash->error(__('The cruise review could not be saved. Please, try again.'));
