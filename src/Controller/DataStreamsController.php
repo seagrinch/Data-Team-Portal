@@ -169,7 +169,7 @@ class DataStreamsController extends AppController
         $this->paginate = ['maxLimit' => 5000, 'limit' => 5000];
         $query = $this->DataStreams->find()
           ->select(['reference_designator','method','Streams.name','Parameters.id','Parameters.name','Parameters.unit'])
-          ->where(['LEFT(reference_designator,2)'=>$region->reference_designator])
+          ->where(['LEFT(reference_designator,2)'=>$region->reference_designator, 'Streams.stream_type'=>'Science'])
           ->matching(
             'Streams.Parameters', function ($q) {
               return $q->where(['Parameters.data_product_type' => 'Science Data']);
@@ -211,6 +211,7 @@ class DataStreamsController extends AppController
         $this->set('_serialize', ['regions']);
         
       } else {
+        
         $query = $this->DataStreams->find()
           ->select(['reference_designator','method','Streams.name','Streams.stream_content','Streams.stream_type'])
           ->contain(['Streams'])
@@ -221,7 +222,7 @@ class DataStreamsController extends AppController
         $_header = ['reference_designator','method','stream_name','stream_content','stream_type'];
         $_extract = ['reference_designator','method','stream.name','stream.stream_content','stream.stream_type'];
 
-        $this->response->download($region->reference_designator . '_eng_parameters.csv');
+        $this->response->download($region->reference_designator . '_streams.csv');
         $this->viewBuilder()->className('CsvView.Csv');
         $this->set(compact('data', '_serialize', '_header', '_extract'));
       }
