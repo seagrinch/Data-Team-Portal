@@ -30,6 +30,10 @@
   <dd><?= $this->Text->autoParagraph(h($parameter->parameter_function_map)); ?></dd>
   <dt><?= __('Description') ?></dt>
   <dd><?= $this->Text->autoParagraph(h($parameter->description)); ?></dd>
+  <dt><?= __('Parameter Type') ?></dt>
+  <dd><?= h($parameter->parameter_type) ?></dd>
+  <dt><?= __('Value Encoding') ?></dt>
+  <dd><?= h($parameter->value_encoding) ?></dd>
 </dl>
 
 
