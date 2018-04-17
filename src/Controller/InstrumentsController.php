@@ -108,7 +108,7 @@ class InstrumentsController extends AppController
         ->where(['reference_designator'=> $instrument->reference_designator])
         ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
         ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
-        ->andWhere(['OR'=>['method' => '', 'method IS'=>Null]])
+        //->andWhere(['OR'=>['method' => '', 'method IS'=>Null]])
         ->order(['start_datetime'=>'ASC']);
       $instrument->annotations = $annotations;
 
