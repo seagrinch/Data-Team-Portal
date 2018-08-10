@@ -36,7 +36,8 @@ class AssetsTable extends Table
 
         $this->hasMany('Calibrations', [
             'foreignKey' => 'asset_uid',
-            'bindingKey' => 'asset_uid'
+            'bindingKey' => 'asset_uid',
+            'sort' => ['start_date','name']
         ]);
         $this->hasMany('SensorDeployments', [
             'className' => 'Deployments',
