@@ -68,51 +68,20 @@ class DeploymentReviewsTable extends Table
             ->notEmpty('deployment_number');
 
         $validator
+            ->notEmpty('user_id', 'A user_id is required');
+
+        $validator
             ->allowEmpty('status');
 
         $validator
-            ->date('asset_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('asset_sheet_reviewed');
+            ->allowEmpty('available_streams');
 
         $validator
-            ->date('calibration_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('calibration_sheet_reviewed');
+            ->allowEmpty('cruise_data_check');
 
         $validator
-            ->date('deployment_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('deployment_sheet_reviewed');
-
-        $validator
-            ->date('ingest_sheet_reviewed','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('ingest_sheet_reviewed');
-
-        $validator
-            ->date('raw_data_reviewed','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('raw_data_reviewed');
-
-        $validator
-            ->url('raw_data_url','Please enter a valid URL')
-            ->allowEmpty('raw_data_url');
-
-        $validator
-            ->date('parameter_check','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('parameter_check');
-
-        $validator
-            ->date('availability_check','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('availability_check');
-
-        $validator
-            ->date('quality_check','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('quality_check');
-
-        $validator
-            ->date('environment_check','mdy','Please enter a date as mm/dd/yyyy')
-            ->allowEmpty('environment_check');
-
-        $validator
-            ->decimal('percent_good', 'Please enter a decimal number')
-            ->allowEmpty('percent_good');
+            ->date('completed_date','mdy','Please enter a date as mm/dd/yyyy')
+            ->allowEmpty('completed_date');
 
         $validator
             ->allowEmpty('notes');
@@ -136,4 +105,13 @@ class DeploymentReviewsTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));        
         return $rules;
     }
+
+    /**
+     * isOwnedBy function.
+     */
+    public function isOwnedBy($id, $userId)
+    {
+        return $this->exists(['id' => $id, 'user_id' => $userId]);
+    }
+
 }

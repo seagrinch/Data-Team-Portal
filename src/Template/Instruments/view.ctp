@@ -180,7 +180,11 @@
           </tr>
           <?php foreach ($instrument->deployments as $d): ?>
           <tr>
-            <td><?= h($d->deployment_number) ?></td>
+            <td><?= h($d->deployment_number) ?>
+            <?= $this->Html->link('Review <span class="glyphicon glyphicon-check" aria-hidden="true">', 
+              ['controller'=>'deployment-reviews', 'action' => 'view', $d->reference_designator, $d->deployment_number],
+              ['class'=>'btn btn-default btn-xs','escape'=>false]) ?>
+            </td>
             <td><?= $this->Html->link($d->deploy_cuid, ['controller'=>'cruises', 'action' => 'view', $d->deploy_cuid]) ?></td>
             <td><?= $this->Time->format($d->start_date, 'MM/dd/yyyy') ?></td>
             <td><?= $this->Time->format($d->stop_date, 'MM/dd/yyyy') ?></td>
