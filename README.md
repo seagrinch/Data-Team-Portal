@@ -1,11 +1,9 @@
 # OOI Data Team Portal
 
-The OOI Data Team portal was developed to support the OOI Data Team's efforts to review and annotate the official datasets provided by the [Ocean Observatories Initiative](https://oceanobservatories.org), through the official [OOI data portal](https://oceanobservatories.org/data-portal/).  This portal provides access to much of the same metadata information available in OOI Net, though the metadata information is loaded independently from various GitHub repositories via a number of python scripts, available at [datateam-portal-backend](https://github.com/ooi-data-review/datateam-portal-backend).
+The OOI Data Team portal was developed to support the OOI Data Team's efforts to review and annotate the official datasets provided by the [Ocean Observatories Initiative](https://oceanobservatories.org), through the official [OOI data portal](https://oceanobservatories.org/data-portal/).  
 
-The portal was developed using CakePHP
+This portal provides access to much of the same metadata information available in OOI Net, though the metadata information is loaded independently from various GitHub repositories used by the OOI team.  The portal was developed using the [CakePHP](https://cakephp.org) framework.  A number of Python scripts are used to update the content in a MySQL database, and can be found in the [datateam-portal-backend](https://github.com/ooi-data-review/datateam-portal-backend) repository.
 
-
- app with a number of Python scripts to update the content in a MySQL database.  Currently, the site takes up 377MB, but about 75% of that is logs and tmp files.  The database is roughly 350MB.
 
 ## Key Features
 
@@ -24,11 +22,12 @@ The portal was developed using CakePHP
 2. Install [Composer](https://getcomposer.org/download/) into the directory (if it's not available globally).
 3. Install application dependancies using composer.  Run `./composer.phar install`
 4. Open `config/app.php`
-  1. Remember to set `debug` to false in a production environment.  (I'd suggest leaving it set to true during initial setup.)
-  2. Add `'title' => 'Data Team Portal'` inside the 'App' variable
-  3. Update your email server info in 'EmailTransport' if necessary (see the [docs](https://book.cakephp.org/3.0/en/core-libraries/email.html#configuration))
-  4. Update your MySQL database info in 'Datasources'
-  5. Add the following to the bottom of the file (before the last ']')
+
+  * Remember to set `debug` to false in a production environment.  (I'd suggest leaving it set to true during initial setup.)
+  * Add `'title' => 'Data Team Portal'` inside the 'App' variable
+  * Update your email server info in 'EmailTransport' if necessary (see the [docs](https://book.cakephp.org/3.0/en/core-libraries/email.html#configuration))
+  * Update your MySQL database info in 'Datasources'
+  * Add the following to the bottom of the file (before the last ']')
 ```    
     // Default login info to acccess the OOInet API
     'Uframe' => [
@@ -36,7 +35,9 @@ The portal was developed using CakePHP
         'token' => ''
     ]
 ```
+
 5. Install the database by running `bin/cake migrations migrate`
+
 6. Manually add the first user to the database (specify the username and email) with the role set to 'admin'. Use the password reset feature on the site's login to set the password.
 
 At this point, the initial setup of the portal is complete.  Now all you need to do is load in the metadata.  See [datateam-portal-backend](https://github.com/ooi-data-review/datateam-portal-backend) for instructions on how to load in update the database.
@@ -53,6 +54,7 @@ You can update your site with the latest code using the following steps.
 ## Credits
 
 Developed by Sage Lichtenwalner, Rutgers University
-With help from the OOI Data Team: Mike Vardaro, Leila Belabassi, Lori Garzio, Friedrich Knuth,  Michael Smith & Michael Crowley
+
+With help from the OOI Data Team: Mike Vardaro, Leila Belabassi, Lori Garzio, Friedrich Knuth,  Michael Smith, and Michael Crowley
 
 ©2018 OOI Data Team, Rutgers University
