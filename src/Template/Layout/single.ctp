@@ -9,6 +9,7 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster|Roboto">
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,7 +32,7 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/"><?php echo $this->Html->image('logo.png')?></a>
+        <a class="navbar-brand" href="/" style="padding-top:0px;"><?php echo $this->Html->image('logo.png')?></a>
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
@@ -110,15 +111,14 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
 
   <?php echo $this->fetch('script'); ?>
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-48897328-5"></script>
   <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
   
-    ga('create', 'UA-48897328-4', 'auto');
-    ga('send', 'pageview');
-  
+    gtag('config', 'UA-48897328-5');
   </script>
 
 </body>
