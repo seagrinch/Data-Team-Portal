@@ -1,8 +1,8 @@
 <ol class="breadcrumb">
-  <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'index']) ?></li>
-  <li><?= $this->html->link($instrument->node->site->region->name,['controller'=>'regions','action'=>'view',$instrument->node->site->region->reference_designator]) ?></li>
-  <li><?= $this->html->link($instrument->node->site->name,['controller'=>'sites','action'=>'view',$instrument->node->site->reference_designator]) ?></li>
-  <li><?= $this->html->link($instrument->node->name,['controller'=>'nodes','action'=>'view',$instrument->node->reference_designator]) ?></li>
+  <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'array_daily']) ?></li>
+  <li><?= $this->html->link($instrument->node->site->region->name,['controller'=>'regions','action'=>'stats_daily',$instrument->node->site->region->reference_designator]) ?></li>
+  <li><?= $this->html->link($instrument->node->site->name,['controller'=>'sites','action'=>'stats_daily',$instrument->node->site->reference_designator]) ?></li>
+  <li><?= $this->html->link($instrument->node->name,['controller'=>'nodes','action'=>'stats_daily',$instrument->node->reference_designator]) ?></li>
   <li class="active"><?= $this->html->link($instrument->name,['action'=>'view',$instrument->reference_designator]) ?></li>
 </ol>
 

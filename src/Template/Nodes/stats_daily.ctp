@@ -1,7 +1,7 @@
 <ol class="breadcrumb">
-  <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'index']) ?></li>
-  <li><?= $this->html->link($node->site->region->name,['controller'=>'regions','action'=>'view',$node->site->region->reference_designator]) ?></li>
-  <li><?= $this->html->link($node->site->name,['controller'=>'sites','action'=>'view',$node->site->reference_designator]) ?></li>
+  <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'array_daily']) ?></li>
+  <li><?= $this->html->link($node->site->region->name,['controller'=>'regions','action'=>'stats_daily',$node->site->region->reference_designator]) ?></li>
+  <li><?= $this->html->link($node->site->name,['controller'=>'sites','action'=>'stats_daily',$node->site->reference_designator]) ?></li>
   <li class="active"><?= $this->html->link($node->name,['action'=>'view',$node->reference_designator]) ?></li>
 </ol>
 

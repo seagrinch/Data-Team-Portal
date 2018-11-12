@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-  <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'index']) ?></li>
-  <li><?= $this->html->link($site->region->name,['controller'=>'regions','action'=>'view',$site->region->reference_designator]) ?></li>
+  <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'array_monthly']) ?></li>
+  <li><?= $this->html->link($site->region->name,['controller'=>'regions','action'=>'stats_monthly',$site->region->reference_designator]) ?></li>
   <li class="active"><?= $this->Html->link($site->name,['action' => 'view', $site->reference_designator]) ?></li>
 </ol>
 
