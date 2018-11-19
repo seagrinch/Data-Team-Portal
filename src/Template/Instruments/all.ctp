@@ -50,7 +50,7 @@ $(document).ready(function() {
       { "data": "reference_designator",
         "render": function (data, type, full, meta) {
           return type === 'display' ?
-            '<a href="/instruments/view/'+data+'">'+data+'</a>' :
+            '<a href="/instruments/report/'+data+'">'+data+'</a>' :
             data;
         }
       },

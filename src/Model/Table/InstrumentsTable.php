@@ -54,6 +54,10 @@ class InstrumentsTable extends Table
             'bindingKey' => 'reference_designator',
             'sort' => 'start_datetime'
         ]);
+        $this->hasMany('Reviews', [
+            'foreignKey' => 'reference_designator',
+            'bindingKey' => 'reference_designator',
+        ]);
 
     }
 

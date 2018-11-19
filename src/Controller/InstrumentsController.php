@@ -19,7 +19,7 @@ class InstrumentsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['all','status','statsDaily','statsMonthly']);
+        $this->Auth->allow(['all','report','status','statsDaily','statsMonthly']);
     }
 
     /**
@@ -80,6 +80,53 @@ class InstrumentsController extends AppController
       $query = $this->Instruments->find()
         ->where(['Instruments.reference_designator'=>$id])
         ->contain(['Nodes.Sites.Regions','DataStreams.Streams.Parameters','Deployments']);
+      $instrument = $query->first();
+      
+      if (empty($instrument)) {
+          throw new NotFoundException(__('Instrument not found'));
+      }
+
+      $this->loadModel('InstrumentClasses');
+      $query = $this->InstrumentClasses->find()
+        ->where(['class'=> substr($instrument->reference_designator,18,5)]);
+      $instrument_class = $query->first();
+
+      $this->loadModel('InstrumentModels');
+      $query = $this->InstrumentModels->find()
+        ->where(['class'=> substr($instrument->reference_designator,18,5), 'series'=>substr($instrument->reference_designator,23,1)]);
+      $instrument_model = $query->first();
+
+      $notes = $this->Instruments->Notes->find('all')
+        ->where(['reference_designator'=> $instrument->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
+        ->contain(['Users'])
+        ->order(['start_date'=>'ASC']);
+      $instrument->notes = $notes;
+      
+      $annotations = $this->Instruments->Annotations->find('all')
+        ->where(['reference_designator'=> $instrument->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
+        ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
+        //->andWhere(['OR'=>['method' => '', 'method IS'=>Null]])
+        ->order(['start_datetime'=>'ASC']);
+      $instrument->annotations = $annotations;
+
+      $this->set(compact(['instrument','instrument_class','instrument_model']));
+      $this->set('_serialize', ['instrument']);
+    }
+    
+    /**
+     * Report method
+     *
+     * @param string|null $id Instrument id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function report($id = null) {
+      $query = $this->Instruments->find()
+        ->where(['Instruments.reference_designator'=>$id])
+        ->contain(['Nodes.Sites.Regions','Reviews','Deployments']);
       $instrument = $query->first();
       
       if (empty($instrument)) {

@@ -57,7 +57,7 @@
     <div role="tabpanel" class="tab-pane active" id="instruments">
       <ul>
         <?php foreach ($node->instruments as $instrument): ?>
-        <li><?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
+        <li><?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'report',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
         <?php endforeach; ?>
       </ul>
 

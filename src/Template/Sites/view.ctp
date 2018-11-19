@@ -94,7 +94,7 @@
           <ul>
             <?php foreach ($node->instruments as $instrument): ?>
             <li><?php echo $this->element('instrument_status', ['status'=>$instrument->current_status,'notitle'=>true]); ?>
-                <?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'view',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
+                <?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'report',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
             <?php endforeach; ?>
           </ul>
         </li>

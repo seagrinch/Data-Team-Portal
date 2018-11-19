@@ -14,7 +14,7 @@
   <tbody>
     <?php foreach ($instruments as $instrument): ?>
     <tr>
-      <td><?= $this->html->link($instrument->reference_designator,['action'=>'view',$instrument->reference_designator]) ?> 
+      <td><?= $this->html->link($instrument->reference_designator,['action'=>'report',$instrument->reference_designator]) ?> 
       <td><?= h($instrument->node->site->region->reference_designator) ?></td>
       <td><?= h($instrument->node->site->name) ?></td>
       <td><?= h($instrument->name) ?></td>
