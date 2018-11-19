@@ -6,7 +6,7 @@
 <p class="pull-right"><?php echo $this->Html->link(__('User Admin'), ['action'=>'index','prefix'=>'admin'], ['class'=>'btn btn-primary']); ?></p>
 <?php endif; ?>
 
-<h3><?= __('Users') ?></h3>
+<h3>Team List</h3>
 <table class="table table-striped table-condensed table-hover">
   <thead>
     <tr>

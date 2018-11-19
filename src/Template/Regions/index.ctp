@@ -9,10 +9,11 @@
   </div>
 </div>
 
-<h1>OOI Arrays</h1>
+<h1>OOI 1.0 Data Reviews</h1>
 <div class="row">
   <div class="col-md-6">
-<!--     <?php echo $this->Html->link('Semi Real-time Status',['controller'=>'instruments','action'=>'status'],['class'=>'btn btn-info pull-right'])?> -->
+    <p>This site provides data review reports on OOI 1.0 datasets (7/1/2013 to 9/30/2018).  Please select an array below to navigate to an instrument data report.</p>
+    <h3>OOI Arrays</h3>
     <ul>
       <?php foreach ($regions as $region): ?>
       <li><?= $this->html->link($region->name,['action'=>'view',$region->reference_designator]) ?> (<?= h($region->reference_designator) ?>)</li>
@@ -22,11 +23,10 @@
 
     <div class="panel panel-info">
       <div class="panel-heading">
-        <h3 class="panel-title">About this Site</h3>
+        <h3 class="panel-title">About this Project</h3>
       </div>
       <div class="panel-body">
-        <p>This portal supports the OOI Data Team's efforts to review and annotate the official datasets provided by the OOI.  However, information provided on this site is not official and should be considered advisory only.  In addition, due to the fluid nature of the review process, this site may not be in sync with the information provided by the official <a href="https://ooinet.oceanobservatories.org">OOI Data Portal</a>.</p>
-        <p>If you have any questions, please contact the <a href="http://oceanobservatories.org/helpdesk/">OOI Data Team</a>.</p>
+        <?php echo $this->element('about_us'); ?>
       </div>
     </div>
 

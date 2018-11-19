@@ -46,19 +46,16 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
           <li><?php echo $this->Html->link('Arrays', '/regions')?></li>
           <li><?php echo $this->Html->link('Instruments', '/instruments/all')?></li>
           <li><?php echo $this->Html->link('Classes', '/instrumentClasses')?></li>
-          <li><?php echo $this->Html->link('Cruises', '/cruises')?></li>
           <li class="dropdown"><?php echo $this->Html->link('Reference <span class="caret"></span>','#',array('escape'=>false,'class'=>'dropdown-toggle','data-toggle'=>'dropdown','role'=>'button','aria-expanded'=>'false'))?>           
             <ul class="dropdown-menu" role="menu">
               <li><?php echo $this->Html->link('Reference Index', '/pages/reference')?></li>
-              <li><?php echo $this->Html->link('Assets','/assets/all')?></li>
-              <li><?php echo $this->Html->link('Cruise Reviews','/cruise-reviews')?></li>
-              <li><?php echo $this->Html->link('Ingestions','/ingestions')?></li>
               <li><?php echo $this->Html->link('Parameters','/parameters/all')?></li>
-              <li><?php echo $this->Html->link('Notes','/notes')?></li>
               <li><?php echo $this->Html->link('Streams','/streams/all')?></li>
               <li role="separator" class="divider"></li>
+              <li><?php echo $this->Html->link('Notes','/notes')?></li>
+              <li><?php echo $this->Html->link('Review Status','/instruments/status')?></li>
+              <li role="separator" class="divider"></li>
               <li><?php echo $this->Html->link('Import Log','/import-log')?></li>
-              <li><?php echo $this->Html->link('Status Summary','/instruments/status')?></li>
               <li><?php echo $this->Html->link('Array Stats','/regions/array-monthly')?></li>
             </ul>
           </li>
@@ -68,6 +65,7 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
           <li class="dropdown"><?php echo $this->Html->link('<span class="glyphicon glyphicon-user" aria-hidden="true"></span> ' . $session->read('Auth.User.first_name') . ' <span class="caret"></span>','/users/profile',array('escape'=>false,'class'=>'dropdown-toggle','data-toggle'=>'dropdown','role'=>'button','aria-expanded'=>'false'))?>
             <ul class="dropdown-menu" role="menu">
               <li><?php echo $this->Html->link('My Profile','/users/profile')?></li>
+              <li><?php echo $this->Html->link('Team List','/users/')?></li>
               <?php if ($session->read('Auth.User.role')=='admin') { ?>
               <li><?php echo $this->Html->link('User Admin','/admin/users')?></li>
               <?php } ?>
@@ -98,11 +96,12 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
       <div class="row">
         <div class="col-md-6">
           <?php printf('&copy;%s %s', date('Y'), Configure::read('App.title')); ?>, Rutgers University
+          <p><small>This site was developed with the support of the National Science Foundation under Grant No. OCE-1841799. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.</small></p>
         </div>
         <div class="col-md-6 text-right">
-          <a href="http://oceanobservatories.org/helpdesk/">Contact Us</a> |
-          <a href="https://ooinet.oceanobservatories.org">OOI Net</a> | 
-          <a href="http://oceanobservatories.org">OceanObservatories.org</a>
+          <?= $this->Html->link('About Us','/pages/about') ?> |
+          <?= $this->Html->link('Contact Us','/pages/contact') ?> |
+          <a href="https://rucool.marine.rutgers.edu">RU COOL</a>
         </div>
       </div>
     </footer>
