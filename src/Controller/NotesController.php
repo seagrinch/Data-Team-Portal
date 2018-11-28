@@ -119,7 +119,7 @@ class NotesController extends AppController
                 $this->Flash->success(__('The note has been saved.'));
                 return $this->redirect([
                   'controller'=>$note->model, 
-                  'action'=>'view', 
+                  'action'=> ((strcasecmp($note->model,'instruments')==0) ? 'report' : 'view'), 
                   $note->reference_designator, 
                   '#'=>'notes'
                 ]);
@@ -152,7 +152,7 @@ class NotesController extends AppController
                 $this->Flash->success(__('The note has been updated.'));
                 return $this->redirect([
                   'controller'=>$note->model, 
-                  'action'=>'view', 
+                  'action'=>((strcasecmp($note->model,'instruments')==0) ? 'report' : 'view'), 
                   $note->reference_designator, 
                   '#'=>'notes'
                 ]);
@@ -180,6 +180,12 @@ class NotesController extends AppController
         $note = $this->Notes->get($id);
         if ($this->Notes->delete($note)) {
             $this->Flash->success(__('The note has been deleted.'));
+                return $this->redirect([
+                  'controller'=>$note->model, 
+                  'action'=>((strcasecmp($note->model,'instruments')==0) ? 'report' : 'view'), 
+                  $note->reference_designator, 
+                  '#'=>'notes'
+                ]);
         } else {
             $this->Flash->error(__('The note could not be deleted. Please, try again.'));
         }

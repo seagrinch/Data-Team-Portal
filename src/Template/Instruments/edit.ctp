@@ -14,16 +14,14 @@
     <fieldset>
         <legend>Edit <?= h($instrument->name) ?></legend>
         <?php
-/*
-            echo $this->Form->input('start_depth');
-            echo $this->Form->input('end_depth');
-            echo $this->Form->input('location');
-*/
             echo $this->Form->input('current_status', ['options'=>[
-              'deployed'=>'Deployed',
-              'recovered'=>'Recovered',
-              'lost'=>'Lost'
-            ], 'empty'=>'Unknown']);
+              'Engineering'=>'Engineering',
+              'Camera'=>'Camera',
+              'Todo'=>'Todo',
+              'No Review'=>'Will not review',
+              'In progress'=>'Review in progress',
+              'Complete'=>'Review Complete',
+            ], 'empty'=>'Unknown', 'label'=>'Review Status']);
         ?>
     </fieldset>
 		<?= $this->Html->link('Cancel', ['action' => 'view', $instrument->reference_designator], ['class'=>'btn btn-default']); ?>

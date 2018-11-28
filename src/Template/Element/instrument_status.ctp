@@ -9,7 +9,7 @@
       'title'=>'Not Operational', 
       'color'=>'red'],
     'Engineering' => [
-      'icon'=>'glyphicon-exclamation-sign', 
+      'icon'=>'glyphicon-cog', 
       'title'=>'Engineering', 
       'color'=>'grey'],
     'Adrift' => [
@@ -36,6 +36,22 @@
       'icon'=>'glyphicon-question-sign', 
       'title'=>'Unknown', 
       'color'=>'grey'],
+    'Todo' => [
+      'icon'=>'glyphicon-star', 
+      'title'=>'Todo', 
+      'color'=>'orange'],
+    'No Review' => [
+      'icon'=>'glyphicon-minus-sign', 
+      'title'=>'Will not review', 
+      'color'=>'grey'],
+    'In progress' => [
+      'icon'=>'glyphicon-adjust', 
+      'title'=>'Review in progress', 
+      'color'=>'blue'],
+    'Complete' => [
+      'icon'=>'glyphicon-ok-sign', 
+      'title'=>'Review Complete', 
+      'color'=>'green'],
   ];
   if (array_key_exists($status,$icons)) {
     $icon = $icons[$status];

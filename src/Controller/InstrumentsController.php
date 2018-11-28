@@ -187,7 +187,7 @@ class InstrumentsController extends AppController
             ]);
             if ($this->Instruments->save($instrument)) {
                 $this->Flash->success(__('The instrument has been updated.'));
-                return $this->redirect(['action' => 'view', $instrument->reference_designator]);
+                return $this->redirect(['action' => 'report', $instrument->reference_designator]);
             } else {
                 $this->Flash->error(__('The instrument could not be updated. Please, try again.'));
             }

@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<h3><?= h($instrument->name) ?></h3>
+<h2><?= h($instrument->name) ?></h2>
 
 <div class="row">
   <div class="col-md-5">
@@ -28,13 +28,15 @@
     <dl class="dl-horizontal">
       <dt><?= __('Reference Designator') ?></dt>
       <dd><?= h($instrument->reference_designator) ?></dd>
+<!--
       <dt><?= __('Start Depth') ?></dt>
       <dd><?= $this->Number->format($instrument->start_depth) ?></dd>
       <dt><?= __('End Depth') ?></dt>
       <dd><?= $this->Number->format($instrument->end_depth) ?></dd>
       <dt><?= __('Location') ?></dt>
       <dd><?= h($instrument->location) ?></dd>
-      <dt><?= __('Current Status') ?></dt>
+-->
+      <dt><?= __('Review Status') ?></dt>
       <dd><?php echo $this->element('instrument_status', ['status'=>$instrument->current_status]); ?></dd>
     </dl>
 
@@ -42,16 +44,18 @@
   <div class="col-md-7">
 
     <dl class="dl-horizontal">
+<!--
       <dt><?= __('Class') ?></dt>
       <dd><?= $this->Html->link($instrument_class->class, ['controller'=>'instrument_classes', 'action'=>'view', $instrument_class->class]) ?> (<?= h($instrument_class->name) ?>)</dd>
+-->
       <dt><?= __('Series') ?></dt>
       <dd><?= $this->html->link($instrument_model->class . '-' .$instrument_model->series, ['controller'=>'instrument_models', 'action'=>'view', $instrument_model->class, $instrument_model->series]) ?></dd>
+<!--
       <dt><?= __('Science Discipline') ?></dt>
       <dd><?= h($instrument_class->primary_science_dicipline) ?></dd>
-      <dt><?= __('Make') ?></dt>
-      <dd><?= h($instrument_model->make) ?></dd>
-      <dt><?= __('Model') ?></dt>
-      <dd><?= h($instrument_model->model) ?></dd>
+-->
+      <dt>Make / Model</dt>
+      <dd><?= h($instrument_model->make) ?> / <?= h($instrument_model->model) ?></dd>
     </dl>
 
   </div>
@@ -85,25 +89,42 @@
     <tr>
       <td><?= h($d->deployment) ?></td>
       <td><?= h($d->preferred_method) ?></td>
-      <td><?= $this->Text->truncate($d->stream,20) ?></td>
+      <td><?php
+        if (strlen($d->stream)>20) {
+          echo $this->Text->insert('<span aria-hidden="true" data-toggle="tooltip" title=":title">:title2</span>',['title'=>$d->stream, 'title2'=>$this->Text->truncate($d->stream,20)],['escape'=>True]);          
+        } else {
+          echo $this->Text->insert(':title',['title'=>$d->stream]);
+        } ?>
+        </td>
       <td class="text-right"><?= h($d->n_days_deployed) ?></td>
       <td class="text-right"><?= h($d->n_days) ?></td>
       <td class="text-right"><?= h($d->start_days_missing) ?></td>
       <td class="text-right"><?= h($d->end_days_missing) ?></td>
       <td class="text-right"><?= h($d->gaps_num_days) ?></td>
       <td class="text-right"><?= h($d->gaps_num) ?></td>
-      <td class="text-right"><?= $this->Number->precision($d->n_timestamps,0) ?></td>
+      <td class="text-right"><?= (($d->n_timestamps) ? $this->Number->precision($d->n_timestamps,0) : '') ?></td>
       <td class="text-right">
         <?php 
-          if (is_numeric($d->sampling_rate_seconds)) {
-            echo $this->Number->precision($d->sampling_rate_seconds,0);
-          } else {
-            echo $this->Text->insert('<span class="glyphicon glyphicon-exclamation-sign" style="color:gray;" aria-hidden="true" data-toggle="tooltip" title=":title"></span>',['title'=>$d->sampling_rate_seconds],['escape'=>True]);
+          if ($d->sampling_rate_seconds) {
+            if (is_numeric($d->sampling_rate_seconds)) {
+              echo $this->Number->precision($d->sampling_rate_seconds,0);
+            } else {
+              echo $this->Text->insert('<span class="glyphicon glyphicon-exclamation-sign" style="color:gray;" aria-hidden="true" data-toggle="tooltip" title=":title"></span>',['title'=>$d->sampling_rate_seconds],['escape'=>True]);
+            } 
           } ?>
       </td>
       <td class="text-right"><?= h($d->deploy_depth) ?> / <?= h($d->pressure_mean) ?> <!-- / <?= h($d->pressure_diff) ?> --></td>
       <td class="text-center"><?= $this->Footnote->check($d->timestamp_test) ?></td>
-      <td><?= h($d->valid_data_test) ?></td>
+      <td class="text-center"><?php
+        if ($d->valid_data_test) {
+          $vd = json_decode(str_replace("'", '"', $d->valid_data_test),true);
+          if (count($vd)==1 & array_key_exists('99',$vd)) {
+              echo $this->Text->insert('<span class="glyphicon glyphicon-ok-sign" style="color:green;" aria-hidden="true" data-toggle="tooltip" title=":title"></span>',['title'=>$d->valid_data_test],['escape'=>True]);
+          } else {
+              echo $this->Text->insert('<span class="glyphicon glyphicon-exclamation-sign" style="color:gray;" aria-hidden="true" data-toggle="tooltip" title=":title"></span>',['title'=>$d->valid_data_test],['escape'=>True]);
+          }
+        }
+        ?></td>
       <td class="text-center"><?= $this->Footnote->check($d->full_dataset_test) ?></td>
       <td class="text-center"><?= $this->Footnote->check($d->variable_comparison_test) ?></td>
       <td class="text-center"><?= $this->Footnote->check($d->coordinate_test) ?></td>

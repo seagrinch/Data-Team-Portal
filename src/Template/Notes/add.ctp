@@ -1,6 +1,7 @@
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Notes'), ['controller'=>'notes', 'action' => 'index']) ?></li>
   <li class="active">Create a new Note</li>
+  
 </ol>
 
 <?php 
@@ -17,20 +18,20 @@
 <?= $this->Form->create($note) ?>
 <fieldset>
   <legend>New Note</legend>
+  
+    <dl class="dl-horizontal">
+      <dt>Reference Designator:</dt>
+      <dd><?= h($note->reference_designator) ?></dd>
+    </dl>
 
   <div class="row">
-    <div class='col-md-6'>
-      <dl class="dl-horizontal">
-        <dt><?= __('Reference Designator') ?></dt>
-        <dd><?= h($note->reference_designator) ?></dd>
-      </dl>
-      
+    <div class='col-md-5'>      
       <?php
       echo $this->Form->input('type',['label'=>'Note Type',
         'options'=>[
-          'note'=>'Operational Note',
-          'issue'=>'Open Issue',
-          'resolved'=>'Resolved Issue',
+          'annotation'=>'Annotation',
+          'exclusion'=>'Exclusion',
+          'comment'=>'Comment',
         ],'empty'=>true]);
       //use Cake\Utility\Hash;
       echo $this->Form->input('deployment',[
@@ -43,9 +44,11 @@
         //  ['%s: %s to %s','{n}.deployment_number','{n}.start_date','{n}.stop_date']),
         'empty'=>true,
         'type'=>'select' ] );
-      echo $this->Form->input('asset_uid',['label'=>[
+/*
+      echo $this->Form->input('asset_uid','label'=>[
         'text'=>'Asset ID <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Asset UID. This will automatically update based on the selected deployment."></span>', 
         'escape'=>false] ] );
+*/
       echo $this->Form->input('start_date',[
         'type'=>'text',
         'append' => '<span class="glyphicon glyphicon-th" id="start-date-dp"></span>',
@@ -56,9 +59,10 @@
         ]);
       ?>
     </div>
-    <div class='col-md-6'>
+    <div class='col-md-7'>
       <?php
       echo $this->Form->input('comment',['type'=>'textarea', 'rows'=>12]);
+/*
       echo $this->Form->input('redmine_issue',['label'=>[
         'text'=>'Redmine Issue <span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Enter just the Redmine issue number."></span>', 
         'escape'=>false] ]);
@@ -73,6 +77,7 @@
           'Failed'=>'Failed',
           'Pass'=>'Pass',
         ],'empty'=>true]);
+*/
       ?>
 
       <?= $this->Html->link('Cancel', ['controller'=>$note->model, 'action' => 'view', $note->reference_designator, '#'=>'notes'], ['class'=>'btn btn-default']); ?> 

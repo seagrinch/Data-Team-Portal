@@ -3,7 +3,7 @@
   <thead>
     <tr>
       <th><?= $this->Paginator->sort('reference_designator') ?></th>
-      <th><?= $this->Paginator->sort('Site.array_name') ?></th>
+      <th><?= $this->Paginator->sort('Site.array_name','Array Name') ?></th>
       <th><?= $this->Paginator->sort('Site.name') ?></th>
       <th><?= $this->Paginator->sort('name',['label'=>'Node Name']) ?></th>
     </tr>

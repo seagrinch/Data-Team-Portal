@@ -1,4 +1,4 @@
-<h3>Instrument Status</h3>
+<h3>Status of Instrument Reviews</h3>
 
 <?php
 use Cake\Utility\Hash;
@@ -29,6 +29,8 @@ foreach ($regions as $reg) {
 echo '</table>';
 
 ?>
+<!--
 <?php if($import_time): ?>
 <p>Last import: <?= $this->Time->timeAgoInWords($import_time->import_date) ?>
 <?php endif; ?>
+-->

@@ -12,8 +12,10 @@ class FootnoteHelper extends Helper
     
     public function check($test) 
     {
-      if (strcasecmp($test, 'pass') == 0) {
-        return '<span class="glyphicon glyphicon-ok-circle" style="color:green;" aria-hidden="true" title="Passed"></span>';
+      if (strcasecmp($test, '') == 0) {
+        return '';
+      } else if (strcasecmp($test, 'pass') == 0) {
+        return '<span class="glyphicon glyphicon-ok" style="color:green;" aria-hidden="true" title="Passed"></span>';
       } else {
         $key = array_search($test, $this->items);
         if ($key) {

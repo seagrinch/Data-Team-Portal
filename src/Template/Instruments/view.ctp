@@ -27,6 +27,9 @@
     <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
       ['action' => 'view', $instrument->reference_designator],
       ['class'=>'btn btn-primary active','escape'=>false]) ?>
+    <?php echo $this->Html->link('Report <span class="glyphicon glyphicon-paperclip" aria-hidden="true">', 
+      ['action' => 'report', $instrument->reference_designator],
+      ['class'=>'btn btn-default','escape'=>false]) ?>
     <?php echo $this->Html->link('Daily Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
       ['action' => 'stats-daily', $instrument->reference_designator],
       ['class'=>'btn btn-default','escape'=>false]) ?>
