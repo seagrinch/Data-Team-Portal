@@ -13,7 +13,7 @@
 <h3>Note #<?= h($note->id) ?></h3>
 <dl class="dl-horizontal">
   <dt><?= __('User') ?></dt>
-  <dd><?= $note->has('user') ? $this->Html->link($note->user->username, ['controller' => 'Users', 'action' => 'view', $$note->user->id]) : '' ?></dd>
+  <dd><?= $note->has('user') ? $this->Html->link($note->user->username, ['controller' => 'Users', 'action' => 'view', $note->user->id]) : '' ?></dd>
   <dt><?= __('Type') ?></dt>
   <dd><?= h($note->type) ?></dd>
   <dt><?= __('Comment') ?></dt>
