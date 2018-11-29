@@ -90,7 +90,7 @@
     </div>
   </div>
 </fieldset>
-    
+
 <?= $this->Form->end() ?>
 
 <?= $this->Form->postLink(__('Delete Note'), ['action' => 'delete', $note->id], ['confirm' => __('Are you sure you want to delete the note for {0}?', $note->reference_designator), 'class'=>'btn btn-danger']) ?>

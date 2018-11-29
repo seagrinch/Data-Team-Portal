@@ -24,16 +24,16 @@
       ['class'=>'btn btn-default', 'escape'=>false]); ?>
   </div>
   <div class="btn-group btn-group-sm" role="group" aria-label="...">
-    <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
+    <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>', 
       ['action' => 'view', $instrument->reference_designator],
       ['class'=>'btn btn-primary active','escape'=>false]) ?>
-    <?php echo $this->Html->link('Report <span class="glyphicon glyphicon-paperclip" aria-hidden="true">', 
+    <?php echo $this->Html->link('Report <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>', 
       ['action' => 'report', $instrument->reference_designator],
       ['class'=>'btn btn-default','escape'=>false]) ?>
-    <?php echo $this->Html->link('Daily Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+    <?php echo $this->Html->link('Daily Stats <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>', 
       ['action' => 'stats-daily', $instrument->reference_designator],
       ['class'=>'btn btn-default','escape'=>false]) ?>
-    <?php echo $this->Html->link('Monthly Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
+    <?php echo $this->Html->link('Monthly Stats <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>', 
       ['action' => 'stats-monthly', $instrument->reference_designator],
       ['class'=>'btn btn-default','escape'=>false]) ?>
   </div>
