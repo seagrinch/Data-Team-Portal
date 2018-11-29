@@ -128,7 +128,16 @@
       <td class="text-center"><?= $this->Footnote->check($d->full_dataset_test) ?></td>
       <td class="text-center"><?= $this->Footnote->check($d->variable_comparison_test) ?></td>
       <td class="text-center"><?= $this->Footnote->check($d->coordinate_test) ?></td>
-      <td>Soon</td>
+      <td><?php 
+                if ($d->status) {
+                  $txt = h($d->status);
+                } else {
+                  $txt = 'Todo';
+                }
+              echo $this->Html->link($txt,
+                ['controller'=>'reviews', 'action'=>'edit', $d->id], 
+                ['class'=>'']);
+            ?></td>
     </tr>
     <?php endforeach; ?>
   </table>
