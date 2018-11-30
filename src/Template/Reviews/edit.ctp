@@ -30,6 +30,7 @@
       <?php
         echo $this->Form->input('status',['label'=>'Status',
           'options'=>[
+            'Tested'=>'Tested',
             'In Progress'=>'In Progress',
             'Blocked'=>'Blocked',
             'Complete'=>'Complete',

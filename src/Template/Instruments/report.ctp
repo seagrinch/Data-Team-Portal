@@ -143,20 +143,22 @@
     </tr>
     <?php endforeach; ?>
   </table>
+
+  <h4>Test Notes</h4>
+  <?php
+    echo $this->Footnote->list();
+  ?>
+
 <?php else: ?>
-  <p>No reviews found</p>
+  <p>No reviews found.</p>
 <?php endif; ?>
 
 
-<h4>Test Notes</h4>
-<?php
-  echo $this->Footnote->list();
-?>
 
 <div class="row">
   <div class="col-md-6">
 
-<h3>Data Coverage</h3>
+<!-- Data Coverage -->
 <?php 
   $coverage = [];
   $deployments = [];
@@ -171,6 +173,7 @@
     ksort($coverage);
   }?>
 <?php if (count($coverage) > 0): ?>
+<h3>Data Coverage</h3>
 <table class="table table-condensed" style="width:auto;">
   <thead>
     <tr>
@@ -194,14 +197,12 @@
   <?php endforeach; ?>
   </tbody>
 </table>
-<?php else: ?>
-  <p>No valid reviews found.</p>
 <?php endif; ?>
 
   </div>
   <div class="col-md-6">
 
-<h3>Lat/Lon Differences</h3>
+<!-- Lat/Lon Differences -->
 <?php 
   $kmdiff = [];
   $deployments = [];
@@ -217,6 +218,7 @@
     ksort($kmdiff);
   }?>
 <?php if (count($kmdiff) > 0): ?>
+<h3>Lat/Lon Differences</h3>
 <table class="table table-condensed" style="width:auto;">
   <thead>
     <tr>
@@ -236,8 +238,6 @@
   <?php endforeach; ?>
   </tbody>
 </table>
-<?php else: ?>
-  <p>No valid reviews found.</p>
 <?php endif; ?>
 
   </div>
