@@ -146,7 +146,7 @@
 
   <h4>Test Notes</h4>
   <?php
-    echo $this->Footnote->list();
+    echo $this->Footnote->footnote_list();
   ?>
 
 <?php else: ?>

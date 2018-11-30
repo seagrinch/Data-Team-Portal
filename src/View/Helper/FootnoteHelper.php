@@ -31,7 +31,7 @@ class FootnoteHelper extends Helper
       }
     }
 
-    public function list()
+    public function footnote_list()
     {
       if (!$this->items) {
         return 'All good!';
