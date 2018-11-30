@@ -54,7 +54,8 @@ $this->prepend('script', $this->Html->script(['jquery/jquery', 'bootstrap/bootst
               <li><?php echo $this->Html->link('Streams','/streams/all')?></li>
               <li role="separator" class="divider"></li>
               <li><?php echo $this->Html->link('Notes','/notes')?></li>
-              <li><?php echo $this->Html->link('Review Status','/instruments/status')?></li>
+              <li><?php echo $this->Html->link('Instrument Progress','/instruments/status')?></li>
+              <li><?php echo $this->Html->link('Review Progress','/reviews/status')?></li>
               <li role="separator" class="divider"></li>
               <li><?php echo $this->Html->link('Import Log','/import-log')?></li>
               <li><?php echo $this->Html->link('Array Stats','/regions/array-monthly')?></li>

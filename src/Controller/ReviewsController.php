@@ -56,6 +56,20 @@ class ReviewsController extends AppController
 
 
     /**
+     * Status method
+     */
+    public function status() {
+        $query = $this->Reviews->find();
+        $query->select(['region'=>'LEFT(reference_designator,2)','status','count' => $query->func()->count('*')])
+          ->group(['LEFT(reference_designator,2)','status']);
+        $status = $query->all()->toArray();
+        
+        $this->set(compact(['status']));      
+        $this->set('_serialize', ['status']);
+    }
+
+
+    /**
      * Delete method
      *
      * @param string|null $id Review id.
