@@ -56,7 +56,7 @@ class NodesController extends AppController
         ->where(['reference_designator'=> $node->reference_designator])
         ->orWhere(['reference_designator'=> $node->site->reference_designator])
         ->contain(['Users'])
-        ->order(['start_date'=>'ASC']);
+        ->order(['deployment'=>'ASC','start_date'=>'ASC']);
       $node->notes = $notes;
       
       $annotations = $this->Nodes->Annotations->find('all')

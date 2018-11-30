@@ -22,9 +22,10 @@
               'In progress'=>'Review in progress',
               'Complete'=>'Review Complete',
             ], 'empty'=>'Unknown', 'label'=>'Review Status']);
+            echo $this->Form->control('note');
         ?>
     </fieldset>
-		<?= $this->Html->link('Cancel', ['action' => 'view', $instrument->reference_designator], ['class'=>'btn btn-default']); ?>
+		<?= $this->Html->link('Cancel', ['action' => 'report', $instrument->reference_designator], ['class'=>'btn btn-default']); ?>
     <?= $this->Form->button(__('Save Changes'),['class'=>'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
     

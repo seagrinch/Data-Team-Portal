@@ -67,7 +67,7 @@ class SitesController extends AppController
       $notes = $this->Sites->Notes->find('all')
         ->where(['reference_designator'=> $site->reference_designator])
         ->contain(['Users'])
-        ->order(['start_date'=>'ASC']);
+        ->order(['deployment'=>'ASC','start_date'=>'ASC']);
       $site->notes = $notes;
 
       $annotations = $this->Sites->Annotations->find('all')

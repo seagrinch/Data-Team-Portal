@@ -101,7 +101,7 @@ class InstrumentsController extends AppController
         ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
         ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
         ->contain(['Users'])
-        ->order(['start_date'=>'ASC']);
+        ->order(['deployment'=>'ASC','start_date'=>'ASC']);
       $instrument->notes = $notes;
       
       $annotations = $this->Instruments->Annotations->find('all')
@@ -148,7 +148,7 @@ class InstrumentsController extends AppController
         ->orWhere(['reference_designator'=> $instrument->node->site->reference_designator])
         ->orWhere(['reference_designator'=> $instrument->node->reference_designator])
         ->contain(['Users'])
-        ->order(['start_date'=>'ASC']);
+        ->order(['deployment'=>'ASC','start_date'=>'ASC']);
       $instrument->notes = $notes;
       
       $annotations = $this->Instruments->Annotations->find('all')
@@ -183,7 +183,7 @@ class InstrumentsController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $instrument = $this->Instruments->patchEntity($instrument, $this->request->data, [
-                'fieldList'=>['start_depth','end_depth','location','uframe_status','current_status']
+                'fieldList'=>['current_status','note']
             ]);
             if ($this->Instruments->save($instrument)) {
                 $this->Flash->success(__('The instrument has been updated.'));

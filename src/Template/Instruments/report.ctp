@@ -38,6 +38,8 @@
 -->
       <dt><?= __('Review Status') ?></dt>
       <dd><?php echo $this->element('instrument_status', ['status'=>$instrument->current_status]); ?></dd>
+      <dt><?= __('Note') ?></dt>
+      <dd><?= h($instrument->note); ?></dd>
     </dl>
 
   </div>
