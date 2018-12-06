@@ -13,6 +13,15 @@ class ReviewsController extends AppController
 {
   
     /**
+     * beforeFilter method
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['status']);
+    }
+
+    /**
      * isAuthorized method
      */
     public function isAuthorized($user)

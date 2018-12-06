@@ -12,7 +12,10 @@
         <legend>Edit <?= $user->full_name?></legend>
         <?php
             echo $this->Form->input('username');
-            echo $this->Form->input('password');
+            echo $this->Form->input('password', [
+              'label'=>'New password', 
+              'help'=>'Leave this blank unless you want to change your password.',
+              'required'=>false]);
             echo $this->Form->input('password_confirm', ['type'=>'password','label'=>'Confirm your new password']);
             echo $this->Form->input('email');
             echo $this->Form->input('first_name');
