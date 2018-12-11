@@ -64,8 +64,10 @@
 </div>
 
 
-<h3>Dataset Reviews</h3>
 <?php if (count($instrument->reviews)>0): ?>
+  <h3>Dataset Reviews
+    <span class="small text-info">Last processed: <?php echo $this->Time->i18nFormat($instrument->reviews[0]['file_downloaded'])?></span>
+  </h3>
   <table class="table table-striped table-condensed table-hover">
     <tr>
       <th>Dep.</th>
@@ -150,6 +152,7 @@
   ?>
 
 <?php else: ?>
+  <h3>Dataset Reviews</h3>
   <p>No reviews found.</p>
 <?php endif; ?>
 
