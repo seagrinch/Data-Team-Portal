@@ -115,7 +115,7 @@
             } 
           } ?>
       </td>
-      <td class="text-right"><?= h($d->deploy_depth) ?> / <?= h($d->pressure_mean) ?> <!-- / <?= h($d->pressure_diff) ?> --></td>
+      <td class="text-right"><?= h($d->deploy_depth) ?> / <?= h($d->pressure_compare) ?> <!-- / <?= h($d->pressure_diff) ?> --></td>
       <td class="text-center"><?= $this->Footnote->check($d->timestamp_test) ?></td>
       <td class="text-center"><?php
         if ($d->valid_data_test) {
