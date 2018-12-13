@@ -191,4 +191,26 @@ class NotesController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+
+    /**
+     * Export Notes method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function export()
+    {
+        $query = $this->Notes->find()
+          ->contain(['Users']);
+        $data = $query->all();
+
+        $_serialize = 'data';
+        $_header = ['reference_designator','type','deployment','start_date','end_date','author','modified','comment'];
+        $_extract = ['reference_designator','type','deployment','start_date','end_date','user.first_name','modified','comment'];
+
+        $this->response->download('Review_Notes.csv');
+        $this->viewBuilder()->className('CsvView.Csv');
+        $this->set(compact('data', '_serialize', '_header', '_extract'));
+    }
+
 }
