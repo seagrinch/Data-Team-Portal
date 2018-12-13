@@ -34,7 +34,7 @@ class FootnoteHelper extends Helper
     public function footnote_list()
     {
       if (!$this->items) {
-        return 'All good!';
+        return '<p>All good!</p>';
       }
       $output = '<ol>';
       foreach ($this->items as $key => $value) {

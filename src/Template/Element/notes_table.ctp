@@ -47,6 +47,8 @@
       <?php endif; ?> 
     </td>
     <td>
+      <div class="media">
+      <div class="media-body">
       <?= $this->Text->autoParagraph(h($note->comment)); ?>
       <p><small>
         <em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
@@ -63,6 +65,13 @@
           <strong>Resolved: </strong><?= h($note->resolved_date) ?>
         <?php endif; ?> 
       </small></p>
+      </div>
+      <?php if ($note->image_url):?>
+      <div class="media-right">
+        <?= $this->Html->link($this->Html->image($note->image_url,['class'=>'media-object','style'=>'width:250px']),$note->image_url,['escape'=>false])?>
+      </div>
+      <?php endif;?>
+      </div>
     </td>
   </tr>
 <?php endforeach; ?>

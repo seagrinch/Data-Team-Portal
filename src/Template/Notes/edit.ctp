@@ -53,6 +53,7 @@
         'value'=> $this->Time->i18nFormat($note->end_date,'M/d/yyyy HH:mm'),
         ]);
       echo $this->Form->input('user_id', ['options' => $users, 'empty' => true, 'label'=>'Author']);
+      echo $this->Form->input('image_url',['label'=>'Image URL']);
       ?>
     </div>
     <div class='col-md-7'>

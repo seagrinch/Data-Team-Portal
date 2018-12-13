@@ -58,6 +58,7 @@
         'type'=>'text',
         'append' => '<span class="glyphicon glyphicon-calendar" id="end-date-dp"></span>',
         ]);
+      echo $this->Form->input('image_url',['label'=>'Image URL']);
       ?>
     </div>
     <div class='col-md-7'>

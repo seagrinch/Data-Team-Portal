@@ -88,6 +88,10 @@ class NotesTable extends Table
             ->allowEmpty('resolved_date')
             ->date('resolved_date','mdy');
 
+        $validator
+            ->allowEmpty('image_url')
+            ->url('image_url');
+
         return $validator;
     }
 
