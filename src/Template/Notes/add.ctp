@@ -9,8 +9,8 @@
   foreach ($note->deployments as $d) {
     $deployments[$d['deployment_number']] = [
       'asset_uid'  => $d['sensor_uid'],
-      'start_date' => ($d['start_date'] ? $this->Time->format($d['start_date'], 'MM/dd/yyyy') : ''),
-      'end_date'   => ($d['stop_date'] ? $this->Time->format($d['stop_date'], 'MM/dd/yyyy') : ''),
+      'start_date' => ($d['start_date'] ? $this->Time->format($d['start_date'], 'MM/dd/yyyy HH:mm') : ''),
+      'end_date'   => ($d['stop_date'] ? $this->Time->format($d['stop_date'], 'MM/dd/yyyy HH:mm') : ''),
     ];
   }    
 ?>
@@ -51,11 +51,11 @@
 */
       echo $this->Form->input('start_date',[
         'type'=>'text',
-        'append' => '<span class="glyphicon glyphicon-th" id="start-date-dp"></span>',
+        'append' => '<span class="glyphicon glyphicon-calendar" id="start-date-dp"></span>',
         ]);
       echo $this->Form->input('end_date',[
         'type'=>'text',
-        'append' => '<span class="glyphicon glyphicon-th" id="end-date-dp"></span>',
+        'append' => '<span class="glyphicon glyphicon-calendar" id="end-date-dp"></span>',
         ]);
       ?>
     </div>
@@ -89,35 +89,32 @@
     
 <?= $this->Form->end() ?>
 
-<?php $this->Html->css('datepicker/bootstrap-datepicker3',['block'=>true]); ?>
-<?php $this->Html->script('datepicker/bootstrap-datepicker',['block'=>true]); ?>
+<?php $this->Html->css('datetimepicker/bootstrap-datetimepicker',['block'=>true]); ?>
+<?php $this->Html->script('moment',['block'=>true]); ?>
+<?php $this->Html->script('datetimepicker/bootstrap-datetimepicker.min',['block'=>true]); ?>
 
 <?php $this->Html->scriptStart(['block' => true]); ?>
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
 
-  $('#start-date').datepicker({
-    autoclose: true,
-    todayHighlight: true,
-    showOnFocus: false,
-    format:  "m/d/yyyy"
+  $('#start-date').datetimepicker({
+    sideBySide:true,
+    useCurrent: 'day'
   });
   $('#start-date-dp')
     .css('cursor', 'pointer')
     .on('click', function () {
-      $('#start-date').datepicker('show');
+      $('#start-date').datetimepicker('show');
     });
-  $('#end-date').datepicker({
-    autoclose: true,
-    todayHighlight: true,
-    showOnFocus: false,
-    format:  "m/d/yyyy"
+  $('#end-date').datetimepicker({
+    sideBySide:true,
+    useCurrent: 'day'
   });
   $('#end-date-dp')
     .css('cursor', 'pointer')
     .on('click', function () {
-      $('#end-date').datepicker('show');
+      $('#end-date').datetimepicker('show');
     });
 
   var deployments = <?= json_encode($deployments)?>;

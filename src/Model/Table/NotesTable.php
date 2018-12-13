@@ -74,11 +74,11 @@ class NotesTable extends Table
 
         $validator
             ->allowEmpty('start_date')
-            ->date('start_date','mdy');
+            ->datetime('start_date','mdy');
 
         $validator
             ->allowEmpty('end_date')
-            ->date('end_date','mdy');
+            ->datetime('end_date','mdy');
 
         $validator
             ->allowEmpty('redmine_issue')
