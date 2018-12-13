@@ -1,3 +1,4 @@
+<?php $this->assign('title',$node->name)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'index']) ?></li>
   <li><?= $this->html->link($node->site->region->name,['controller'=>'regions','action'=>'view',$node->site->region->reference_designator]) ?></li>

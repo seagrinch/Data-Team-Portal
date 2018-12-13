@@ -1,3 +1,4 @@
+<?php $this->assign('title','OOI Monthly Stats')?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'index']) ?></li>
   <li class="active">Monthly Stats</li>

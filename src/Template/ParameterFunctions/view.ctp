@@ -1,3 +1,4 @@
+<?php $this->assign('title',$parameterFunction->name)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Parameter Functions'), ['action' => 'index']) ?></li>
   <li class="active"><?= h($parameterFunction->name) ?></li>

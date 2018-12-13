@@ -1,3 +1,4 @@
+<?php $this->assign('title',$cruise->cuid)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Cruises'), ['action' => 'index']) ?></li>
   <li class="active"><?= h($cruise->cuid) ?></li>

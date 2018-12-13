@@ -1,3 +1,4 @@
+<?php $this->assign('title','Edit note '.$note->id)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Notes'), ['controller'=>'notes', 'action' => 'index']) ?></li>
   <li><?= $this->html->link('Note #' . $note->id,['action'=>'view',$note->id]) ?></li>

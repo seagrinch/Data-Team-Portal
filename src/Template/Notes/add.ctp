@@ -1,3 +1,4 @@
+<?php $this->assign('title','Add Note')?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Notes'), ['controller'=>'notes', 'action' => 'index']) ?></li>
   <li class="active">Create a new Note</li>

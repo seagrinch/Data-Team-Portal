@@ -1,3 +1,4 @@
+<?php $this->assign('title',$instrument_model->class.'-'.$instrument_model->series)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Instrument Classes'), ['controller'=>'instrument_classes','action' => 'index']) ?></li>
   <li><?= $this->Html->link($instrument_model->class, ['controller'=>'instrument_classes','action' => 'view', $instrument_model->class]) ?></li>

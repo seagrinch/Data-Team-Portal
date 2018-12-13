@@ -1,3 +1,4 @@
+<?php $this->assign('title','Daily stats for '.$node->name)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'array_daily']) ?></li>
   <li><?= $this->html->link($node->site->region->name,['controller'=>'regions','action'=>'stats_daily',$node->site->region->reference_designator]) ?></li>

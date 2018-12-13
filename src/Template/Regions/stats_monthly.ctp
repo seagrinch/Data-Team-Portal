@@ -1,3 +1,4 @@
+<?php $this->assign('title','Monthly stats for '.$region->name)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'array_monthly']) ?></li>
   <li class="active"><?= $this->Html->link($region->name,['action' => 'view', $region->reference_designator]) ?></li>

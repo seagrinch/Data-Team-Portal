@@ -1,3 +1,4 @@
+<?php $this->assign('title',$stream->name)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Streams'), ['action' => 'index']) ?></li>
   <li class="active"><?= h($stream->name) ?></li>

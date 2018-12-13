@@ -1,3 +1,4 @@
+<?php $this->assign('title',$parameter->name)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Parameters'), ['action' => 'index']) ?></li>
   <li class="active"><?= h($parameter->name) ?></li>

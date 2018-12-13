@@ -1,3 +1,4 @@
+<?php $this->assign('title','Reference List')?>
 <div class="row">
   <div class="col-md-6">
     

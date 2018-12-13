@@ -1,3 +1,4 @@
+<?php $this->assign('title','Review Stats')?>
 <h3>Status of Instrument-Stream-Deployment Reviews</h3>
 
 <?php

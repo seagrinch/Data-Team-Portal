@@ -1,3 +1,4 @@
+<?php $this->assign('title',$region->name)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Arrays'), ['controller'=>'regions', 'action' => 'index']) ?></li>
   <li class="active"><?= h($region->name) ?></li>

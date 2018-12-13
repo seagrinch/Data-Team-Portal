@@ -1,3 +1,4 @@
+<?php $this->assign('title',$instrument_class->class)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Instrument Classes'), ['action' => 'index']) ?></li>
   <li class="active"><?= h($instrument_class->class) ?></li>

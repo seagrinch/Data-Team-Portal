@@ -1,3 +1,4 @@
+<?php $this->assign('title',$asset->asset_uid)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Assets'), ['action' => 'index']) ?></li>
   <li class="active"><?= h($asset->asset_uid) ?></li>

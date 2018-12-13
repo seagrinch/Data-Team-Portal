@@ -1,3 +1,4 @@
+<?php $this->assign('title','Instrument Stats')?>
 <h3>Status of Instrument Reviews</h3>
 
 <?php

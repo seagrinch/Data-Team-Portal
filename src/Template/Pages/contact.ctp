@@ -1,3 +1,4 @@
+<?php $this->assign('title','Contact Us')?>
 <h2>Contact Us</h2>
 
 <p>If you have any questions about this project, please contact:</p>

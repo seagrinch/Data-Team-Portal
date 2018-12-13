@@ -1,3 +1,4 @@
+<?php $this->assign('title','Add Nugget')?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Nuggets'), ['action' => 'index']) ?></li>
   <li class="active">Add</li>

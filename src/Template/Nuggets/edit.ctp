@@ -1,3 +1,4 @@
+<?php $this->assign('title','Edit '.$nugget->title)?>
 <ol class="breadcrumb">
   <li><?= $this->Html->link(__('Nuggets'), ['action' => 'index']) ?></li>
   <li><?= $this->html->link($nugget->title,['action'=>'view',$nugget->id]) ?></li>
