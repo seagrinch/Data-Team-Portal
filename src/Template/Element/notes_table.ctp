@@ -51,7 +51,7 @@
       <p><small>
         <em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
         <?= $this->Time->timeAgoInWords($note->created) ?></em>
-        <?php if ($this->request->session()->read('Auth.User.id') == $note->user_id): ?>
+        <?php if (($this->request->session()->read('Auth.User.id') == $note->user_id) | ($this->request->session()->read('Auth.User.role')=='admin')): ?>
           [<?php echo $this->Html->link('Edit', ['controller'=>'notes','action'=>'edit',$note->id]); ?>]
         <?php endif; ?>
         <?php if ($note->redmine_issue): ?>
