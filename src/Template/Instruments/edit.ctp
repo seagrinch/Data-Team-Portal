@@ -18,8 +18,9 @@
               'Engineering'=>'Engineering',
               'Camera'=>'Camera',
               'Todo'=>'Todo',
-              'No Review'=>'Will not review',
-              'In progress'=>'Review in progress',
+              'Will Not Review'=>'Will Not Review',
+              'Blocked'=>'Review Blocked',
+              'In Progress'=>'Review in Progress',
               'Complete'=>'Review Complete',
             ], 'empty'=>'Unknown', 'label'=>'Review Status']);
             echo $this->Form->control('note');
