@@ -15,7 +15,7 @@
         echo $this->Html->link('Edit Instrument', ['action'=>'edit', $instrument->reference_designator], ['class'=>'btn btn-info']);
       }
     ?>
-    <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
+    <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>', 
       ['action' => 'view', $instrument->reference_designator],
       ['class'=>'btn btn-default','escape'=>false]) ?>
   </div>
@@ -69,25 +69,27 @@
   <h3>Dataset Reviews
     <span class="small text-info">Last processed: <?php echo $this->Time->i18nFormat($instrument->reviews[0]['file_downloaded'])?></span>
   </h3>
+  <div class="pull-right" style="margin-top:-2em"><?php echo $this->Html->link('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> QC Check Info', 
+    '/pages/quality-checks',['escape'=>false,'class'=>'text-muted']) ?></div>
   <table class="table table-striped table-condensed table-hover">
     <tr>
-      <th>Dep.</th>
-      <th>Preferred Method</th>
-      <th>Stream</th>
-      <th class="text-right"><span data-toggle="tooltip" title="Deployment Days">DD</span></th>
-      <th class="text-right"><span data-toggle="tooltip" title="Good Days">GD</span></th>
-      <th class="text-right"><span data-toggle="tooltip" title="Start Gap">SG</span></th>
-      <th class="text-right"><span data-toggle="tooltip" title="End Gap">EG</span></th>
-      <th class="text-right"><span data-toggle="tooltip" title="Gap Days">GD</span></th>
-      <th class="text-right"><span data-toggle="tooltip" title="Gap Count">Gaps</span></th>
-      <th class="text-center"><span data-toggle="tooltip" title="Timestamps">TS</span></th>
-      <th class="text-center"><span data-toggle="tooltip" title="Sampling Rate">Rate (s)</span></th>
-      <th class="text-center">Pressure Comp.</th>
-      <th class="text-center">Time Order</th>
-      <th class="text-center">Valid Data</th>
-      <th class="text-center">Missing Data</th>
-      <th class="text-center">Data Comp.</th>
-      <th class="text-center">Missing Coords.</th>
+      <th><span data-toggle="popover" title="Deployment Number" data-content="instrument deployment number">Dep.</span></th>
+      <th><span data-toggle="popover" title="Preferred Method" data-content="data delivery method selected for review">Preferred Method</span></th>
+      <th><span data-toggle="popover" title="Stream" data-content="data stream name">Stream</span></th>
+      <th class="text-right"><span data-toggle="popover" title="Deployment Days" data-content="# days in a deployment">DD</span></th>
+      <th class="text-right"><span data-toggle="popover" title="File Days" data-content="# days of data available in file">FD</span></th>
+      <th class="text-right"><span data-toggle="popover" title="Start Gap" data-content="# days missing at the start of a deployment">SG</span></th>
+      <th class="text-right"><span data-toggle="popover" title="End Gap" data-content="# days missing at the end of a deployment">EG</span></th>
+      <th class="text-right"><span data-toggle="popover" title="Gaps Count" data-content="# gaps in a data file">Gaps</span></th>
+      <th class="text-right"><span data-toggle="popover" title="Gap Days" data-content="# days of missing data in a data file">GD</span></th>
+      <th class="text-center"><span data-toggle="popover" title="Timestamps" data-content="# timestamps in a data file">TS</span></th>
+      <th class="text-center"><span data-toggle="popover" title="Sampling Rate" data-content="common sampling rate (unit: seconds) in a data file">Rate (s)</span></th>
+      <th class="text-center"><span data-toggle="popover" title="Pressure Comparison" data-content="deployment depth / average or maximum pressure">Pressure Comp.</span></th>
+      <th class="text-center"><span data-toggle="popover" title="Time Order" data-content="check that timestamps are unique and in ascending order">Time Order</span></th>
+      <th class="text-center"><span data-toggle="popover" title="Valid Data" data-content="% data that are not NaNs, fill values, outside global ranges, and outliers (5 SD)">Valid Data</span></th>
+      <th class="text-center"><span data-toggle="popover" title="Missing Data" data-content="check for data available in a non-preferred data stream">Missing Data</span></th>
+      <th class="text-center"><span data-toggle="popover" title="Data Comparison" data-content="compare data among all delivery methods">Data Comp.</span></th>
+      <th class="text-center"><span data-toggle="popover" title="Missing Coordinates" data-content="check available coordinates against expected coordinates">Missing Coords.</span></th>
       <th>Review</th>
     </tr>
     <?php foreach ($instrument->reviews as $d): ?>
@@ -105,8 +107,8 @@
       <td class="text-right"><?= h($d->n_days) ?></td>
       <td class="text-right"><?= h($d->start_days_missing) ?></td>
       <td class="text-right"><?= h($d->end_days_missing) ?></td>
-      <td class="text-right"><?= h($d->gaps_num_days) ?></td>
       <td class="text-right"><?= h($d->gaps_num) ?></td>
+      <td class="text-right"><?= h($d->gaps_num_days) ?></td>
       <td class="text-right"><?= (($d->n_timestamps) ? $this->Number->precision($d->n_timestamps,0) : '') ?></td>
       <td class="text-right">
         <?php 
@@ -270,6 +272,11 @@
   // Initialize Tooltips
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
+  })
+  
+  // Initialize Popovers
+  $(function () {
+    $('[data-toggle="popover"]').popover({'trigger':'click hover','placement':'bottom'})
   })
 
   // Javascript to enable link to tab
