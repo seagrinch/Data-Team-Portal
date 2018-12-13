@@ -48,29 +48,33 @@
     </td>
     <td>
       <div class="media">
-      <div class="media-body">
-      <?= $this->Text->autoParagraph(h($note->comment)); ?>
-      <p><small>
-        <em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
-        <?= $this->Time->timeAgoInWords($note->created) ?></em>
-        <?php if (($this->request->session()->read('Auth.User.id') == $note->user_id) | ($this->request->session()->read('Auth.User.role')=='admin')): ?>
-          [<?php echo $this->Html->link('Edit', ['controller'=>'notes','action'=>'edit',$note->id]); ?>]
+        <div class="media-body">
+          <?= $this->Text->autoParagraph(h($note->comment)); ?>
+          <p><small>
+            <em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
+            <?= $this->Time->timeAgoInWords($note->created) ?></em>
+            <?php if (($this->request->session()->read('Auth.User.id') == $note->user_id) | ($this->request->session()->read('Auth.User.role')=='admin')): ?>
+              [<?php echo $this->Html->link('Edit', ['controller'=>'notes','action'=>'edit',$note->id]); ?>]
+            <?php endif; ?>
+            <?php if ($note->redmine_issue): ?>
+              <br />
+              <strong>Redmine Issue</strong> <a href="https://redmine.oceanobservatories.org/issues/<?= $note->redmine_issue?>">#<?= $note->redmine_issue?> <span class="glyphicon glyphicon-link" aria-hidden="true"></span></a> 
+            <?php endif; ?> 
+            <?php if ($note->resolved_date): ?>
+              <br />
+              <strong>Resolved: </strong><?= h($note->resolved_date) ?>
+            <?php endif; ?> 
+          </small></p>
+        </div>
+        <?php if ($note->image_url): ?>
+        <div class="media-right">
+          <?php if (preg_match('/(\.jpg|\.png|\.gif)$/i', $note->image_url)) { ?>
+            <?= $this->Html->link($this->Html->image($note->image_url,['class'=>'media-object','style'=>'width:250px']),$note->image_url,['escape'=>false])?>
+          <?php } else { ?>
+            <p><?= $this->Html->link('Review Images <span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span>',$note->image_url,['escape'=>false,'class'=>'btn btn-sm'])?></p>
+          <?php } ?>
+        </div>
         <?php endif; ?>
-        <?php if ($note->redmine_issue): ?>
-          <br />
-          <strong>Redmine Issue</strong> <a href="https://redmine.oceanobservatories.org/issues/<?= $note->redmine_issue?>">#<?= $note->redmine_issue?> <span class="glyphicon glyphicon-link" aria-hidden="true"></span></a> 
-        <?php endif; ?> 
-        <?php if ($note->resolved_date): ?>
-          <br />
-          <strong>Resolved: </strong><?= h($note->resolved_date) ?>
-        <?php endif; ?> 
-      </small></p>
-      </div>
-      <?php if ($note->image_url):?>
-      <div class="media-right">
-        <?= $this->Html->link($this->Html->image($note->image_url,['class'=>'media-object','style'=>'width:250px']),$note->image_url,['escape'=>false])?>
-      </div>
-      <?php endif;?>
       </div>
     </td>
   </tr>
