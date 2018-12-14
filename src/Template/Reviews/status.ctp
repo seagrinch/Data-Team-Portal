@@ -19,7 +19,7 @@ foreach ($regions as $reg) {
   foreach ($status_levels as $sta) {
     if (array_key_exists($sta,$results[$reg])) {
       echo '<td>';
-      echo $results[$reg][$sta]; //$this->Html->link($results[$reg][$sta],['controller'=>'reviews','action'=>'index',$reg,$sta]);
+      echo $this->Html->link($results[$reg][$sta],['controller'=>'reviews','action'=>'index',$reg,$sta]); //$results[$reg][$sta];
       echo '</td>';
     } else {
       echo '<td></td>';

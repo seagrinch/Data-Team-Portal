@@ -40,6 +40,30 @@ class ReviewsController extends AppController
     }
 
     /**
+     * Index method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function index($site=null,$status=null) {
+      $query = $this->Reviews->find('all');
+      if ($site) {
+        $query->where(['reference_designator LIKE'=>$site.'%']);
+      }
+      if ($status) {
+        $query->where(['status'=>$status]);
+      }
+      if ($this->request->is('json') ) { //Formerly ajax
+        $this->paginate = [
+          'limit' => 2000, 
+          'maxLimit' => 2000,
+        ];
+        $this->set('_serialize', false);
+      }
+      $this->set('reviews',$this->paginate($query));
+    }
+
+
+    /**
      * Edit method
      *
      * @param string|null $id Review id.
