@@ -13,6 +13,15 @@ class NotesController extends AppController
 {
 
     /**
+     * beforeFilter method
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['export']);
+    }
+
+    /**
      * isAuthorized method
      */
     public function isAuthorized($user)
