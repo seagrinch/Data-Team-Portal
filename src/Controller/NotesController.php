@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Event\Event;
 
 /**
  * Notes Controller
@@ -56,6 +57,13 @@ class NotesController extends AppController
             'sortWhitelist' => ['Notes.reference_designator', 'Users.first_name', 'Notes.created', 'Notes.modified'],
             'order' => ['Notes.modified'=>'desc'],
         ];
+        if ($this->request->is('json') ) { //Formerly ajax
+          $this->paginate = [
+            'limit' => 2000, 
+            'maxLimit' => 2000,
+            'contain' => ['Users'],
+          ];
+        }
         $notes = $this->paginate($this->Notes);
         
         $this->set(compact('notes'));
