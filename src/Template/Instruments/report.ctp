@@ -149,10 +149,20 @@
     <?php endforeach; ?>
   </table>
 
+
+<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
+  <div class="btn-group btn-group-sm" role="group" aria-label="...">
+  <?= $this->Html->link('Final Stats','https://github.com/data-edu-ooi/data-review-tools/tree/master/data_review/final_stats/' . 
+    $instrument->node->site->region->reference_designator . '/' . 
+    $instrument->node->site->reference_designator . '/' . 
+    $instrument->reference_designator . '_final_stats.csv', ['class'=>'btn btn-sm btn-primary']);?>
+
   <?= $this->Html->link('Review Images','https://marine.rutgers.edu/cool/ooi/data-eval/data_review/' . 
     $instrument->node->site->region->reference_designator . '/' . 
     $instrument->node->site->reference_designator . '/' . 
-    $instrument->reference_designator, ['class'=>'btn btn-sm btn-warning pull-right']);?>
+    $instrument->reference_designator, ['class'=>'btn btn-sm btn-warning']);?>
+  </div>
+</div>
 
   <h4>Test Notes</h4>
   <?php
