@@ -43,7 +43,7 @@
     <h3>Data Team Reviews</h3>
     <ul>
       <li>Data Review Reports - See Instrument pages</li>
-      <li><?php echo $this->Html->link('Notes',['controller'=>'Notes'])?> [<?php echo $this->Html->link('CSV Export',['controller'=>'Notes', 'action'=>'export'])?>]</li>
+      <li><?php echo $this->Html->link('Review Notes',['controller'=>'Notes'])?> [<?php echo $this->Html->link('CSV Export',['controller'=>'Notes', 'action'=>'export'])?>]</li>
       <li><?php echo $this->Html->link('Cruise Reviews',['controller'=>'CruiseReviews'])?> (deprecated)</li>
       <li><?php echo $this->Html->link('Deployment Reviews',['controller'=>'DeploymentReviews'])?> (deprecated)</li>
       <li><?php echo $this->Html->link('Test Runs',['controller'=>'TestRuns'])?> (deprecated)</li>

@@ -239,7 +239,7 @@
     ksort($kmdiff);
   }?>
 <?php if (count($kmdiff) > 0): ?>
-<h3>Lat/Lon Differences</h3>
+<h3>Lat/Lon Differences (km)</h3>
 <table class="table table-condensed" style="width:auto;">
   <thead>
     <tr>
@@ -264,14 +264,14 @@
   </div>
 </div>
 
-<h3>Annotations <small><a class="" role="button" data-toggle="collapse" href="#collapseAnnotations" aria-expanded="false" aria-controls="collapseAnnotations">Show</a></small></h3>
+<h3>System Annotations <small><a class="" role="button" data-toggle="collapse" href="#collapseAnnotations" aria-expanded="false" aria-controls="collapseAnnotations">Show</a></small></h3>
 
 <div class="collapse" id="collapseAnnotations">
   <?php echo $this->element('annotations_table', ['annotations'=>$instrument->annotations]); ?>
 </div>
 
 
-<h3>Recommendations</h3>
+<h3>Review Notes</h3>
 <?php echo $this->element('notes_table', ['notes'=>$instrument->notes]); ?>
 <p class="text-left">
   <?php echo $this->Html->link(__('New Note'), ['controller'=>'notes','action'=>'add',$instrument->reference_designator], ['class'=>'btn btn-primary']); ?>
