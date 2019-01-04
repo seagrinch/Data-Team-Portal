@@ -205,11 +205,17 @@
   <tbody>
   <?php foreach ($coverage as $key=>$row): ?>
     <tr>
-      <td><?php echo $key; ?></td>
+      <td><?php 
+        if (strlen($key)>20) {
+          echo $this->Text->insert('<span aria-hidden="true" data-toggle="tooltip" title=":title">:title2</span>',['title'=>$key, 'title2'=>$this->Text->truncate($key,20)],['escape'=>True]);          
+        } else {
+          echo $this->Text->insert(':title',['title'=>$key]);
+        } ?>
+      </td>
       <?php foreach ($deployments as $d): 
         if (isset($row[$d])) {
           $c = ($row[$d] < 50 ? 'danger' : '');
-          echo $this->Text->insert('<td class=":class">:percentage</td>', ['class'=>$c,'percentage'=>sprintf('%.1f%%',$row[$d])]);
+          echo $this->Text->insert('<td class=":class">:percentage</td>', ['class'=>$c,'percentage'=>sprintf('%.0f%%',$row[$d])]);
         } else {
           echo '<td></td>';
         }
