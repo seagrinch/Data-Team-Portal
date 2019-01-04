@@ -95,7 +95,12 @@
           <ul>
             <?php foreach ($node->instruments as $instrument): ?>
             <li><?php echo $this->element('instrument_status', ['status'=>$instrument->current_status,'notitle'=>true]); ?>
-                <?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'report',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small></li>
+                <?= $this->html->link($instrument->name,['controller'=>'instruments','action'=>'report',$instrument->reference_designator]) ?> <small>(<?= h($instrument->reference_designator) ?>)</small>
+                <?php
+                  if ($instrument->note) {
+                    echo $this->Text->insert('<span class="glyphicon glyphicon-star" style="font-size: 1.0em; color:orange;" aria-hidden="true" data-toggle="tooltip" title=":title"></span>',['title'=>$instrument->note]);
+                  } ?>
+                </li>
             <?php endforeach; ?>
           </ul>
         </li>
@@ -161,6 +166,11 @@
 
 
 <?php $this->Html->scriptStart(['block' => true]); ?>
+  // Initialize Tooltips
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+
   var url = document.location.toString();
   if (url.match('#')) {
       $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
