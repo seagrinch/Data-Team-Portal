@@ -49,6 +49,7 @@
     <td>
       <div class="media">
         <div class="media-body">
+          <?php //echo $this->Text->truncate($note->comment, 500, ['exact'=>false,'ellipsis'=>'...']); ?>
           <?= $this->Text->autoParagraph(h($note->comment)); ?>
           <p><small>
             <em>By <?= $note->has('user') ? h($note->user->full_name) : 'Unknown' ?>, 
