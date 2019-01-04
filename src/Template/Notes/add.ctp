@@ -30,6 +30,7 @@
       <?php
       echo $this->Form->input('type',['label'=>'Note Type',
         'options'=>[
+          'draft'=>'Draft',
           'annotation'=>'Annotation',
           'exclusion'=>'Exclusion',
           'comment'=>'Comment',
