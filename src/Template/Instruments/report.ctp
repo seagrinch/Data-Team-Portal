@@ -136,14 +136,17 @@
       <td class="text-center"><?= $this->Footnote->check($d->variable_comparison_test) ?></td>
       <td class="text-center"><?= $this->Footnote->check($d->coordinate_test) ?></td>
       <td><?php 
-                if ($d->status) {
-                  $txt = h($d->status);
-                } else {
-                  $txt = 'Todo';
-                }
+              if ($d->status) {
+                $txt = h($d->status);
+              } else {
+                $txt = 'Todo';
+              }
               echo $this->Html->link($txt,
                 ['controller'=>'reviews', 'action'=>'edit', $d->id], 
                 ['class'=>'']);
+              if ($d->notes) {
+                echo $this->Text->insert('<span class="glyphicon glyphicon-star" style="font-size: 1.0em; color:orange;" aria-hidden="true" data-toggle="tooltip" title=":title"></span>',['title'=>$d->notes]);
+              }              
             ?></td>
     </tr>
     <?php endforeach; ?>
