@@ -31,8 +31,8 @@
         echo $this->Form->input('status',['label'=>'Status',
           'options'=>[
             'Tested'=>'Tested',
-            'In Progress'=>'In Progress',
             'Blocked'=>'Blocked',
+            'In Progress'=>'In Progress',
             'Complete'=>'Complete',
           ],'empty'=>true]);
         echo $this->Form->input('completed_date',[
