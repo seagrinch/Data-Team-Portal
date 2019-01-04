@@ -222,8 +222,8 @@ class NotesController extends AppController
         $data = $query->all();
 
         $_serialize = 'data';
-        $_header = ['reference_designator','type','deployment','start_date','end_date','author','modified','comment'];
-        $_extract = ['reference_designator','type','deployment','start_date','end_date','user.first_name','modified','comment'];
+        $_header = ['type','reference_designator','deployment','start_date','end_date','author','modified','image_url','comment'];
+        $_extract = ['type','reference_designator','deployment','start_date','end_date','user.first_name','modified','image_url','comment'];
 
         $this->response->download('Review_Notes.csv');
         $this->viewBuilder()->className('CsvView.Csv');
