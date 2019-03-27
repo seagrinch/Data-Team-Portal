@@ -249,9 +249,7 @@
   $instrument->node->site->reference_designator . '/' . 
   $instrument->node->reference_designator . '/' . 
   $instrument->reference_designator . '/' . 
-  $instrument->reference_designator . '-' . 
-  $instrument->reviews[0]->preferred_method . '-' . 
-  $instrument->reviews[0]->stream . '-track.png', ['class'=>'img-responsive']);?>
+  $instrument->reference_designator . '_glider_track.png', ['class'=>'img-responsive']);?>
 
 <?php else: ?>
 <!-- Lat/Lon Differences -->
