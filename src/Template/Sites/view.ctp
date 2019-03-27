@@ -22,6 +22,7 @@
       'https://ooinet.oceanobservatories.org/plot/#' . $site->reference_designator, 
       ['class'=>'btn btn-default', 'escape'=>false]); ?>
   </div>
+<!--
   <div class="btn-group btn-group-sm" role="group" aria-label="...">
     <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
       ['action' => 'view', $site->reference_designator],
@@ -33,6 +34,7 @@
       ['action' => 'stats-monthly', $site->reference_designator],
       ['class'=>'btn btn-default','escape'=>false]) ?>
   </div>
+-->
 </div>
 
 

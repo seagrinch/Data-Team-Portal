@@ -4,6 +4,7 @@
   <li class="active"><?= h($region->name) ?></li>
 </ol>
 
+<!--
 <div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
   <div class="btn-group btn-group-sm" role="group" aria-label="...">
     <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
@@ -17,6 +18,7 @@
       ['class'=>'btn btn-default','escape'=>false]) ?>
   </div>
 </div>
+-->
 
 
 <h3><?= h($region->name) ?></h3>

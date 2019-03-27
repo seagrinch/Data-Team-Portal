@@ -14,6 +14,7 @@
       'https://ooinet.oceanobservatories.org/plot/#' . $dataStream->reference_designator, 
       ['class'=>'btn btn-default', 'escape'=>false]); ?>
   </div>
+<!--
   <div class="btn-group btn-group-sm" role="group" aria-label="...">
     <?php echo $this->Html->link('Report <span class="glyphicon glyphicon-info-sign" aria-hidden="true">', 
       ['controller'=>'data-streams', 'action' => 'view', $dataStream->id],
@@ -25,6 +26,7 @@
       ['controller'=>'data-streams', 'action' => 'plot', $dataStream->id],
       ['class'=>'btn btn-default','escape'=>false]) ?>
   </div>
+-->
 </div>
 
 <h3>Data Stream Report</h3>

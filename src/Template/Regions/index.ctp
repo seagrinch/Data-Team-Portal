@@ -1,3 +1,4 @@
+<!--
 <div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
   <div class="btn-group btn-group-sm" role="group" aria-label="...">
     <?php echo $this->Html->link('Daily Stats <span class="glyphicon glyphicon-stats" aria-hidden="true">', 
@@ -8,6 +9,7 @@
       ['class'=>'btn btn-default','escape'=>false]) ?>
   </div>
 </div>
+-->
 
 <h1>OOI 1.0 Data Reviews</h1>
 <div class="row">

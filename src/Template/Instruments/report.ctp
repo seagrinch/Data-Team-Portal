@@ -15,9 +15,20 @@
         echo $this->Html->link('Edit Instrument', ['action'=>'edit', $instrument->reference_designator], ['class'=>'btn btn-info']);
       }
     ?>
+    <?php echo $this->Html->link('OOI Site Page <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 
+      'http://oceanobservatories.org/site/' . substr($instrument->reference_designator,0,8), 
+      ['class'=>'btn btn-default', 'escape'=>false]); ?>
+    <?php echo $this->Html->link('Data Portal <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>', 
+      'https://ooinet.oceanobservatories.org/plot/#' . $instrument->reference_designator, 
+      ['class'=>'btn btn-default', 'escape'=>false]); ?>
+  </div>
+  <div class="btn-group btn-group-sm" role="group" aria-label="...">
     <?php echo $this->Html->link('Info <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>', 
       ['action' => 'view', $instrument->reference_designator],
       ['class'=>'btn btn-default','escape'=>false]) ?>
+    <?php echo $this->Html->link('Report <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>', 
+      ['action' => 'report', $instrument->reference_designator],
+      ['class'=>'btn btn-primary active','escape'=>false]) ?>
   </div>
 </div>
 
@@ -30,10 +41,6 @@
       <dt><?= __('Reference Designator') ?></dt>
       <dd><?= h($instrument->reference_designator) ?></dd>
 <!--
-      <dt><?= __('Start Depth') ?></dt>
-      <dd><?= $this->Number->format($instrument->start_depth) ?></dd>
-      <dt><?= __('End Depth') ?></dt>
-      <dd><?= $this->Number->format($instrument->end_depth) ?></dd>
       <dt><?= __('Location') ?></dt>
       <dd><?= h($instrument->location) ?></dd>
 -->
@@ -47,13 +54,18 @@
   <div class="col-md-7">
 
     <dl class="dl-horizontal">
-<!--
+      <dt><?= __('Depth') ?></dt>
+      <dd><?php
+        if ($instrument->start_depth==$instrument->end_depth) {
+          echo $this->Number->format($instrument->start_depth) . "m";
+        } else {
+          echo $this->Number->format($instrument->start_depth) . " to " . $this->Number->format($instrument->end_depth) . "m";
+        }?></dd>
       <dt><?= __('Class') ?></dt>
       <dd><?= $this->Html->link($instrument_class->class, ['controller'=>'instrument_classes', 'action'=>'view', $instrument_class->class]) ?> (<?= h($instrument_class->name) ?>)</dd>
--->
+<!--
       <dt><?= __('Series') ?></dt>
       <dd><?= $this->html->link($instrument_model->class . '-' .$instrument_model->series, ['controller'=>'instrument_models', 'action'=>'view', $instrument_model->class, $instrument_model->series]) ?></dd>
-<!--
       <dt><?= __('Science Discipline') ?></dt>
       <dd><?= h($instrument_class->primary_science_dicipline) ?></dd>
 -->
@@ -69,8 +81,7 @@
   <h3>Dataset Reviews
     <span class="small text-info">Last processed: <?php echo $this->Time->i18nFormat($instrument->reviews[0]['file_downloaded'])?></span>
   </h3>
-  <div class="pull-right" style="margin-top:-2em"><?php echo $this->Html->link('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> QC Check Info', 
-    '/pages/quality-checks',['escape'=>false,'class'=>'text-muted']) ?></div>
+  <div class="pull-right" style="margin-top:-2em"><?php echo $this->Html->link('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> QC Check Info','/pages/quality-checks',['escape'=>false,'class'=>'text-muted']) ?></div>
   <table class="table table-striped table-condensed table-hover">
     <tr>
       <th><span data-toggle="popover" title="Deployment Number" data-content="instrument deployment number">Dep.</span></th>
@@ -153,18 +164,16 @@
   </table>
 
 
-<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
-  <div class="btn-group btn-group-sm" role="group" aria-label="...">
-  <?= $this->Html->link('Final Stats','https://github.com/data-edu-ooi/data-review-tools/tree/master/data_review/final_stats/' . 
+<div class="pull-right">
+  <span data-toggle="popover" title="Data Ranges" data-content="Data ranges calculated for all OOI 1.0 deployments after the data are reviewed (Human In The Loop) and cleaned of erroneous data: nans, fill values, values outside global ranges (or extreme values (1e7) if global ranges aren't defined), values incorrect for instrument location and/or compared to other deployments, and/or outside a defined multiple of the standard deviation. These data were downloaded directly from the OOI system and have not undergone any corrections."><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span>
+  <?= $this->Html->link('Data Ranges','https://github.com/ooi-data-lab/data-review-tools/tree/master/data_review/data_ranges/' . 
     $instrument->node->site->region->reference_designator . '/' . 
     $instrument->node->site->reference_designator . '/' . 
-    $instrument->reference_designator . '_final_stats.csv', ['class'=>'btn btn-sm btn-primary']);?>
-
+    $instrument->reference_designator . '_data_ranges.csv', ['class'=>'btn btn-sm btn-primary']);?>
   <?= $this->Html->link('Review Images','https://marine.rutgers.edu/cool/ooi/data-eval/data_review/' . 
     $instrument->node->site->region->reference_designator . '/' . 
     $instrument->node->site->reference_designator . '/' . 
     $instrument->reference_designator, ['class'=>'btn btn-sm btn-warning']);?>
-  </div>
 </div>
 
   <h4>Test Notes</h4>
@@ -232,6 +241,19 @@
   </div>
   <div class="col-md-6">
 
+<?php if (substr($instrument->reference_designator,4,4) == 'MOAS'): ?>
+<!-- Glider Map -->
+<h3>Deployment Map</h3>
+<?= $this->Html->image('https://marine.rutgers.edu/cool/ooi/data-eval/data_review/' . 
+  $instrument->node->site->region->reference_designator . '/' . 
+  $instrument->node->site->reference_designator . '/' . 
+  $instrument->node->reference_designator . '/' . 
+  $instrument->reference_designator . '/' . 
+  $instrument->reference_designator . '-' . 
+  $instrument->reviews[0]->preferred_method . '-' . 
+  $instrument->reviews[0]->stream . '-track.png', ['class'=>'img-responsive']);?>
+
+<?php else: ?>
 <!-- Lat/Lon Differences -->
 <?php 
   $kmdiff = [];
@@ -269,6 +291,9 @@
   </tbody>
 </table>
 <?php endif; ?>
+
+<?php endif; ?>
+
 
   </div>
 </div>
