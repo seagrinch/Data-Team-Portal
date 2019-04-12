@@ -6,8 +6,9 @@
       <th><?= $this->Paginator->sort('region') ?></th>
       <th><?= $this->Paginator->sort('site') ?></th>
       <th><?= $this->Paginator->sort('name',['label'=>'Instrument Name']) ?></th>
-      <th><?= $this->Paginator->sort('start_depth') ?></th>
-      <th><?= $this->Paginator->sort('end_depth') ?></th>
+      <th><?= $this->Paginator->sort('start_depth',['label'=>'Start']) ?></th>
+      <th><?= $this->Paginator->sort('end_depth',['label'=>'End']) ?></th>
+      <th><?= $this->Paginator->sort('dependency',['label'=>'Dep']) ?></th>
       <th><?= $this->Paginator->sort('current_status') ?></th>
     </tr>
   </thead>
@@ -20,6 +21,11 @@
       <td><?= h($instrument->name) ?></td>
       <td><?= $this->Number->format($instrument->start_depth) ?></td>
       <td><?= $this->Number->format($instrument->end_depth) ?></td>
+      <td><?php 
+        if (!empty($instrument->dependency)) {
+          echo $this->html->link('<span class="glyphicon glyphicon-grain" style="font-size: 1.0em;" aria-hidden="true" title="<?=$instrument->dependency?>"></span>',['action'=>'report',$instrument->dependency],['escape'=>false]);
+        }?>
+      </td>
       <td><?= $this->element('instrument_status', ['status'=>$instrument->current_status]);?></td>
     </tr>
     <?php endforeach; ?>

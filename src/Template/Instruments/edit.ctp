@@ -25,6 +25,8 @@
               'Complete'=>'Review Complete',
             ], 'empty'=>'Unknown', 'label'=>'Review Status']);
             echo $this->Form->control('note');
+            echo $this->Form->input('image_url',['label'=>'Quicklook Image URL','help'=>'This can be a link to a single image (preferred) or a directory of images.']);
+            echo $this->Form->input('dependency',['help'=>'If this instruemnt depends on another, please add the parent Reference Designator here.']);
         ?>
     </fieldset>
 		<?= $this->Html->link('Cancel', ['action' => 'report', $instrument->reference_designator], ['class'=>'btn btn-default']); ?>

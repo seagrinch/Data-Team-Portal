@@ -58,7 +58,13 @@ class InstrumentsTable extends Table
             'foreignKey' => 'reference_designator',
             'bindingKey' => 'reference_designator',
         ]);
-
+        
+        $this->hasMany('Dependents', [
+            'className' => 'Instruments',
+            'foreignKey'=>'dependency',
+            'bindingKey' => 'reference_designator',
+        ]);
+        
     }
 
     /**
@@ -78,16 +84,8 @@ class InstrumentsTable extends Table
             ->add('reference_designator', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->requirePresence('region', 'create')
-            ->notEmpty('region');
-
-        $validator
-            ->requirePresence('site', 'create')
-            ->notEmpty('site');
-
-        $validator
-            ->requirePresence('node', 'create')
-            ->notEmpty('node');
+            ->requirePresence('parent_node', 'create')
+            ->notEmpty('parent_node');
 
         $validator
             ->allowEmpty('name');
@@ -102,6 +100,13 @@ class InstrumentsTable extends Table
 
         $validator
             ->allowEmpty('location');
+
+        $validator
+            ->allowEmpty('dependency');
+
+        $validator
+            ->allowEmpty('image_url')
+            ->url('image_url');
 
         return $validator;
     }

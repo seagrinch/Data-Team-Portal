@@ -71,6 +71,16 @@
 -->
       <dt>Make / Model</dt>
       <dd><?= h($instrument_model->make) ?> / <?= h($instrument_model->model) ?></dd>
+      <?php if (!empty($instrument->dependency)):?>
+        <dt>Dependency</dt>
+        <dd><?= $this->html->link($instrument->dependency,['action'=>'report',$instrument->dependency]) ?>
+      <?php endif; ?>
+      <?php if (count($instrument->dependents)>0): ?>
+        <dt>Children</dt>
+        <dd><?php foreach($instrument->dependents as $d): ?>
+          <?= $this->html->link($d->reference_designator,['action'=>'report',$d->reference_designator]) ?><br>
+        <?php endforeach; ?></dd>
+      <?php endif; ?>
     </dl>
 
   </div>
@@ -295,6 +305,15 @@
 
   </div>
 </div>
+
+<?php if ($instrument->image_url): ?>
+  <?php if (preg_match('/(\.jpg|\.png|\.gif)$/i', $instrument->image_url)) { ?>
+    <?= $this->Html->link($this->Html->image($instrument->image_url,['class'=>'img-responsive','style'=>'']),$instrument->image_url,['escape'=>false])?>
+  <?php } else { ?>
+    <p><?= $this->Html->link('Quicklook Images <span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span>',$instrument->image_url,['escape'=>false,'class'=>'btn btn-primary'])?></p>
+  <?php } ?>
+<?php endif; ?>
+
 
 <h3>System Annotations <small><a class="" role="button" data-toggle="collapse" href="#collapseAnnotations" aria-expanded="false" aria-controls="collapseAnnotations">Show</a></small></h3>
 

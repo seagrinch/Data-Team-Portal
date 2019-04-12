@@ -126,7 +126,7 @@ class InstrumentsController extends AppController
     public function report($id = null) {
       $query = $this->Instruments->find()
         ->where(['Instruments.reference_designator'=>$id])
-        ->contain(['Nodes.Sites.Regions','Reviews','Deployments']);
+        ->contain(['Nodes.Sites.Regions','Reviews','Deployments','Dependents']);
       $instrument = $query->first();
       
       if (empty($instrument)) {
@@ -183,7 +183,7 @@ class InstrumentsController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $instrument = $this->Instruments->patchEntity($instrument, $this->request->data, [
-                'fieldList'=>['current_status','note']
+                'fieldList'=>['current_status','note','image_url','dependency']
             ]);
             if ($this->Instruments->save($instrument)) {
                 $this->Flash->success(__('The instrument has been updated.'));
