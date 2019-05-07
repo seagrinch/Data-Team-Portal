@@ -180,10 +180,18 @@
     $instrument->node->site->region->reference_designator . '/' . 
     $instrument->node->site->reference_designator . '/' . 
     $instrument->reference_designator . '_data_ranges.csv', ['class'=>'btn btn-sm btn-primary']);?>
+<?php if (substr($instrument->reference_designator,4,4) == 'MOAS'): ?>
+  <?= $this->Html->link('Review Images','https://marine.rutgers.edu/cool/ooi/data-eval/data_review/' . 
+    $instrument->node->site->region->reference_designator . '/' . 
+    $instrument->node->site->reference_designator . '/' . 
+    $instrument->node->reference_designator . '/' . 
+    $instrument->reference_designator, ['class'=>'btn btn-sm btn-warning']);?>
+<?php else: ?>
   <?= $this->Html->link('Review Images','https://marine.rutgers.edu/cool/ooi/data-eval/data_review/' . 
     $instrument->node->site->region->reference_designator . '/' . 
     $instrument->node->site->reference_designator . '/' . 
     $instrument->reference_designator, ['class'=>'btn btn-sm btn-warning']);?>
+<?php endif; ?>
 </div>
 
   <h4>Test Notes</h4>
