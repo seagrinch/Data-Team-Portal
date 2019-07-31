@@ -310,12 +310,13 @@
 
 <?php endif; ?>
 
-
   </div>
 </div>
 
+
 <?php if ($instrument->image_url): ?>
   <?php if (preg_match('/(\.jpg|\.png|\.gif)$/i', $instrument->image_url)) { ?>
+    <h3>Example Composite Data Plot <small><span data-toggle="popover" title="Composite Data Plot" data-content="Composite plot of data from preferred steams listed above under the Datasets Reviews table. Plot shows data cleaned of erroneous values after Human In the Loop review."><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span></small></h3>
     <?= $this->Html->link($this->Html->image($instrument->image_url,['class'=>'img-responsive','style'=>'']),$instrument->image_url,['escape'=>false])?>
   <?php } else { ?>
     <p><?= $this->Html->link('Quicklook Images <span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span>',$instrument->image_url,['escape'=>false,'class'=>'btn btn-primary'])?></p>
